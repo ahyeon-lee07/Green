@@ -9,7 +9,7 @@ request.setCharacterEncoding("UTF-8");
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 
-<!-- 메인  -->
+<!-- 메인 -->
 <main class="mainH">
 	<div id="carouselExampleIndicators" class="carousel slide"
 		data-ride="carousel">
@@ -127,12 +127,12 @@ request.setCharacterEncoding("UTF-8");
 												<c:choose>
 													<c:when test="${product.cartType == 'wish'}">
 														<div class="bd-highlight btn btn-sm btn-outline-success ml-1 btn_product btn_wish" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
-															<img class="icon_wish" data-value="Y" src="${contextPath }/resources/img/heart-fill.svg" alt="">
+															<img class="icon_wish ${product.productId}" data-value="Y" src="${contextPath }/resources/img/heart-fill.svg" alt="">
 														</div>
 													</c:when>
 													<c:otherwise>
 														<div class="bd-highlight btn btn-sm btn-outline-success ml-1 btn_product btn_wish" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
-															<img class="icon_wish" data-value="N" src="${contextPath }/resources/img/heart.svg" alt="">
+															<img class="icon_wish ${product.productId}" data-value="N" src="${contextPath }/resources/img/heart.svg" alt="">
 														</div>
 													</c:otherwise>
 												</c:choose>
@@ -199,12 +199,12 @@ request.setCharacterEncoding("UTF-8");
 												<c:choose>
 													<c:when test="${product.cartType == 'wish'}">
 														<div class="bd-highlight btn btn-sm btn-outline-success ml-1 btn_product btn_wish" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
-															<img class="icon_wish" data-value="Y" src="${contextPath }/resources/img/heart-fill.svg" alt="">
+															<img class="icon_wish ${product.productId}" data-value="Y" src="${contextPath }/resources/img/heart-fill.svg" alt="">
 														</div>
 													</c:when>
 													<c:otherwise>
 														<div class="bd-highlight btn btn-sm btn-outline-success ml-1 btn_product btn_wish" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
-															<img class="icon_wish" data-value="N" src="${contextPath }/resources/img/heart.svg" alt="">
+															<img class="icon_wish ${product.productId}" data-value="N" src="${contextPath }/resources/img/heart.svg" alt="">
 														</div>
 													</c:otherwise>
 												</c:choose>
@@ -271,12 +271,12 @@ request.setCharacterEncoding("UTF-8");
 												<c:choose>
 													<c:when test="${product.cartType == 'wish'}">
 														<div class="bd-highlight btn btn-sm btn-outline-success ml-1 btn_product btn_wish" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
-															<img class="icon_wish" data-value="Y" src="${contextPath }/resources/img/heart-fill.svg" alt="">
+															<img class="icon_wish ${product.productId}" data-value="Y" src="${contextPath }/resources/img/heart-fill.svg" alt="">
 														</div>
 													</c:when>
 													<c:otherwise>
 														<div class="bd-highlight btn btn-sm btn-outline-success ml-1 btn_product btn_wish" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
-															<img class="icon_wish" data-value="N" src="${contextPath }/resources/img/heart.svg" alt="">
+															<img class="icon_wish ${product.productId}" data-value="N" src="${contextPath }/resources/img/heart.svg" alt="">
 														</div>
 													</c:otherwise>
 												</c:choose>
@@ -301,7 +301,9 @@ request.setCharacterEncoding("UTF-8");
 	function btn_wishYN(productId){
 	
 	var tarGetImg = event.currentTarget.firstElementChild;
+	var tarGet_class = tarGetImg.classList.item(1);
 	var tarGet_V = tarGetImg.dataset['value'];
+	var wishList = document.getElementsByClassName(tarGet_class);
 	
 	$.ajax({
 		type: "POST",
@@ -314,11 +316,18 @@ request.setCharacterEncoding("UTF-8");
 				alert("죄송합니다. 잠시후 다시 시도해 주세요.");
 			}else if(result == 1){
 				if(tarGet_V == 'Y'){
-					tarGetImg.dataset.value = 'N';
-					tarGetImg.src = "${contextPath }/resources/img/heart.svg";
+
+					for(var i=0; i<wishList.length; i++){
+						wishList[i].dataset.value = 'N';
+						wishList[i].src = "${contextPath }/resources/img/heart.svg";
+					}
 				}else {
-					tarGetImg.dataset.value  = 'Y';
-					tarGetImg.src = "${contextPath }/resources/img/heart-fill.svg";
+
+					for(var i=0; i<wishList.length; i++){
+						wishList[i].dataset.value = 'Y';
+						wishList[i].src = "${contextPath }/resources/img/heart-fill.svg";
+						}
+	
 				}
 			}
 		},
@@ -330,4 +339,6 @@ request.setCharacterEncoding("UTF-8");
 		}
 	});
 }
+
+
 </script>
