@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.product"> 
+	<resultMap id="productResult" type="productVO">
+		<result property="productId" column="productId" />
+		<result property="p_group" column="p_group" />
+		<result property="productName" column="productName" />
+		<result property="price" column="price" />
+		<result property="discount" column="discount" />
+		<result property="productMileage" column="productMileage" />
+		<result property="salesSum" column="salesSum" />
+		<result property="discountYN" column="discountYN" />
+		<result property="productDate" column="productDate" />
+		<result property="showYN" column="showYN" />
+
+		<result property="product_optionId" column="product_optionId" />
+		<result property="option" column="option" />
+		<result property="stock" column="stock" />
+
+		<result property="ImageId" column="ImageId" />
+		<result property="imgType" column="imgType" />
+		<result property="imgURL" column="imgURL" />
+	</resultMap>
+
+ 
+ 	<!-- 상품 목록 조회 -->
+ 	
+ 	<select id="selectAllProductsList" resultMap="productResult" parameterType="String">
+    <![CDATA[
+		select p.*, i.* from product p 
+		inner join image i on p.productId=i.productId 
+		where p.p_group = #{p_group} and imgType = "product_M"
+		order by productDate DESC;
+    ]]>
+	</select>
+	
+	<!-- 상품 목록 조회 -->
+ 	<select id="prodArray" resultMap="productResult" parameterType="java.util.HashMap">
+    <![CDATA[
+		SELECT p.*, i.* from product p 
+		INNER JOIN image i ON p.productId=i.productId 
+		WHERE p.p_group = #{p_group} AND imgType = "product_M"
+		ORDER BY ${keyWord};
+    ]]>
+	</select>
+	
+	<!-- 상품 상세페이지 조회는 아래 selectProduct, selectOptionList, selectProductImg 사용-->
+
+	
+	
+	<!-- 등록==========================================================================================  -->
+	
+	<!-- 상품등록 (활성화여부, 상품구분, 상품명, 판매가, 할인여부, 할인가, 상품적입금) -->
+	<insert id="insertProduct" parameterType="productVO">
+		<![CDATA[
+		 CALL addProductEdit(#{showYN}, #{p_group}, #{productName}, #{price}, #{discountYN}, #{discount}, #{productMileage});
+		]]>
+	</insert>
+	
+	<!-- 상품옵션등록 -->
+	<insert id="insertProductOption"
+		parameterType="java.util.HashMap">
+		INSERT INTO
+		product_option(productId, p_option, p_stock)
+		VALUES
+		(
+		#{productId},
+		#{option},
+		#{stock}
+		);
+	</insert>
+	
+	<!-- 상품이미지 등록 -->
+	<insert id="insertProductImg" parameterType="java.util.HashMap">
+		INSERT INTO
+		image(productId, imgType, imgURL)
+		VALUES
+		(
+		#{productId},
+		#{imgType},
+		#{imgURL}
+		);
+	</insert>
+	
+	<!-- /등록==========================================================================================  -->
+	<!-- 조회==========================================================================================  -->
+	
+	<!-- 상품 조회 -->
+	<select id="selectProduct" resultType="productVO" parameterType="String">
+    <![CDATA[
+       SELECT 
+			*
+		FROM 
+			product
+		WHERE
+			productId = #{productId};
+    ]]>
+	</select>
+	
+	<!-- 상품 옵션 조회 -->
+	<select id="selectOptionList" resultType="hashmap" parameterType="String">
+    <![CDATA[
+       SELECT 
+			*
+		FROM 
+			product_option
+		WHERE
+			productId = #{productId};
+    ]]>
+	</select>
+	
+	<!-- 이미지 조회 -->
+	<select id="selectProductImg" resultType="hashmap" parameterType="String">
+    <![CDATA[
+       SELECT 
+			*
+		FROM 
+			image
+		WHERE
+			productId = #{productId};
+    ]]>
+	</select>
+	
+	<!-- 등록 후 상품 아아디 조회 (상품구분 , 상품명) -->
+	<select id="selectProductId" parameterType="productVO"
+		resultType="String">
+		<![CDATA[
+		 CALL selectProductId(#{p_group}, #{productName});
+		]]>
+	</select>
+	
+	<!-- 관리자 상품 리스트 조회 -->
+	<select id="selectBoardList" resultType="hashmap"
+		parameterType="hashmap">
+    <![CDATA[
+       SELECT 
+			A.*,
+		    B.imgId,
+		    B.imgType,
+		    B.imgURL
+		FROM 
+			product AS A
+		LEFT JOIN 
+			image AS B ON A.productId = B.productId
+		WHERE
+			B.imgType = 'product_M'
+		ORDER BY productDate DESC LIMIT #{pageStart}, #{perPageNum};
+    ]]>
+	</select>
+	
+	<!-- 관리자 상품 리스트 필터 조회 -->
+	<select id="selectFilterBoardList" resultType="hashmap"
+		parameterType="hashmap">
+    <![CDATA[
+       SELECT 
+			A.*,
+		    B.imgId,
+		    B.imgType,
+		    B.imgURL
+		FROM 
+			product AS A
+		LEFT JOIN 
+			image AS B ON A.productId = B.productId AND p_group = #{options}
+		WHERE
+			B.imgType = 'product_M'
+		ORDER BY productDate DESC LIMIT #{cri.pageStart}, #{cri.perPageNum};
+    ]]>
+	</select>
+	
+	<!-- 관리자 상품 리스트 검색 -->
+	<select id="searchSelectBoardList" resultType="hashmap"
+		parameterType="hashmap">
+    <![CDATA[
+       SELECT 
+			A.*,
+		    B.imgId,
+		    B.imgType,
+		    B.imgURL
+		FROM 
+			product AS A
+		LEFT JOIN 
+			image AS B ON A.productId = B.productId AND A.productName LIKE CONCAT('%', #{keyWord}, '%')
+		WHERE
+			B.imgType = 'product_M'
+		ORDER BY productDate DESC LIMIT #{cri.pageStart}, #{cri.perPageNum};
+    ]]>
+	</select>
+	
+	<!-- 관리자 상품 리스트 필터 검색 -->
+	<select id="searchSelectFilterBoardList" resultType="hashmap"
+		parameterType="hashmap">
+    <![CDATA[
+       SELECT 
+			A.*,
+		    B.imgId,
+		    B.imgType,
+		    B.imgURL
+		FROM 
+			product AS A
+		LEFT JOIN 
+			image AS B ON A.productId = B.productId AND p_group = #{options} AND A.productName LIKE CONCAT('%', #{keyWord}, '%')
+		WHERE
+			B.imgType = 'product_M'
+		ORDER BY productDate DESC LIMIT #{cri.pageStart}, #{cri.perPageNum};
+    ]]>
+	</select>
+	
+	
+	<!-- 관리자 상품 리스트 개수 조회 -->
+	<select id="countBoardList" resultType="Integer">
+    <![CDATA[
+        SELECT
+            count(*)
+        FROM
+            product
+    ]]>
+	</select>
+	
+	<select id="filterCountBoardListTotal" resultType="Integer" parameterType="int">
+    <![CDATA[
+        SELECT
+            count(*)
+        FROM
+            product
+        WHERE
+        	p_group = #{options}
+    ]]>
+	</select>
+	
+	
+	<!-- 메인화면 신상품 10개 -->
+ 	<select id="newProductList" resultType="productVO">
+    <![CDATA[
+		SELECT
+			 p.*, i.* 
+		
+		FROM
+			product AS p
+		INNER JOIN 
+			image AS i ON p.productId=i.productId
+		WHERE
+			i.imgType = 'product_M'
+		ORDER BY
+			productDate DESC
+		LIMIT 10
+    ]]>
+	</select>
+	
+	<!-- 메인화면 베스트상품 10개 -->
+ 	<select id="bestProductList" resultType="productVO">
+    <![CDATA[
+		SELECT
+			 p.*, i.* 
+		
+		FROM
+			product AS p
+		INNER JOIN 
+			image AS i ON p.productId=i.productId
+		WHERE
+			i.imgType = 'product_M'
+		ORDER BY
+			salesSum DESC
+		LIMIT 10
+    ]]>
+	</select>
+	
+	<!-- 할인상품 10개 -->
+ 	<select id="discountProductList" resultType="productVO">
+    <![CDATA[
+		SELECT
+			 p.*, i.* 
+		
+		FROM
+			product AS p
+		INNER JOIN 
+			image AS i ON p.productId=i.productId
+		WHERE
+			i.imgType = 'product_M'
+		ORDER BY
+			discount DESC
+		LIMIT 10
+    ]]>
+	</select>
+	
+	
+	<!-- /조회==========================================================================================  -->
+	
+	<!-- 수정==========================================================================================  -->
+	<update id="updateProduct" parameterType="productVO">
+		<![CDATA[
+		UPDATE 
+			product
+		SET
+		    product.productName = #{productName},
+		    product.price = #{price},
+		    product.discount = #{discount},
+		    product.productMileage = #{productMileage},
+		    product.discountYN = #{discountYN},
+		    product.showYN = #{showYN}
+		WHERE
+			product.productId = #{productId};
+	 	]]>
+	</update>
+	
+	<!-- 관리자 상품 리스트 활성화여부 변경 -->
+	<update id="showYNChk" parameterType="hashmap">
+		<![CDATA[
+		UPDATE 
+			product
+		SET
+		    product.showYN = #{value}
+		WHERE
+			product.productId = #{id};
+	 	]]>
+	</update>
+	
+	<!-- /수정==========================================================================================  -->
+	
+	<!-- 삭제==========================================================================================  -->
+	
+	<!-- 관리자 상품 삭제 -->
+	<delete id="deleteProduct" parameterType="String">
+		<![CDATA[
+		CALL productDelete(#{productId});
+		]]>
+	</delete>
+	
+	<!-- 상품 옵션 삭제 -->
+	<delete id="deleteProductOption" parameterType="String">
+		<![CDATA[
+		DELETE FROM product_option
+		WHERE productId = #{productId};
+		]]>
+	</delete>
+	
+	<!-- 상품 이미지 삭제 -->
+	<delete id="deleteProductImge" parameterType="hashmap">
+		<![CDATA[
+		DELETE FROM image
+		WHERE productId = #{productId} AND imgType = #{imgType};
+		]]>
+	</delete>
+	
+	<!-- /삭제==========================================================================================  -->
+
+
+	
+
+	
+
+
+</mapper>

@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+	<definition name="baseLayout" template="/WEB-INF/views/common/layout.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+		<put-attribute name="main" value="" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+	</definition>
+	
+	<!-- 메인  -->
+	<definition name="main" extends="baseLayout">
+		<put-attribute name="title" value="그린케이스" />
+		<put-attribute name="main" value="/WEB-INF/views/main.jsp" />
+	</definition>
+	
+	<!-- 회사소개  -->
+	<definition name="company" extends="baseLayout">
+		<put-attribute name="title" value="회사소개" />
+		<put-attribute name="main" value="/WEB-INF/views/footerMenu/company.jsp" />
+	</definition>
+	
+	<!-- 이용약관  -->
+	<definition name="agreement" extends="baseLayout">
+		<put-attribute name="title" value="이용약관" />
+		<put-attribute name="main" value="/WEB-INF/views/footerMenu/agreement.jsp" />
+	</definition>
+	
+	<!-- 개인정보취급방침  -->
+	<definition name="privacyPolicy" extends="baseLayout">
+		<put-attribute name="title" value="개인정보취급방침" />
+		<put-attribute name="main" value="/WEB-INF/views/footerMenu/privacy.jsp" />
+	</definition>
+	
+	<!-- 로그인  -->
+	<definition name="login" extends="baseLayout">
+		<put-attribute name="title" value="로그인" />
+		<put-attribute name="main" value="/WEB-INF/views/login/login.jsp" />
+	</definition>
+	
+	<!-- 기존회원 로그인  -->
+	<definition name="member" extends="baseLayout">
+		<put-attribute name="title" value="기존회원로그인" />
+		<put-attribute name="main" value="/WEB-INF/views/login/memLogin.jsp" />
+	</definition>
+	
+	<!-- 비회원 로그인  -->
+	<definition name="noMember" extends="baseLayout">
+		<put-attribute name="title" value="비회원로그인" />
+		<put-attribute name="main" value="/WEB-INF/views/login/nonmem.jsp" />
+	</definition>
+	
+	<!-- 아이디 찾기  -->
+	<definition name="find_id" extends="baseLayout">
+		<put-attribute name="title" value="아이디찾기" />
+		<put-attribute name="main" value="/WEB-INF/views/login/findId.jsp" />
+	</definition>
+	
+	<!-- 비밀번호 찾기  -->
+	<definition name="find_pw" extends="baseLayout">
+		<put-attribute name="title" value="비밀번호찾기" />
+		<put-attribute name="main" value="/WEB-INF/views/login/findPwd.jsp" />
+	</definition>
+	
+	<!-- 회원가입  -->
+	<definition name="join" extends="baseLayout">
+		<put-attribute name="title" value="회원가입" />
+		<put-attribute name="main" value="/WEB-INF/views/join/join.jsp" />
+	</definition>
+	
+	<!-- 일반 회원가입  -->
+	<definition name="normalJoin" extends="baseLayout">
+		<put-attribute name="title" value="일반회원가입" />
+		<put-attribute name="main" value="/WEB-INF/views/join/generalJoin.jsp" />
+	</definition>
+	
+	<!-- sns계정으로 회원가입  -->
+	<definition name="snsJoin" extends="baseLayout">
+		<put-attribute name="title" value="sns계정으로 회원가입" />
+		<put-attribute name="main" value="/WEB-INF/views/join/snsJoin.jsp" />
+	</definition>
+	
+	<!-- 장바구니  -->
+	<definition name="cart" extends="baseLayout">
+		<put-attribute name="title" value="장바구니" />
+		<put-attribute name="main" value="/WEB-INF/views/cart/cart.jsp" />
+	</definition>
+	
+	<!-- 주문서 작성  -->
+	<definition name="orderList" extends="baseLayout">
+		<put-attribute name="title" value="주문서작성" />
+		<put-attribute name="main" value="/WEB-INF/views/cart/orderSheet.jsp" />
+	</definition>
+	
+	<!-- 상품 리스트 -->
+	<definition name="prodList" extends="baseLayout">
+		<put-attribute name="title" value="상품 리스트" />
+		<put-attribute name="main" value="/WEB-INF/views/product/prodList.jsp" />
+	</definition>
+	
+	<!-- 상품 리스트 상세 -->
+	<definition name="prodDetail" extends="baseLayout">
+		<put-attribute name="title" value="상품상세 리스트" />
+		<put-attribute name="main" value="/WEB-INF/views/product/prodDetail.jsp" />
+	</definition>
+	
+	<!-- 마이페이지 -->
+	<definition name="myPageView" extends="baseLayout">
+		<put-attribute name="title" value="마이페이지" />
+		<put-attribute name="main" value="/WEB-INF/views/myPage/myPage.jsp" />
+	</definition>
+	
+	<!-- 회원정보수정/탈퇴 비번 체트 -->
+	<definition name="memberEditChk" extends="baseLayout">
+		<put-attribute name="title" value="회원정보수정/탈퇴 비밀번호 확인" />
+		<put-attribute name="main" value="/WEB-INF/views/myPage/userPwChk.jsp" />
+	</definition>
+	
+	<!-- 게시물 비번 체크 -->
+	<definition name="communityChk" extends="baseLayout">
+		<put-attribute name="title" value="게시물 비번 체크" />
+		<put-attribute name="main" value="/WEB-INF/views/myPage/userPwChk.jsp" />
+	</definition>
+	
+	<!-- 회원정보수정/탈퇴 -->
+	<definition name="memberEdit" extends="baseLayout">
+		<put-attribute name="title" value="회원정보수정/탈퇴" />
+		<put-attribute name="main" value="/WEB-INF/views/myPage/memberCorrection.jsp" />
+	</definition>
+	
+	<!-- 구매내역조회 -->
+	<definition name="purchaseList" extends="baseLayout">
+		<put-attribute name="title" value="구매내역조회" />
+		<put-attribute name="main" value="/WEB-INF/views/myPage/purchaseHistory.jsp" />
+	</definition>
+	
+	<!-- 관심상품내역 조회 -->
+	<definition name="wishList" extends="baseLayout">
+		<put-attribute name="title" value="관심상품내역 조회" />
+		<put-attribute name="main" value="/WEB-INF/views/myPage/interestedProduct.jsp" />
+	</definition>
+	
+	<!-- Q&A -->
+	<definition name="listQnA" extends="baseLayout">
+		<put-attribute name="title" value="QA" />
+		<put-attribute name="main" value="/WEB-INF/views/community/QnA/question.jsp" />
+	</definition>
+	
+	<!-- Q&A 상세 -->
+	<definition name="viewQnA" extends="baseLayout">
+		<put-attribute name="title" value="QA 상세" />
+		<put-attribute name="main" value="/WEB-INF/views/community/QnA/questionPage.jsp" />
+	</definition>
+	
+	<!-- Q&A 글쓰기 -->
+	<definition name="addNewQnA" extends="baseLayout">
+		<put-attribute name="title" value="QA 글쓰기" />
+		<put-attribute name="main" value="/WEB-INF/views/community/QnA/writeQuestion.jsp" />
+	</definition>
+	
+	<!-- Q&A 수정/삭제
+	<definition name="QnA_M_D" extends="baseLayout">
+		<put-attribute name="title" value="QA 수정삭제" />
+		<put-attribute name="main" value="/WEB-INF/views/community/QnA/questionM_D.jsp" />
+	</definition>
+	-->
+	
+	<!-- Q&A 댓글 -->
+	<definition name="QnA_reWrite" extends="baseLayout">
+		<put-attribute name="title" value="QA 댓글" />
+		<put-attribute name="main" value="/WEB-INF/views/community/QnA/questionComment.jsp" />
+	</definition>
+	
+	<!-- 공지사항 -->
+	<definition name="listNotice" extends="baseLayout">
+		<put-attribute name="title" value="공지사항" />
+		<put-attribute name="main" value="/WEB-INF/views/community/notice/notice.jsp" />
+	</definition>
+	
+	<!-- 공지사항 상세 -->
+	<definition name="viewNotice" extends="baseLayout">
+		<put-attribute name="title" value="공지사항 상세" />
+		<put-attribute name="main" value="/WEB-INF/views/community/notice/noticePage.jsp" />
+	</definition>
+	
+	<!-- 공지사항 글쓰기 -->
+	<definition name="addNewNotice" extends="baseLayout">
+		<put-attribute name="title" value="공지사항 글쓰기" />
+		<put-attribute name="main" value="/WEB-INF/views/community/notice/writeNotice.jsp" />
+	</definition>
+	
+	<!-- 이벤트 게시판 -->
+	<definition name="eventList" extends="baseLayout">
+		<put-attribute name="title" value="이벤트 게시판" />
+		<put-attribute name="main" value="/WEB-INF/views/community/event/event.jsp" />
+	</definition>
+	
+	<!-- 이벤트 게시판 상세 -->
+	<definition name="eventView" extends="baseLayout">
+		<put-attribute name="title" value="이벤트 게시판 상세" />
+		<put-attribute name="main" value="/WEB-INF/views/community/event/eventPage.jsp" />
+	</definition>
+	
+	<!-- 이벤트 게시판 글쓰기 -->
+	<definition name="addNewEvent" extends="baseLayout">
+		<put-attribute name="title" value="이벤트 게시판 글쓰기" />
+		<put-attribute name="main" value="/WEB-INF/views/community/event/eventWrite.jsp" />
+	</definition>
+	
+	<!-- 리뷰 -->
+	<definition name="listReview" extends="baseLayout">
+		<put-attribute name="title" value="리뷰" />
+		<put-attribute name="main" value="/WEB-INF/views/community/review/review.jsp" />
+	</definition>
+	
+	<!-- 리뷰 상세 -->
+	<definition name="viewReview" extends="baseLayout">
+		<put-attribute name="title" value="리뷰 상세" />
+		<put-attribute name="main" value="/WEB-INF/views/community/review/reviewPage.jsp" />
+	</definition>
+	
+	<!-- 리뷰 글쓰기 -->
+	<definition name="addNewReview" extends="baseLayout">
+		<put-attribute name="title" value="QA 글쓰기" />
+		<put-attribute name="main" value="/WEB-INF/views/community/review/writeReview.jsp" />
+	</definition>
+  
+	<!-- 리뷰 수정/삭제 -->
+<!--
+	<definition name="modReview" extends="baseLayout">
+		<put-attribute name="title" value="QA 수정삭제" />
+		<put-attribute name="main" value="/WEB-INF/views/community/review/reviewMod.jsp" />
+	</definition>
+-->		
+	<!-- 리뷰 댓글 -->
+	<definition name="reivew_reWrite" extends="baseLayout">
+		<put-attribute name="title" value="QA 댓글" />
+		<put-attribute name="main" value="/WEB-INF/views/community/review/reviewComment.jsp" />
+	</definition>
+	
+	<!-- 상품등록 리스트 -->
+	<definition name="productList" extends="baseLayout">
+		<put-attribute name="title" value="상품등록리스트" />
+		<put-attribute name="main" value="/WEB-INF/views/master/productList.jsp" />
+	</definition>
+	
+	<!-- 상품등록 -->
+	<definition name="addProduct" extends="baseLayout">
+		<put-attribute name="title" value="상품등록" />
+		<put-attribute name="main" value="/WEB-INF/views/master/productDetail_M.jsp" />
+	</definition>
+	
+	<!-- 관리자 상품상세 -->
+	<definition name="productDetail_M" extends="baseLayout">
+		<put-attribute name="title" value="상품등록" />
+		<put-attribute name="main" value="/WEB-INF/views/master/productDetail_M.jsp" />
+	</definition>
+
+	<!-- sns계정으로 회원가입  -->
+	<definition name="snsJoin" extends="baseLayout">
+		<put-attribute name="title" value="sns계정으로 회원가입" />
+		<put-attribute name="main" value="/WEB-INF/views/join/snsJoin.jsp" />
+	</definition>
+	<!-- sns계정으로 회원가입  -->
+	<definition name="naverSuccess" extends="baseLayout">
+		<put-attribute name="title" value="sns계정으로 회원가입" />
+		<put-attribute name="main" value="/WEB-INF/views/join/naverSuccess.jsp" />
+	</definition>
+	
+	<!-- 회원관리 리스트 -->
+	<definition name="memberList" extends="baseLayout">
+		<put-attribute name="title" value="회원관리 리스트" />
+		<put-attribute name="main" value="/WEB-INF/views/master/memberList.jsp" />
+	</definition>
+	
+	<!-- 회원관리 상세페이지 -->
+	<definition name="memberDetail" extends="baseLayout">
+		<put-attribute name="title" value="회원관리 상세페이지" />
+		<put-attribute name="main" value="/WEB-INF/views/master/memberDetail.jsp" />
+	</definition>
+	
+	<!-- 쿠폰관리 -->
+	<definition name="couponList" extends="baseLayout">
+		<put-attribute name="title" value="쿠폰리스트" />
+		<put-attribute name="main" value="/WEB-INF/views/master/couponList.jsp" />
+	</definition>
+	
+	<!-- 쿠폰등록 -->
+	<definition name="couponAdd" extends="baseLayout">
+		<put-attribute name="title" value="쿠폰등록" />
+		<put-attribute name="main" value="/WEB-INF/views/master/couponAdd.jsp" />
+	</definition>
+	
+	<!-- 쿠폰상세 -->
+	<definition name="couponDetail" extends="baseLayout">
+		<put-attribute name="title" value="쿠폰상세" />
+		<put-attribute name="main" value="/WEB-INF/views/master/couponDetail.jsp" />
+	</definition>
+	
+	<!-- 커뮤니티2 -->
+	<definition name="communityList" extends="baseLayout">
+		<put-attribute name="title" value="커뮤니티" />
+		<put-attribute name="main" value="/WEB-INF/views/community/communityList.jsp" />
+	</definition>
+	
+	<!-- 커뮤니티 등록 -->
+	<definition name="communityAdd" extends="baseLayout">
+		<put-attribute name="title" value="커뮤니티등록" />
+		<put-attribute name="main" value="/WEB-INF/views/community/communityAdd.jsp" />
+	</definition>
+	
+	<definition name="communityDerail" extends="baseLayout">
+		<put-attribute name="title" value="커뮤니티등록" />
+		<put-attribute name="main" value="/WEB-INF/views/community/communityDerail.jsp" />
+	</definition>
+	
+	<!-- 상품 검색 -->
+	<definition name="productSearch" extends="baseLayout">
+		<put-attribute name="header" value="" />
+		<put-attribute name="footer" value="" />
+		<put-attribute name="title" value="상품검색" />
+		<put-attribute name="main" value="/WEB-INF/views/community/productSearch.jsp" />
+	</definition>
+</tiles-definitions>

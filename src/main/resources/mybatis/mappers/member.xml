@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.member">
+	<resultMap id="memResult" type="memberVO">
+		<result property="id" column="id" />
+        <result property="pw" column="pw" />
+        <result property="name" column="name" />
+        <result property="birth" column="birth" />
+        <result property="phone" column="phone" />
+        <result property="email1" column="email1" />
+        <result property="email2" column="email2" />
+        <result property="zipCode" column="zipCode" />
+        <result property="addr1" column="addr1" />
+        <result property="addr2" column="addr2" />
+        <result property="addr3" column="addr3" />
+        <result property="grade" column="grade" />
+        <result property="mileage" column="mileage" />
+        <result property="masterYN" column="masterYN" />
+        <result property="joinDate" column="joinDate" />
+        <result property="orderPriceSum" column="orderPriceSum" />
+	</resultMap> 
+	
+	<!-- 회원가입 -->
+	<insert id="insertMember"  parameterType="memberVO">
+		<![CDATA[
+		 insert into member(id,pw,name,birth,phone,zipCode,addr1,addr2,addr3,email1,email2)
+		 values(#{id}, #{pw}, #{name}, #{birth}, #{phone}, #{zipCode}, #{addr1}, #{addr2}, #{addr3}, #{email1}, #{email2});
+		]]>      
+	</insert>
+	
+	<!-- 아이디 중복 체크  -->
+	<select id="selectOverlappedID" parameterType="String" resultType="String">
+		<![CDATA[
+	   SELECT IF(COUNT(*), 'true', 'false') FROM member WHERE id=#{id};
+	   ]]>  
+	</select>
+	
+	<!-- 아이디 찾기  -->
+	<select id="selectFindId" parameterType="String" resultType="String">
+		<![CDATA[
+	   SELECT IF(COUNT(*), id, 'NotFind') FROM member WHERE name=#{name} AND email1= #{email1} AND email2 =#{email2}; 
+	   ]]>  
+	</select>
+	
+	<!-- 비번 찾기  -->
+	<select id="selectFindPw" parameterType="String" resultType="String">
+		<![CDATA[
+	   SELECT IF(COUNT(*), pw, 'NotFind') FROM member WHERE id=#{id} AND name=#{name} AND email1= #{email1} AND email2 =#{email2}; 
+	   ]]>  
+	</select>
+	
+	<!-- 회원정보수정 비번 체크  -->
+	<select id="selectPwChk" parameterType="String" resultType="String">
+		<![CDATA[
+	   SELECT * FROM member WHERE id=#{id} AND pw=#{pw};
+	   ]]>  
+	</select>
+	
+	<!-- 아이디 로그인  -->
+	<select id="loginById" resultType="memberVO" parameterType="memberVO">
+		<![CDATA[
+		SELECT * FROM member WHERE id=#{id};
+		]]>  
+	</select>
+	
+	<!-- 회원 탈퇴  -->
+	<insert id="memeberDelete"  parameterType="memberVO">
+		<![CDATA[
+		 DELETE FROM member WHERE id=#{id};
+		]]>      
+	</insert>
+	
+	<!-- 회원정보 수정 -->
+	<insert id="editMember"  parameterType="memberVO">
+		<![CDATA[
+		  UPDATE member SET pw=#{pw}, name=#{name}, birth=#{birth}, phone=#{phone}, zipCode=#{zipCode}, addr1=#{addr1}, addr2=#{addr2}, addr3=#{addr3}, email1=#{email1}, email2=#{email2} WHERE id=#{id};
+		]]>      
+	</insert>
+	
+	<!-- 회원수 조회 -->
+	<select id="memberCount" resultType="Integer">
+    <![CDATA[
+        SELECT
+            count(*)
+        FROM
+            member
+    ]]>
+    </select>
+    
+    <!-- 회원리스트 조회 검색 -->
+	<select id="selectMemberList" resultType="hashmap"
+		parameterType="hashmap">
+    <![CDATA[
+        SELECT 
+			*
+		FROM 
+			member
+		ORDER BY joinDate DESC LIMIT #{pageStart}, #{perPageNum};
+    ]]>
+	</select>
+	
+	<!-- 회원리스트 검색 -->
+	<select id="searchMemberList" resultType="hashmap"
+		parameterType="hashmap">
+    <![CDATA[
+        SELECT 
+			*
+		FROM 
+			member
+		WHERE
+			${searchKeyWordOption} LIKE CONCAT('%', #{keyWord}, '%')
+		ORDER BY joinDate DESC LIMIT #{cri.pageStart}, #{cri.perPageNum};
+    ]]>
+	</select>
+	
+	<!-- 회원상세내용 -->
+	<select id="memberDetail" resultType="memberVO"
+		parameterType="String">
+    <![CDATA[
+        SELECT 
+			*
+		FROM 
+			member
+		WHERE
+			id = #{productId}
+    ]]>
+	</select>
+	
+	<!-- 회원관리 수정 -->
+	<insert id="editMember_master"  parameterType="memberVO">
+		<![CDATA[
+		  UPDATE 
+		  	member 
+		  SET 
+		  	pw=#{pw}, name=#{name}, 
+		  	birth=#{birth}, phone=#{phone}, 
+		  	zipCode=#{zipCode}, addr1=#{addr1}, 
+		  	addr2=#{addr2}, addr3=#{addr3}, 
+		  	email1=#{email1}, email2=#{email2}, 
+		  	grade=#{grade},
+		  	mileage=#{mileage}, masterYN=#{masterYN} 
+		  WHERE 
+		  	id=#{id}
+		]]>      
+	</insert>
+	
+	<!-- 회원 리스트 검색 -->
+	<select id="memberList" resultType="hashmap">
+    <![CDATA[
+        SELECT
+			 *
+		FROM 
+			member
+    ]]>
+	</select>
+	
+	
+	<!--  배치프로그램 테스트  -->
+	<select id="selectRetireUsers" resultType="memberVO">
+    <![CDATA[
+        SELECT 
+			id
+		FROM
+			member
+		WHERE
+			DATE_FORMAT(joinDate, '%Y-%m-%d') < DATE_FORMAT(CURDATE(), '%Y-%m-%d');
+    ]]>
+    
+	</select>
+	<insert id="addMember"  parameterType="memberVO">
+		<![CDATA[
+		UPDATE 
+			member
+		SET 
+			mileage = mileage + 1
+		WHERE
+			member.id = #{id};
+		]]>      
+	</insert>
+</mapper>
