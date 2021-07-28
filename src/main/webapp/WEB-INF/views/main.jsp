@@ -9,7 +9,7 @@ request.setCharacterEncoding("UTF-8");
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 
-<!-- 메인 -->
+<!-- 메인  -->
 <main class="mainH">
 	<div id="carouselExampleIndicators" class="carousel slide"
 		data-ride="carousel">
