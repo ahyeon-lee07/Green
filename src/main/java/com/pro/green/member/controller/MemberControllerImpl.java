@@ -37,7 +37,7 @@ public class MemberControllerImpl implements MemberController {
 	private MemberService memberService;
 	@Autowired
 	private MemberVO memberVO;
-	
+
 	@Autowired
 	BCryptPasswordEncoder passEncoder;
 
@@ -118,21 +118,21 @@ public class MemberControllerImpl implements MemberController {
 	public ModelAndView memberPwChk(@ModelAttribute("member") MemberVO member, RedirectAttributes rAttr,
 			HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		
+
 		MemberVO login = memberService.login(member); // login() 메서드를 호출하면서 로그인 정보를 전달한다.
-		
+
 		boolean passMatch = passEncoder.matches(member.getPw(), login.getPw());
-		
+
 		if (login != null && passMatch) {
 			HttpSession session = request.getSession();
 			session.setAttribute("joinOk", "sessinChk");
 			mav.setViewName("redirect:/memberEdit.do");
-			
-			} else {
-				rAttr.addAttribute("msg", "joinNo");
-				mav.setViewName("redirect:/memberEditChk.do");
-			}
-		
+
+		} else {
+			rAttr.addAttribute("msg", "joinNo");
+			mav.setViewName("redirect:/memberEditChk.do");
+		}
+
 		return mav;
 	}
 
@@ -193,8 +193,8 @@ public class MemberControllerImpl implements MemberController {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("html/text;charset=utf-8");
 		ModelAndView mav = new ModelAndView();
-		
-		//암호화
+
+		// 암호화
 		String inputPass = member.getPw();
 		String pass = passEncoder.encode(inputPass);
 		member.setPw(pass);
@@ -221,27 +221,32 @@ public class MemberControllerImpl implements MemberController {
 		ModelAndView mav = new ModelAndView();
 
 		MemberVO login = memberService.login(member); // login() 메서드를 호출하면서 로그인 정보를 전달한다.
-		
-		boolean passMatch = passEncoder.matches(member.getPw(), login.getPw());
-		
-		if (login != null && passMatch) {
-			HttpSession session = request.getSession();
-			session.setAttribute("member", login); // 세션에 회원 정보를 저장
-			session.setAttribute("isLogOn", true); // 세션에 로그인 상태를 true로 설정
-			String action = (String)session.getAttribute("action"); // 로그인 성공 시 세션에 저장된 action 값을 가져온다.
-			session.removeAttribute("action"); // 게시물 등록
-			 if(action!= null) {	// action 값이 null이 아니면 action 값을 뷰이름으로 지정해 글쓰기창으로 이동한다.
-			       mav.setViewName("redirect:"+action);
-			    }else {
-			    	mav.setViewName("redirect:/main.do");	// memberVO로 반횐된 값이 있으면 세션을 이용해 로그인 상태를 true로 합니다.
-			    }
+
+		if (login == null) {
+			rAttr.addAttribute("result", "loginFailed"); // 로그인 실패 시 실패 메시지를 로그인 창으로 전달
+			mav.setViewName("redirect:/member.do"); // 로그인 실패시 다시 로그인차응로 리다이렉트 합니다.
+		} else {
+			boolean passMatch = passEncoder.matches(member.getPw(), login.getPw());
+
+			if (login != null && passMatch) {
+				HttpSession session = request.getSession();
+				session.setAttribute("member", login); // 세션에 회원 정보를 저장
+				session.setAttribute("isLogOn", true); // 세션에 로그인 상태를 true로 설정
+				String action = (String) session.getAttribute("action"); // 로그인 성공 시 세션에 저장된 action 값을 가져온다.
+				session.removeAttribute("action"); // 게시물 등록
+				if (action != null) { // action 값이 null이 아니면 action 값을 뷰이름으로 지정해 글쓰기창으로 이동한다.
+					mav.setViewName("redirect:" + action);
+				} else {
+					mav.setViewName("redirect:/main.do"); // memberVO로 반횐된 값이 있으면 세션을 이용해 로그인 상태를 true로 합니다.
+				}
 			} else {
 				rAttr.addAttribute("result", "loginFailed"); // 로그인 실패 시 실패 메시지를 로그인 창으로 전달
 				mav.setViewName("redirect:/member.do"); // 로그인 실패시 다시 로그인차응로 리다이렉트 합니다.
 			}
-			return mav;
 		}
-	
+		return mav;
+	}
+
 	// 로그아웃
 	@Override
 	@RequestMapping(value = "/member/logout.do", method = RequestMethod.GET)
@@ -273,15 +278,15 @@ public class MemberControllerImpl implements MemberController {
 		mav.setViewName("redirect:/main.do");
 		return mav;
 	}
-	
-	//마이페이지
+
+	// 마이페이지
 	@RequestMapping(value = "/myPage.do", method = RequestMethod.GET)
 	public ModelAndView myPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 		ModelAndView mav = new ModelAndView();
 		MemberVO sessinLogin = (MemberVO) session.getAttribute("member");
-		
-		mav.addObject("memberInf",sessinLogin);
+
+		mav.addObject("memberInf", sessinLogin);
 		mav.setViewName("myPageView");
 		return mav;
 	}
@@ -293,11 +298,12 @@ public class MemberControllerImpl implements MemberController {
 																								// 로그인창을 요청할 때는 매개변수
 																								// result가 전송되지 않으므로
 																								// 무시합니
-			@RequestParam(value= "action", required=false) String action,	// 로그인 후 수행할 글쓰기 요청명을 action에 저장한다. 로그인 성공 후 바로 글쓰기창으로 이동한다.
+			@RequestParam(value = "action", required = false) String action, // 로그인 후 수행할 글쓰기 요청명을 action에 저장한다. 로그인 성공
+																				// 후 바로 글쓰기창으로 이동한다.
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = getViewName(request);
-		HttpSession session = request.getSession(); 
-		session.setAttribute("action", action); 	// 글쓰기창 요청명을 action속성으로 세션에 저장
+		HttpSession session = request.getSession();
+		session.setAttribute("action", action); // 글쓰기창 요청명을 action속성으로 세션에 저장
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("request", request);
 		mav.addObject(viewName);
@@ -359,30 +365,29 @@ public class MemberControllerImpl implements MemberController {
 	}
 
 	// 회원관리 상세 수정
-	@RequestMapping(value = "/memberList/memberEdit/Edit.do", method = {RequestMethod.POST, RequestMethod.GET})
+	@RequestMapping(value = "/memberList/memberEdit/Edit.do", method = { RequestMethod.POST, RequestMethod.GET })
 	public ModelAndView memberEditOK(@ModelAttribute("member") MemberVO memberInf,
 			@RequestParam(value = "productId") String productId, @RequestParam(value = "options") String options,
 			HttpServletRequest request, Criteria cri) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		HttpSession session = request.getSession();
-		
+
 		MemberVO member = new MemberVO();
 		MemberVO sessinLogin = (MemberVO) session.getAttribute("member");
 
 		// 관리자 세션 체크 (ModelAndView, 세션정보, "접속화면이름")
 		sessionChk(mav, sessinLogin, "redirect:/memberList.do");
-		
-		
+
 		int result = memberService.editMember_master(memberInf);
-		//memberVO = memberService.login(member);
-		
+		// memberVO = memberService.login(member);
+
 		if (result == 0) {
 			mav.addObject("joinMas", "회원 정보 수정에 실패하였습니다. 다시 시도해 주세요.");
 		} else {
 			mav.addObject("joinMas", "회원 정보 수정이 완료 되었습니다.");
-			//session.setAttribute("member", memberVO); // 세션에 회원 정보를 저장
+			// session.setAttribute("member", memberVO); // 세션에 회원 정보를 저장
 		}
-		
+
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		mav.addObject("pageMaker", pageMaker);
