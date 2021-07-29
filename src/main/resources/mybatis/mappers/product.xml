@@ -278,7 +278,7 @@
 		INNER JOIN 
 			image AS i ON p.productId=i.productId
 		WHERE
-			i.imgType = 'product_M'
+			i.imgType = 'product_M' AND p.discountYN = 'Y'
 		ORDER BY
 			discount DESC
 		LIMIT 10
