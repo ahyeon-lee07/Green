@@ -156,8 +156,6 @@ request.setCharacterEncoding("UTF-8");
 								</a>
 							</div>
 						</c:when>
-						<c:when test="${communityType == 'review' }">
-						</c:when>
 					</c:choose>
 					
 				</c:when>
