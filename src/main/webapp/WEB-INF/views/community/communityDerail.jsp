@@ -144,7 +144,7 @@ request.setCharacterEncoding("UTF-8");
 						<div class="d-flex bd-highlight">
 							<label for="commentId" class="bd-highlight col-form-label pl-2" style="width: 100px;">작성자</label>
 							<div class="d-flex flex-row bd-highlight pr-2">
-								<input type="text" class="form-control inputBoxReadonly" id="" name="commentId" value="${commentList.id }" style="width: 160px;" readonly> <span class="pt-2" style="font-size: .8rem">${commentList.commentDate }</span>
+								<input type="text" class="form-control inputBoxReadonly" id="" name="" value="${commentList.id }" style="width: 160px;" readonly> <span class="pt-2" style="font-size: .8rem">${commentList.commentDate }</span>
 							</div>
 						</div>
 						<div class="d-flex bd-highlight">
@@ -159,7 +159,7 @@ request.setCharacterEncoding("UTF-8");
 						<c:choose>
 							<c:when test="${commentList.id == member.id }">
 								<div class="flex-grow-1 bd-highlight pr-2">
-									<textarea class="form-control" id="" name="commentContent" rows="2">${commentList.commentContent}</textarea>
+									<textarea class="form-control inputBoxReadonly" id="" name="commentContent" rows="2" readonly>${commentList.commentContent}</textarea>
 								</div>
 							</c:when>
 							<c:otherwise>
@@ -188,10 +188,14 @@ request.setCharacterEncoding("UTF-8");
 							<button type="button" class="btn bg-danger text-white" >삭제 </button>
 						</a>
 						<button type="submit" class="btn btn-success ml-3" onclick="return checkEdit()">수정</button>
-						<button type="button" class="btn btn-secondary ml-3" onclick="commentEdit()">댓글</button>
+						<c:if test="${pageTitle == 'QnA' }">
+							<button type="button" class="btn btn-secondary ml-3" onclick="return commentEdit()">댓글</button>
+						</c:if>
 					</c:when>
 					<c:when test="${member.id != null}">
-						<button type="button" class="btn btn-secondary ml-3" onclick="return commentEdit()">댓글</button>
+						<c:if test="${pageTitle == 'QnA' }">
+							<button type="button" class="btn btn-secondary ml-3" onclick="return commentEdit()">댓글</button>
+						</c:if>
 	`				</c:when>
 				</c:choose>
 			</div>
@@ -338,7 +342,7 @@ request.setCharacterEncoding("UTF-8");
 			str += '<div class="d-flex bd-highlight">';
 			str += '<label for="commentId" class="bd-highlight col-form-label pl-2" style="width: 100px;">작성자</label>';
 			str += '<div class="d-flex flex-row bd-highlight pr-2">';
-			str += '<input type="text" class="form-control inputBoxReadonly" id="commentId" name="commentId" style="width: 160px;" value="'+commentList[i]["id"]+'" readonly><span class="pt-2" style="font-size: .8rem">'+dateTime+'</span>';
+			str += '<input type="text" class="form-control inputBoxReadonly" id="" name="" style="width: 160px;" value="'+commentList[i]["id"]+'" readonly><span class="pt-2" style="font-size: .8rem">'+dateTime+'</span>';
 			str += '</div></div>';
 			str += '<div class="d-flex bd-highlight">';
 
@@ -351,9 +355,9 @@ request.setCharacterEncoding("UTF-8");
 			str += '<div class="flex-grow-1 bd-highlight pr-2">';
 
 			if(commentList[i]["id"] == memberId){
-				str += '<textarea class="form-control" id="" name="commentContent" rows="2">'+commentList[i]["commentContent"]+'</textarea>';
+				str += '<textarea class="form-control inputBoxReadonly" id="" name="commentContent" rows="2" readonly>'+commentList[i]["commentContent"]+'</textarea>';
 			}else{
-				str += '<textarea class="form-control ${inputBoxReadonly } inputBoxReadonly" id="" name="commentContent" rows="2" ${readonly } readonly>'+commentList[i]["commentContent"]+'</textarea>';
+				str += '<textarea class="form-control inputBoxReadonly" id="" name="commentContent" rows="2" readonly>'+commentList[i]["commentContent"]+'</textarea>';
 			}
 			
 			str += '</div></div></div>';

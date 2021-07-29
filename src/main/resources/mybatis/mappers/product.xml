@@ -285,6 +285,24 @@
     ]]>
 	</select>
 	
+	<!-- // 추천 상품 5개 -->
+ 	<select id="RecommendProductList" resultType="productVO">
+    <![CDATA[
+		SELECT
+			 p.*, i.* 
+		
+		FROM
+			product AS p
+		INNER JOIN 
+			image AS i ON p.productId=i.productId
+		WHERE
+			i.imgType = 'product_M'
+		ORDER BY
+			salesSum DESC
+		LIMIT 5
+    ]]>
+	</select>
+	
 	
 	<!-- /조회==========================================================================================  -->
 	

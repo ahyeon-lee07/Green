@@ -73,4 +73,9 @@ public class ProductServiceImpl implements ProductService {
 		return productDAO.discountProductList();
 	}
 
+	// 추천 상품 5개
+	public List<ProductVO2> RecommendProductList() throws DataAccessException {
+		return productDAO.RecommendProductList();
+	}
+
 }

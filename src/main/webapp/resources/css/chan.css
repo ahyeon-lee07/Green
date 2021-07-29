@@ -113,6 +113,12 @@ a:hover {
     border-radius: 0;
     pointer-events: none;
 }
+.inputReadonly[readonly] {
+	border: 0 none;
+    background: transparent;
+    border-radius: 0;
+    pointer-events: none;
+}
 label {
 	font-weight: bold;
 }
@@ -122,26 +128,38 @@ label {
     white-space: nowrap;
     width: 100%
     }
-/*--------------------------------------------------------------------*/
+/*-------------------------------------------------------------------- */
 
 @media screen and (min-width: 1200px) {
 	.prodList {
 		width: 20%;
+	}
+	.prodDetailPageOderBox {
+		width: 50%;
 	}
 }
 @media screen and (max-width: 1200px) {
 	.prodList {
 		width: 25%;
 	}
+	.prodDetailPageOderBox {
+		width: 50%;
+	}
 }
 @media screen and (max-width: 992px) {
 	.prodList {
 		width: 33%;
 	}
+	.prodDetailPageOderBox {
+		width: 50%;
+	}
 }
 @media screen and (max-width: 768px) {
 	.prodList {
 		width: 50%;
+	}
+	.prodDetailPageOderBox {
+		width: 100%;
 	}
 }
 @media screen and (max-width: 576px) {
