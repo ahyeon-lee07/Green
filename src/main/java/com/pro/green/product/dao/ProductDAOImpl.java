@@ -79,4 +79,10 @@ public class ProductDAOImpl implements ProductDAO {
 		return productsList;
 	}
 
+	// 추천 상품 5개
+	public List<ProductVO2> RecommendProductList() throws DataAccessException {
+		List<ProductVO2> productsList = sqlSession.selectList("mapper.product.RecommendProductList");
+		return productsList;
+	}
+
 }

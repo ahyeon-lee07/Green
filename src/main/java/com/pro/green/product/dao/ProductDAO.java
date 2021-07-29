@@ -39,5 +39,8 @@ public interface ProductDAO {
 	// 할인상품 10개
 	public List<ProductVO2> discountProductList() throws DataAccessException;
 
+	// 추천 상품 5개
+	public List<ProductVO2> RecommendProductList() throws DataAccessException;
+
 
 }

@@ -134,7 +134,7 @@ public class ProductControllerImpl implements ProductController {
 		Map<String, Object> wishMap = new HashMap<String, Object>();
 
 		List<Map<String, Object>> wishList = new ArrayList<Map<String, Object>>();
-		
+
 		Map<String, Object> prodArray = new HashMap<String, Object>();
 		prodArray.put("p_group", p_group);
 
@@ -149,7 +149,6 @@ public class ProductControllerImpl implements ProductController {
 		}
 
 		List<ProductVO2> result = productService.prodArray(prodArray);
-		
 
 		if (user != null) {
 			String userId = user.getId();
@@ -158,7 +157,6 @@ public class ProductControllerImpl implements ProductController {
 			selectOption.put("userId", userId);
 			selectOption.put("type", "wish");
 			wishList = mypageProductService.wishList(selectOption);
-
 
 			for (int i = 0; i < result.size(); i++) {
 				String ProductId = result.get(i).getProductId();
@@ -178,7 +176,7 @@ public class ProductControllerImpl implements ProductController {
 		}
 
 		wishMap.put("result", result);
-		
+
 		resEntity = new ResponseEntity(wishMap, HttpStatus.OK);
 		return resEntity;
 	}
@@ -191,6 +189,9 @@ public class ProductControllerImpl implements ProductController {
 
 		ModelAndView mav = new ModelAndView();
 		ProductVO2 prodList = new ProductVO2();
+		
+		HttpSession session = request.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("member");
 
 		prodList = productService.viewProdDetail(productId);
 		List<Map<String, Object>> prodOption = productService.selectProdOption(productId);
@@ -203,15 +204,54 @@ public class ProductControllerImpl implements ProductController {
 		mav.addObject("product_M", img.get(0).get("imgURL"));
 		mav.addObject("product_S", img.get(1).get("imgURL"));
 
-		mav.addObject("options", request.getParameter("options"));
+		// 추천 상품 5개
+		List<ProductVO2> RecommendProduct = new ArrayList<ProductVO2>();
+		RecommendProduct = productService.RecommendProductList();
+		// 메인페이지 상품 조회 관심상품처리 (ModelAndView, 회원, 관심상품 )
+		wishListChk(mav, member, RecommendProduct, "RecommendProductwishList");
 
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		mav.addObject("page", cri.getPage());
 		mav.addObject("pageMaker", pageMaker);
+		mav.addObject("RecommendProduct", RecommendProduct);
+		mav.addObject("member", member);
 
 		return mav;
 
+	}
+
+	// 메인페이지 상품 조회 관심상품처리 (ModelAndView, 회원, 관심상품 )
+	private ModelAndView wishListChk(ModelAndView mav, MemberVO member, List<ProductVO2> product,
+			String ProductwishList) throws Exception {
+
+		List<Map<String, Object>> wishList = new ArrayList<Map<String, Object>>();
+
+		if (member != null) {
+			String userId = member.getId();
+
+			Map<String, Object> selectOption = new HashMap<String, Object>();
+			selectOption.put("userId", userId);
+			selectOption.put("type", "wish");
+			wishList = mypageProductService.wishList(selectOption);
+
+			for (int i = 0; i < product.size(); i++) {
+				String ProductId = product.get(i).getProductId();
+
+				for (int j = 0; j < wishList.size(); j++) {
+					String wish = (String) wishList.get(j).get("productId");
+
+					if (ProductId.equals(wish)) {
+						product.get(i).setCartType("wish");
+					}
+
+				}
+			}
+			return mav;
+
+		} else {
+			return mav.addObject(ProductwishList, "N");
+		}
 	}
 
 }
