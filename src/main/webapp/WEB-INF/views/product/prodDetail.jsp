@@ -65,7 +65,7 @@ request.setCharacterEncoding("UTF-8");
 						<div class="bd-highlight d-flex flex-row border-top border-bottom mt-3 mb-2 py-2">
 							<label for="shipTotal" class="bd-highlight col-form-label pl-2" style="width: 140px; font-weight: normal;">색상/기종</label>
 							<select id="p_optionList" class="form-control form-control-sm" name="optionList" style="width: 100%; height: 38px" >
-								<option>=== (필수)옵션 : 색상/기종 선택 ===</option>
+								<option value="null">=== (필수)옵션 : 색상/기종 선택 ===</option>
 								<c:forEach var="prodOption" items="${prodOption}" varStatus="index">
 									<option value="${prodOption.p_optionId}[^]${prodOption.p_option}[^]${prodOption.p_stock}" data-optionName="${prodOption.p_option}">${prodOption.p_option}</option>
 								</c:forEach>
@@ -83,26 +83,13 @@ request.setCharacterEncoding("UTF-8");
 									</tr>
 								</thead>
 								<tbody id="oderListBox" class="border-bottom">
-									<tr class="" >
-										<td class="text-left align-middle p-2">
-											<input type="text" class="form-control inputReadonly" id="p_option" name="p_option" value="옵션명" readonly>
-										</td>
-										<td class="text-center align-middle p-2">
-											<div class="bd-highlight d-flex flex-row">
-												<input type="number" class="form-control" id="p_stock" name="p_stock" min="0" max="" value="11">
-												<img class="icon_wish" data-value="Y" src="${contextPath }/resources/img/x-circle-fill.svg" alt="" style="width: 40px; padding: 6px; opacity: .6; cursor: pointer;">
-											</div>
-										</td>
-										<td class="text-center align-middle p-2">
-											<fmt:formatNumber value="${prodList.price}" pattern="#,###" />
-										</td>
-									</tr>
+									
 								</tbody>
 							</table>
 							<div class="d-flex justify-content-end border-bottom py-2">
 								<div class="bd-highlight p-1 mr-1">TOTAL: </div>
-								<div class="bd-highlight font-weight-bold" style="font-size: 1.4rem;"><span id="inputPriceTotal">3,000</span>원</div>
-								<div class="bd-highlight text-black-50 pt-2 pl-1" style="font-size: .8rem;">(<span id="inputCount">1</span>개)</div>
+								<div class="bd-highlight font-weight-bold" style="font-size: 1.4rem;"><span id="inputPriceTotal">0</span>원</div>
+								<div class="bd-highlight text-black-50 pt-2 pl-1" style="font-size: .8rem;">(<span id="inputCount">0</span>개)</div>
 								<input type="text" class="bd-highlight form-control" id="priceTotal" name="priceTotal" value="" style="display: none;">
 							</div>
 						</div>
@@ -310,49 +297,101 @@ request.setCharacterEncoding("UTF-8");
 		var optionId = document.getElementById('p_optionList').value.split("[^]")[0];
 		var optionName = document.getElementById('p_optionList').value.split("[^]")[1];
 		var optionCount = document.getElementById('p_optionList').value.split("[^]")[2];
+		var totalStock = Number(document.getElementById('inputCount').innerText);
+		var totalPrice = Number(document.getElementById('inputPriceTotal').innerText);
 
-		alert(optionId);
-		alert(optionName);
-		alert(optionCount);
+		var discountYN = '${prodList.discountYN}';
 
-		src = '';
-
-		src ='<tr class="'+optionId+'" >';
-		src ='<td class="text-left align-middle p-2">';
-		src ='<input type="text" class="form-control inputReadonly" id="p_option" name="p_option" value="옵션명" readonly>';
-		src ='</td>';
-		src ='<td class="text-center align-middle p-2">';
-		src ='<div class="bd-highlight d-flex flex-row">';
-		src ='<input type="number" class="form-control" id="p_stock" name="p_stock" min="0" max="" value="11">';
-		src ='<img class="icon_wish" data-value="Y" src="${contextPath }/resources/img/x-circle-fill.svg" alt="" style="width: 40px; padding: 6px; opacity: .6; cursor: pointer;">';
-		src ='</div>';
-		src ='</td>';
-		src ='<td class="text-center align-middle p-2">';
-		src ='<fmt:formatNumber value="${prodList.price}" pattern="#,###" />';
-		src ='</td>';
-		src ='</tr>';
-
-		document.getElementById('oderListBox').appendChild(src);
-	});
-	/*
-	$('#p_option').change(function() {
-		
-		var html = "";
-		var option = document.getElementById('p_option').value;
-		var cnt = 1;
-		var price = ${prodList.price};
-
-		html += '<tr>';
-		html += '<td>'+option+'</td>'
-		html += '<td>'+cnt+'</td>';
-		html += '<td>'+price+'</td>';
-		html += '</tr>';
-
-		$("#dynamicTable").append(html);
-
+		if (discountYN == "Y") {
+			var price = ${ prodList.discount };
+			var priceText = price.toLocaleString();
+			
+		} else if (discountYN == "N") {
+			var price = ${ prodList.price };
+			var priceText = price.toLocaleString();
 		}
-	)
-	*/
+
+
+		var src = '';
+		var src = document.createElement("tr");
+		src.id = "optionId_"+optionId;
+		src.setAttribute('class', 'optionList');
+
+		var listCount = document.getElementsByClassName('optionList').length;
+
+		if(document.getElementById('p_optionList').value == "null" || document.getElementById("optionId_" + optionId) != null){
+			return false;
+		}else if(document.getElementById("optionId_" + optionId) == null){
+			src.innerHTML = '<td class="text-left align-middle p-2">\
+			<input type="text" class="form-control inputReadonly" id="p_option_'+ optionId +'" name="p_option[' + listCount +']" value="'+ optionName + '" readonly>\
+			</td>\
+			<td class="text-center align-middle p-2">\
+			<div class="bd-highlight d-flex flex-row">\
+			<input type="number" class="form-control totalCount" id="p_stock_'+optionId+'" name="p_stock['+ listCount+']" min="0" max="'+ optionCount + '" value="1">\
+			<img class="icon_wish" data-value="Y" src="${contextPath }/resources/img/x-circle-fill.svg" onclick="optionDelete(\'optionId_'+optionId+'\')" style="width: 40px; padding: 6px; opacity: .6; cursor: pointer;">\
+			</div>\
+			</td>\
+			<td class="text-center align-middle p-2">\
+			'+ priceText+' <span>원</span>\
+			</td>';
+			totalStock += 1;
+			totalPrice = price * totalStock;
+			var totalPriceText = totalPrice.toLocaleString();
+		}
+		
+
+		document.getElementById('oderListBox').append(src);
+
+		document.getElementById('inputCount').innerText = totalStock;
+		document.getElementById('inputPriceTotal').innerText = totalPriceText;
+
+		document.getElementById("p_stock_"+optionId).addEventListener('input', function(){
+			var max_V = document.getElementById("p_stock_" + optionId).max;
+
+			if(document.getElementById("p_stock_" + optionId).value > max_V){
+				alert("\""+optionName + "\" 의 재고 수량은 \"" + max_V +"\" 개 입니다.");
+				document.getElementById("p_stock_" + optionId).value = max_V;
+			}
+
+			priceChk(price);
+		});
+		
+	});
+
+	//옵션 삭제
+	function optionDelete(id){
+		document.getElementById(id).remove();
+
+		var discountYN = '${prodList.discountYN}';
+
+		if (discountYN == "Y") {
+			var price = ${ prodList.discount };
+			var priceText = price.toLocaleString();
+
+		} else if (discountYN == "N") {
+			var price = ${ prodList.price };
+			var priceText = price.toLocaleString();
+		}
+
+		priceChk(price);
+	};
+
+	//토탈 가격 체크
+	function priceChk(price){
+		var totalCount = document.getElementsByClassName('totalCount');
+		totalStock = 0;
+		totalPrice = price;
+		for (var i = 0; i < totalCount.length; i++) {
+			totalStock += Number(totalCount[i].value);
+		}
+
+		totalPrice = totalPrice * totalStock;
+
+		var totalPriceText = totalPrice.toLocaleString();
+
+		document.getElementById('inputCount').innerText = totalStock;
+		document.getElementById('inputPriceTotal').innerText = totalPriceText;
+	};
 	
 	<!--
 	
