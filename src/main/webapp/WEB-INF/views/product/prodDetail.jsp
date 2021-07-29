@@ -64,10 +64,10 @@ request.setCharacterEncoding("UTF-8");
 
 						<div class="bd-highlight d-flex flex-row border-top border-bottom mt-3 mb-2 py-2">
 							<label for="shipTotal" class="bd-highlight col-form-label pl-2" style="width: 140px; font-weight: normal;">색상/기종</label>
-							<select id="p_option" class="form-control form-control-sm" name="optionList" style="width: 100%; height: 38px" >
+							<select id="p_optionList" class="form-control form-control-sm" name="optionList" style="width: 100%; height: 38px" >
 								<option>=== (필수)옵션 : 색상/기종 선택 ===</option>
 								<c:forEach var="prodOption" items="${prodOption}" varStatus="index">
-									<option value="${prodOption.p_optionId}">${prodOption.p_option}</option>
+									<option value="${prodOption.p_optionId}[^]${prodOption.p_option}[^]${prodOption.p_stock}" data-optionName="${prodOption.p_option}">${prodOption.p_option}</option>
 								</c:forEach>
 							</select>	
 						</div>
@@ -189,8 +189,6 @@ request.setCharacterEncoding("UTF-8");
 				<div class="nav nav-tabs" id="nav-tab" role="tablist">
 					<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">상품 상세정보</a> 
 					<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">구매 가이드</a> 
-					<a class="nav-item nav-link" id="nav-contact-tab1" data-toggle="tab" href="#nav-contact1" role="tab" aria-controls="nav-contact" aria-selected="false">REVIEW</a>
-					<a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#nav-contact2" role="tab" aria-controls="nav-contact" aria-selected="false">Q&A</a>
 				</div>
 			</div>
 		</nav>
@@ -268,18 +266,6 @@ request.setCharacterEncoding("UTF-8");
 						</div>
 					</div>
 				</div>
-				<div class="tab-pane fade" id="nav-contact1" role="tabpanel"
-					aria-labelledby="nav-contact-tab1">
-					<iframe src="http://localhost:8080/green/review.do" width="90%"
-						name="review" height="90%" frameborder="0" marginheight="0"
-						marginwidth="0" scrolling="auto"></iframe>
-				</div>
-				<div class="tab-pane fade" id="nav-contact2" role="tabpanel"
-					aria-labelledby="nav-contact-tab2">
-					<iframe src="http://localhost:8080/green/product.do" width="90%"
-						name="review" height="90%" frameborder="0" marginheight="0"
-						marginwidth="0" scrolling="auto"></iframe>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -317,7 +303,38 @@ request.setCharacterEncoding("UTF-8");
 		alert("해당 상품을 장바구니에 담았습니다!");
 	}
 	
-	<!-- 옵션 js -->
+	//옵션 js 
+	var optionList = document.getElementById('p_optionList');
+	optionList.addEventListener('change', function(){
+		
+		var optionId = document.getElementById('p_optionList').value.split("[^]")[0];
+		var optionName = document.getElementById('p_optionList').value.split("[^]")[1];
+		var optionCount = document.getElementById('p_optionList').value.split("[^]")[2];
+
+		alert(optionId);
+		alert(optionName);
+		alert(optionCount);
+
+		src = '';
+
+		src ='<tr class="'+optionId+'" >';
+		src ='<td class="text-left align-middle p-2">';
+		src ='<input type="text" class="form-control inputReadonly" id="p_option" name="p_option" value="옵션명" readonly>';
+		src ='</td>';
+		src ='<td class="text-center align-middle p-2">';
+		src ='<div class="bd-highlight d-flex flex-row">';
+		src ='<input type="number" class="form-control" id="p_stock" name="p_stock" min="0" max="" value="11">';
+		src ='<img class="icon_wish" data-value="Y" src="${contextPath }/resources/img/x-circle-fill.svg" alt="" style="width: 40px; padding: 6px; opacity: .6; cursor: pointer;">';
+		src ='</div>';
+		src ='</td>';
+		src ='<td class="text-center align-middle p-2">';
+		src ='<fmt:formatNumber value="${prodList.price}" pattern="#,###" />';
+		src ='</td>';
+		src ='</tr>';
+
+		document.getElementById('oderListBox').appendChild(src);
+	});
+	/*
 	$('#p_option').change(function() {
 		
 		var html = "";
@@ -335,6 +352,7 @@ request.setCharacterEncoding("UTF-8");
 
 		}
 	)
+	*/
 	
 	<!--
 	
