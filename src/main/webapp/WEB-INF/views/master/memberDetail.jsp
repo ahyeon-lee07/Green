@@ -113,8 +113,7 @@ request.setCharacterEncoding("UTF-8");
 								<div class="col p-0">
 									<div class="d-flex bd-highlight">
 										<label for="Password" class="bd-highlight col-form-label pl-2"
-											style="width: 140px;"><img
-											src="${contextPath }/resources/img/require.png">비밀번호</label>
+											style="width: 140px;">비밀번호</label>
 										<div class="flex-grow bd-highlight pr-2">
 											<input type="password" class="form-control" id="Password"
 												name="pw" value="">
@@ -129,8 +128,7 @@ request.setCharacterEncoding("UTF-8");
 									<div class="d-flex bd-highlight">
 										<label for="re_password"
 											class="bd-highlight col-form-label pl-2"
-											style="width: 140px;"><img
-											src="${contextPath }/resources/img/require.png">비밀번호 확인</label>
+											style="width: 140px;">비밀번호 확인</label>
 										<div class="flex-grow bd-highlight pr-2">
 											<input type="password" class="form-control" id="re_password"
 												name="re_pw" value="">

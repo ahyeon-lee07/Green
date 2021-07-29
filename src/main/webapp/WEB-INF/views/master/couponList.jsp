@@ -49,7 +49,7 @@ request.setCharacterEncoding("UTF-8");
 					<th class="text-center border-bottom-0 border-top-0 px-2"
 						style="width: auto">쿠폰명</th>
 					<th class="text-center border-bottom-0 border-top-0 px-2"
-						style="width: 100px">할일금액</th>
+						style="width: 100px">할인금액</th>
 					<th class="text-center border-bottom-0 border-top-0 px-2"
 						style="width: 160px">사용기간</th>
 					<th class="text-center border-bottom-0 border-top-0 px-2"
