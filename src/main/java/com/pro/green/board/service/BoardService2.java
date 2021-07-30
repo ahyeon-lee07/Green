@@ -39,6 +39,9 @@ public interface BoardService2 {
 
 	//메인화면 공지사항 조회
 	public List<ArticleVO2> mainSeletNotice(Map<String, Object> selectOption) throws Exception;
+	
+	//메인화면 이벤트 조회
+	public List<ArticleVO2> mainSeletEvent(Map<String, Object> selectOption2) throws Exception;
 
 
 	

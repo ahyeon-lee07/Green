@@ -46,6 +46,18 @@
     ]]>
 	</select>
 	
+	<!-- 메인화면 이벤트 조회 -->
+	<select id="mainSeletEvent" resultType="articleVO2" parameterType="hashmap">
+    <![CDATA[
+		SELECT
+			${selectOption2}
+		FROM
+			event
+		ORDER BY
+			eventDate DESC
+    ]]>
+	</select>
+	
 	<!-- 게시물 검색 -->
 	<select id="searchList" resultType="articleVO2" parameterType="hashmap">
     <![CDATA[

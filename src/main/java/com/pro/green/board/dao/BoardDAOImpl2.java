@@ -22,7 +22,7 @@ public class BoardDAOImpl2 implements BoardDAO2 {
 
 		List<Map<String, Object>> images = new ArrayList<Map<String, Object>>();
 
-		// 리뷰과 Qna 시에만 실행
+		// Review와 Q&A 시에만 실행
 		if (selectOption.get("type").equals("qna") || selectOption.get("type").equals("review")) {
 			for (int i = 0; i < result.size(); i++) {
 				String productId = result.get(i).getProductId();
@@ -47,7 +47,7 @@ public class BoardDAOImpl2 implements BoardDAO2 {
 
 		List<Map<String, Object>> images = new ArrayList<Map<String, Object>>();
 
-		// 리뷰과 Qna 시에만 실행
+		// Review와 Q&A 시에만 실행
 		if (selectOption.get("type").equals("qna") || selectOption.get("type").equals("review")) {
 			for (int i = 0; i < result.size(); i++) {
 				String productId = result.get(i).getProductId();
@@ -78,7 +78,7 @@ public class BoardDAOImpl2 implements BoardDAO2 {
 		return result;
 	}
 
-	// 글조회
+	// 글 조회
 	public ArticleVO2 selectCommunity(Map<String, Object> selectOption) throws DataAccessException {
 		ArticleVO2 result = sqlSession.selectOne("mapper.board2.selectCommunity", selectOption);
 
@@ -146,6 +146,12 @@ public class BoardDAOImpl2 implements BoardDAO2 {
 	// 메인화면 공지사항 조회
 	public List<ArticleVO2> mainSeletNotice(Map<String, Object> selectOption) throws DataAccessException {
 		List<ArticleVO2> result = sqlSession.selectList("mapper.board2.mainSeletNotice", selectOption);
+		return result;
+	}
+	
+	// 메인화면 이벤트 조회
+	public List<ArticleVO2> mainSeletEvent(Map<String, Object> selectOption2) throws DataAccessException {
+		List<ArticleVO2> result = sqlSession.selectList("mapper.board2.mainSeletEvent", selectOption2);
 		return result;
 	}
 

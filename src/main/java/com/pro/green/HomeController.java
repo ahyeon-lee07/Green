@@ -70,13 +70,13 @@ public class HomeController {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 
 		PageMaker pageMaker = new PageMaker();
-
+		
+		// 공지사항
 		List<ArticleVO2> noticeListAll = new ArrayList<ArticleVO2>();
 		Map<String, Object> selectOption = new HashMap<String, Object>();
 
 		selectOption.put("selectOption",
 				"noticeNum AS num, id AS id,noticeTitle AS title,noticeContent AS content,noticeHits AS hits, noticeDate AS createDate");
-		int pageTotal = 0;
 
 		noticeListAll = boardService.mainSeletNotice(selectOption);
 
@@ -85,12 +85,33 @@ public class HomeController {
 		pageMaker.setTotalCount(noticeListAll.size());
 
 		List<ArticleVO2> noticeList = new ArrayList<ArticleVO2>();
-
-		// 공지사항
+		
 		for (int i = 0; i < noticeListAll.size(); i++) {
 
 			if (i < 5) {
 				noticeList.add(noticeListAll.get(i));
+			}
+		}
+		
+		// 이벤트
+		List<ArticleVO2> eventListAll = new ArrayList<ArticleVO2>();
+		Map<String, Object> selectOption2 = new HashMap<String, Object>();
+
+		selectOption2.put("selectOption2",
+				"eventNum AS num, id AS id,eventTitle AS title,eventContent AS content,eventHits AS hits, eventDate AS createDate");
+
+		eventListAll = boardService.mainSeletEvent(selectOption2);
+
+		pageMaker.setCri(cri);
+
+		pageMaker.setTotalCount(eventListAll.size());
+
+		List<ArticleVO2> eventList = new ArrayList<ArticleVO2>();
+		
+		for (int i = 0; i < eventListAll.size(); i++) {
+
+			if (i < 5) {
+				eventList.add(eventListAll.get(i));
 			}
 		}
 
@@ -117,6 +138,7 @@ public class HomeController {
 		mav.addObject("newProduct", newProduct);
 		mav.addObject("bestProduct", bestProduct);
 		mav.addObject("discountProduct", discountProduct);
+		mav.addObject("eventList", eventList);
 		mav.addObject("communityType", "notice");
 		mav.addObject("pageMaker", pageMaker);
 		mav.setViewName("main");
