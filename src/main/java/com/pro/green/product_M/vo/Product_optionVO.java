@@ -2,7 +2,7 @@ package com.pro.green.product_M.vo;
 
 public class Product_optionVO {
 	
-	private String product_optionId;
+	private String p_optionId;
 	private String productId;
 	private String option;
 	private int stock;
@@ -13,10 +13,10 @@ public class Product_optionVO {
 	}
 	
 	public String getProduct_optionId() {
-		return product_optionId;
+		return p_optionId;
 	}
-	public void setProduct_optionId(String product_optionId) {
-		this.product_optionId = product_optionId;
+	public void setProduct_optionId(String p_optionId) {
+		this.p_optionId = p_optionId;
 	}
 	public String getProductId() {
 		return productId;

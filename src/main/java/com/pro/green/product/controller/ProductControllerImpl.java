@@ -36,9 +36,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.pro.green.member.vo.MemberVO;
 import com.pro.green.product.service.MypageProductService;
 import com.pro.green.product.service.ProductService;
+import com.pro.green.product_M.vo.CartAddVO;
 import com.pro.green.product_M.vo.Criteria;
 import com.pro.green.product_M.vo.PageMaker;
 import com.pro.green.product_M.vo.ProductVO2;
+import com.pro.green.product_M.vo.Product_optionVO;
 
 @Controller("productController")
 public class ProductControllerImpl implements ProductController {
@@ -48,6 +50,8 @@ public class ProductControllerImpl implements ProductController {
 	private ProductVO2 productVO;
 	@Autowired
 	private MypageProductService mypageProductService;
+	@Autowired
+	private CartAddVO cartAddVO;
 
 	// 상품 목록
 	// 상품 목록
@@ -189,7 +193,7 @@ public class ProductControllerImpl implements ProductController {
 
 		ModelAndView mav = new ModelAndView();
 		ProductVO2 prodList = new ProductVO2();
-		
+
 		HttpSession session = request.getSession();
 		MemberVO member = (MemberVO) session.getAttribute("member");
 
@@ -252,6 +256,61 @@ public class ProductControllerImpl implements ProductController {
 		} else {
 			return mav.addObject(ProductwishList, "N");
 		}
+	}
+
+	// 장바구니조회
+	@RequestMapping(value = "/cartList.do", method = RequestMethod.GET)
+	public ModelAndView cartList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("html/text;charset=utf-8");
+		ModelAndView mav = new ModelAndView();
+
+		HttpSession session = request.getSession();
+		MemberVO user = (MemberVO) session.getAttribute("member");
+		
+		List<Map<String, Object>> cartList = new ArrayList<Map<String,Object>>();
+		
+		if(user != null) {
+			cartList = mypageProductService.cartList(user.getId());
+		}
+
+		mav.setViewName("cart");
+		return mav;
+	}
+
+	// 장바구니추가
+	@RequestMapping(value = "/prodList/prodDetail/cartAdd.do", method = RequestMethod.POST)
+	public ModelAndView cartAdd(@ModelAttribute CartAddVO product, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("html/text;charset=utf-8");
+		ModelAndView mav = new ModelAndView();
+
+		HttpSession session = request.getSession();
+		MemberVO user = (MemberVO) session.getAttribute("member");
+		Map<String, Object> option = new HashMap<String, Object>();
+
+		int result = 0;
+
+		if (user != null) {
+
+			option.put("userId", user.getId());
+			option.put("cartType", "cart");
+			option.put("productId", product.getProductId());
+
+			for (int i = 0; i < product.getOption().size(); i++) {
+				option.put("option", product.getP_optionId().get(i));
+				option.put("stock", product.getStock().get(i));
+
+				result = mypageProductService.cartAdd(option);
+			}
+
+		}
+
+		mav.setViewName("cartList");
+		return mav;
 	}
 
 }

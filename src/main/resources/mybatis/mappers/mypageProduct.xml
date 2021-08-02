@@ -17,13 +17,23 @@
 	
 	<!-- 등록==========================================================================================  -->
 	
-	<!-- 관심상품 삭제 -->
+	<!-- 관심상품 등록 -->
 	<insert id="wishAdd" parameterType="hashmap">
 		<![CDATA[
 	  INSERT INTO 
-			cart(id, productId, cartType)
+			cart(id, productId, cartType, S_option)
 		VALUES
 			(#{userId}, #{productId}, #{type});
+	   ]]>  
+	</insert>
+	
+	<!-- 카트 등록 -->
+	<insert id="cartAdd" parameterType="hashmap">
+		<![CDATA[
+	  INSERT INTO 
+			cart(id, productId, cartType, S_option, S_stock)
+		VALUES
+			(#{userId}, #{productId}, #{cartType}, #{option}, #{stock});
 	   ]]>  
 	</insert>
 	
@@ -63,11 +73,34 @@
 	   ]]>  
 	</select>
 	
+	<!-- 카드 상품 조회 -->
+	<select id="cartAddChk" parameterType="hashmap" resultType="int">
+		<![CDATA[
+	   SELECT
+			COUNT(*)
+		FROM
+			cart
+		WHERE
+			id = #{userId} AND productId = #{productId} AND S_option= #{option} AND cartType = #{cartType};
+	   ]]>  
+	</select>
+	
 	
 	<!-- /조회==========================================================================================  -->
 	
 	<!-- 수정==========================================================================================  -->
 	
+	<!-- 카드 상품 업데이트 -->
+	<update id="cartUpdate" parameterType="hashmap">
+		<![CDATA[
+	   UPDATE
+			cart
+		SET
+			S_stock = #{stock}
+		WHERE
+			id = #{userId} AND productId = #{productId} AND S_option= #{option} AND cartType = #{cartType};
+	   ]]>  
+	</update>
 	
 	<!-- /수정==========================================================================================  -->
 	

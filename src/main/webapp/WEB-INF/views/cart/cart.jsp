@@ -11,13 +11,13 @@ request.setCharacterEncoding("UTF-8");
 
 <!-- 메인 -->
 <main class="mainH">
-	<div class="container">
+	<div class="container py-1">
 		<!-- 페이지 타이틀 부분 -->
-		<div class="d-flex justify-content-between mt-5">
+        <div class="d-flex justify-content-between mt-5">
 			<div class="bd-highlight">
-				<h4>장바구니</h4>
+				<h4 class="page_title">장바구니</h4>
 			</div>
-			<div class="bd-highlight">
+			<div class="bd-highlight page_subtitle">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb p-0 bg bg-transparent">
 						<li class="breadcrumb-item"><a href="${contextPath }/main.do">홈</a></li>
@@ -29,29 +29,34 @@ request.setCharacterEncoding("UTF-8");
 
 		<div class="row" style="padding: 0 15px">
             <div class="col bg-light border rounded p-2">
-                일반 상품 (
-                <span>1</span>
-                )
+                <c:choose>
+                    <c:when test="${wishCount != '' }">
+                        일반 상품 (<span id="wishCount">${cartCount }</span>)
+                    </c:when>
+                    <c:otherwise>
+                        일반 상품 (<span id="wishCount">0</span>)
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
 
-        <table class="table table-hover m-0">
-            <thead class=" border-bottom-0">
+        <table class="table table-hover m-0 mt-2">
+			<thead class=" border-bottom border-top bg-light">
                 <tr>
-                    <th class="text-center border-bottom-0 align-middle border-top-0 px-1" style="width: 28px">
-                        <div style="height: 14px;">
-                            <input type='checkbox' name='selectall' value='selectall' onclick='selectAll(this)'/>
+                    <th class="text-center border-bottom-0 align-middle border-top-0 px-1" style="width: 40px">
+                        <div>
+                            <input type='checkbox' name='selectall' value='selectall' onclick='selectAll(this)' />
                         </div>
                     </th>
-                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 120px">이미지</th>
+                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 140px">이미지</th>
                     <th class="text-center border-bottom-0 border-top-0 px-2" style="width: auto">상품 정보</th>
                     <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 76px">판매가</th>
-                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 116px">수량</th>
+                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 80px">수량</th>
                     <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 66px">적립금</th>
                     <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 90px">배송 구분</th>
                     <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 70px">배송비</th>
                     <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 80px">합계</th>
-                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 114px">선택</th>
+                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 90px">선택</th>
                 </tr>
             </thead>
             <tbody>
@@ -63,38 +68,27 @@ request.setCharacterEncoding("UTF-8");
                     </th>
                     <td class="text-center align-middle px-2"><img src="${contextPath }/resources/img/img.webp"
                             class="img-thumbnail" alt="#"></td>
-                    <td class="align-middle pl-3">
-                        <div class="row font-weight-bold pb-1">
-                        <a href="${contextPath }/HardCaseDetail.do" style="color: black">
-                            컬러칩 케이스</a>
+                    <td class="align-middle align-middle px-2 ">
+                        <div class="font-weight-bold pb-1 bd-highlight">
+                            <a href="${contextPath }/HardCaseDetail.do" style="color: black">
+                                컬러칩 케이스</a>
                         </div>
-                        <div class="row" style="font-size: .8rem;">
+                        <div class="bd-highlight">
                             [옵션: 2. 옐로우/아이폰6(s)]
                         </div>
                     </td>
                     <td class="text-center align-middle px-1">12,000원</td>
                     <td class="text-center align-middle px-2">
-                        <div class="d-flex flex-column bd-highlight px-2">
-                            <div class="bd-highlight d-flex">
-                                <div class="flex-grow bd-highlight pr-3">
-                                <input type="number" class="form-control" id="inputnumber" step="1" value="1" min="1" max="99">
-                                </div>
-                            </div>
-                            <div class="bd-highlight mt-1"><button type="button" class="btn btn-outline-secondary btn-sm" style="font-size: .6rem">변경</button></div>
-                          </div>
+                        <input type="number" class="form-control" id="inputnumber" step="1" value="1" min="1" max="99">
                     </td>
-                    <td class="text-center align-middle px-2" style="font-size: .8rem;">150</td>
+                    <td class="text-center align-middle px-2">150</td>
                     <td class="text-center align-middle px-2">기본 배송</td>
-                    <td class="text-center align-middle px-2">2,000원</td>
+                    <td class="text-center align-middle px-2">2,500원</td>
                     <td class="text-center align-middle px-2">11,000원</td>
                     <td class="text-center align-middle px-2 d-flex flex-column">
                         <div class="bd-highlight">
                         	<a class="btn btn-sm btn-outline-success" href="${contextPath}/orderList.do"
                             style="font-size: 0.7rem; width: 100%; display: block;">주문하기</a>
-                        </div>
-                        <div class="bd-highlight my-1">
-                        	<a href="${contextPath}/wist_list.do">
-                            <button type="button" class="btn btn-outline-success btn-sm" style="font-size: 0.7rem; width: 100%; display: block;">관심상품 등록</button></a>
                         </div>
                         <div class="bd-highlight">
                         	<a href="${contextPath}/cart.do">
