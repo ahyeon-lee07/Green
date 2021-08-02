@@ -85,14 +85,14 @@ request.setCharacterEncoding("UTF-8");
                     <td class="text-center align-middle px-2">기본 배송</td>
                     <td class="text-center align-middle px-2">2,500원</td>
                     <td class="text-center align-middle px-2">11,000원</td>
-                    <td class="text-center align-middle px-2 d-flex flex-column">
-                        <div class="bd-highlight">
-                        	<a class="btn btn-sm btn-outline-success" href="${contextPath}/orderList.do"
-                            style="font-size: 0.7rem; width: 100%; display: block;">주문하기</a>
+                    <td class="text-center align-middle px-2">
+                        <div class="bd-highlight mb-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                style="font-size: 0.7rem; width: 100%; display: block;">주문하기</button>
                         </div>
                         <div class="bd-highlight">
-                        	<a href="${contextPath}/cart.do">
-                            <button type="button" class="btn btn-outline-danger btn-sm" style="font-size: 0.7rem; width: 100%; display: block;">삭제</button></a>
+                            <button type="button" class="btn btn-outline-danger btn-sm"
+                                style="font-size: 0.7rem; width: 100%; display: block;">삭제</button>
                         </div>
                     </td>
                 </tr>
