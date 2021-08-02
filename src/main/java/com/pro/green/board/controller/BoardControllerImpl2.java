@@ -354,18 +354,36 @@ public class BoardControllerImpl2 implements BoardController2 {
 
 			Map<String, Object> paramMap = new HashMap<String, Object>();
 
-			if (community.getPwYN().equals("Y")) {
-				mav.setViewName(
-						"redirect:/communityChk.do?communityNum=" + communityNum + "&communityType=" + communityType);
+			
+			
+			if(member != null) {
+				if(member.getMasterYN().equals("M") || community.getPwYN().equals("N")){
+					mav.addObject("pageTitle", "QnA");
 
-			} else {
-				mav.addObject("pageTitle", "QnA");
+					paramMap.put("qnANum", communityNum);
+					commentList = boardService.selectComment(paramMap);
 
-				paramMap.put("qnANum", communityNum);
-				commentList = boardService.selectComment(paramMap);
+					mav.setViewName("communityDerail");
+				}else if (community.getPwYN().equals("Y")) {
+					mav.setViewName(
+							"redirect:/communityChk.do?communityNum=" + communityNum + "&communityType=" + communityType);
+				}
+			}else {
+				if (community.getPwYN().equals("Y")) {
+					mav.setViewName(
+							"redirect:/communityChk.do?communityNum=" + communityNum + "&communityType=" + communityType);
 
-				mav.setViewName("communityDerail");
+				} else if(community.getPwYN().equals("N")){
+					mav.addObject("pageTitle", "QnA");
+
+					paramMap.put("qnANum", communityNum);
+					commentList = boardService.selectComment(paramMap);
+
+					mav.setViewName("communityDerail");
+				}
 			}
+			
+			
 
 		} else if (communityType.equals("notice")) {
 			mav.addObject("pageTitle", "공지사항");
