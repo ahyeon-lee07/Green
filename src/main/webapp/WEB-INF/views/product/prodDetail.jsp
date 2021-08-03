@@ -28,7 +28,7 @@ request.setCharacterEncoding("UTF-8");
 			</div>
 		</div>
 
-		<form action="">
+		<form action="" name="prodForm" method="POST">
 			<div class="row mt-2 mb-5">
 				<div class="col d-flex flex-row flex-wrap bd-highlight">
 					<div class="bd-highlight prodDetailPageOderBox mb-4 mb-md-0 pr-0 pr-md-5">
@@ -43,28 +43,32 @@ request.setCharacterEncoding("UTF-8");
 							<c:when test="${prodList.discountYN == 'Y'}">
 								<div class="bd-highlight d-flex flex-row">
 									<label for="discount" class="bd-highlight col-form-label pl-2" style="width: 140px; font-weight: normal;">할인판매가</label>
-									<input type="text" class="form-control text-danger inputReadonly font-weight-bold" id="discount" name="discount" value="" readonly>	
+									<input type="text" class="form-control text-danger inputReadonly font-weight-bold" id="discount" value="" readonly>
+									<input type="text" id="discount_V" name="discount" value="" style="display: none;">	
 								</div>
 								<div class="bd-highlight d-flex flex-row">
 									<label for="price" class="bd-highlight col-form-label pl-2" style="width: 140px; font-weight: normal;">판매가</label>
-									<input type="text" class="form-control inputReadonly text-black-50" id="price" name="price" value="" style="text-decoration: line-through;" readonly>	
+									<input type="text" class="form-control inputReadonly text-black-50" id="price" value="" style="text-decoration: line-through;" readonly>
+									<input type="text" id="price_V" name="price" value=""  style="display: none;">	
 								</div>
 							</c:when>
 							<c:otherwise>
 								<div class="bd-highlight d-flex flex-row">
 									<label for="price" class="bd-highlight col-form-label pl-2" style="width: 140px; font-weight: normal;">판매가</label>
-									<input type="text" class="form-control inputReadonly " id="price" name="price" value="" readonly>	
+									<input type="text" class="form-control inputReadonly " id="price" value="" readonly>
+									<input type="text" id="price_V" name="price" value=""  style="display: none;">	
 								</div>
 							</c:otherwise>
 						</c:choose>
 						<div class="bd-highlight d-flex flex-row">
 							<label for="shipTotal" class="bd-highlight col-form-label pl-2" style="width: 140px; font-weight: normal;">배송비</label>
-							<input type="text" class="form-control inputReadonly" id="shipTotal" name="shipTotal" value="" readonly>	
+							<input type="text" class="form-control inputReadonly" id="shipTotal" value="" readonly>
+							<input type="text" id="shipTotal_V" name="shipTotal" value="" style="display: none;">	
 						</div>
 
 						<div class="bd-highlight d-flex flex-row border-top border-bottom mt-3 mb-2 py-2">
 							<label for="shipTotal" class="bd-highlight col-form-label pl-2" style="width: 140px; font-weight: normal;">색상/기종</label>
-							<select id="p_optionList" class="form-control form-control-sm" name="optionList" style="width: 100%; height: 38px" >
+							<select id="p_optionList" class="form-control form-control-sm" style="width: 100%; height: 38px" >
 								<option value="null">=== (필수)옵션 : 색상/기종 선택 ===</option>
 								<c:forEach var="prodOption" items="${prodOption}" varStatus="index">
 									<option value="${prodOption.p_optionId}[^]${prodOption.p_option}[^]${prodOption.p_stock}" data-optionName="${prodOption.p_option}">${prodOption.p_option}</option>
@@ -95,7 +99,7 @@ request.setCharacterEncoding("UTF-8");
 						</div>
 						<div class="d-flex justify-content-end py-3">
 							<button class="btn btn-outline-secondary flex-fill bd-highlight mx-1" id="insertWish" onclick="fn_InsertWish()" style="opacity: .6; height: 46px;">관심상품</button>
-							<button class="btn btn-outline-secondary flex-fill bd-highlight mx-1" id="insertCart" onclick="fn_InsertCart()" style="opacity: .6; height: 46px;">장바구니</button>
+							<button class="btn btn-outline-secondary flex-fill bd-highlight mx-1" id="insertCart" onclick="return fn_InsertCart()" style="opacity: .6; height: 46px;">장바구니</button>
 							<button class="btn btn-success flex-fill bd-highlight mx-1" id="prodOrder" onclick="fn_ProdOrder()"style="height: 46px;">바로구매</button>
 						</div>
 						
@@ -260,28 +264,40 @@ request.setCharacterEncoding("UTF-8");
 
 <!-- 장바구니 -->
 <script type="text/javascript">
+document.addEventListener('keydown', function(event) {
+	  if (event.keyCode === 13) {
+	    event.preventDefault();
+	  };
+	}, true);
+	
+	
 	//로딩시 금액 입력
 	window.onload = function(){
 
 		var discountYN =  '${prodList.discountYN}';
 
 		if(discountYN == "Y"){
-			var discount =  ${prodList.discount};
-			var price =  ${prodList.price};
-			var discount =  discount.toLocaleString();
-			var price =  price.toLocaleString();
+			var discount_O =  ${prodList.discount};
+			var price_O =  ${prodList.price};
+			var discount =  discount_O.toLocaleString();
+			var price =  price_O.toLocaleString();
 
 			document.getElementById('discount').value = discount+" 원";
 			document.getElementById('price').value = price+" 원";
+
+			document.getElementById('discount_V').value = discount_O;
+			document.getElementById('price_V').value = price_O;
 		}else if(discountYN == "N"){
-			var price =  ${prodList.price};
-			var price =  price.toLocaleString();;
+			var price_O =  ${prodList.price};
+			var price =  price_O.toLocaleString();;
 			document.getElementById('price').value = price+" 원";
+			document.getElementById('price_V').value = price_O;
 		}
 
-		var shipTotal = 2500;
-		var shipTotal =  shipTotal.toLocaleString();
+		var shipTotal_O = 2500;
+		var shipTotal =  shipTotal_O.toLocaleString();
 		document.getElementById('shipTotal').value = shipTotal+" 원";
+		document.getElementById('shipTotal_V').value = shipTotal_O;
 
 		
 	}
@@ -323,11 +339,12 @@ request.setCharacterEncoding("UTF-8");
 			return false;
 		}else if(document.getElementById("optionId_" + optionId) == null){
 			src.innerHTML = '<td class="text-left align-middle p-2">\
-			<input type="text" class="form-control inputReadonly" id="p_option_'+ optionId +'" name="p_option[' + listCount +']" value="'+ optionName + '" readonly>\
+			<input type="text" class="form-control" name="p_optionId[' + listCount +']" value="'+ optionId + '" style="display:none;">\
+			<input type="text" class="form-control inputReadonly" id="p_option_'+ optionId +'" name="option[' + listCount +']" value="'+ optionName + '" readonly>\
 			</td>\
 			<td class="text-center align-middle p-2">\
 			<div class="bd-highlight d-flex flex-row">\
-			<input type="number" class="form-control totalCount" id="p_stock_'+optionId+'" name="p_stock['+ listCount+']" min="0" max="'+ optionCount + '" value="1">\
+			<input type="number" class="form-control totalCount" id="p_stock_'+optionId+'" name="stock[' + listCount +']" min="1" max="'+ optionCount + '" value="1">\
 			<img class="icon_wish" data-value="Y" src="${contextPath }/resources/img/x-circle-fill.svg" onclick="optionDelete(\'optionId_'+optionId+'\')" style="width: 40px; padding: 6px; opacity: .6; cursor: pointer;">\
 			</div>\
 			</td>\
@@ -337,6 +354,7 @@ request.setCharacterEncoding("UTF-8");
 			totalStock += 1;
 			totalPrice = price * totalStock;
 			var totalPriceText = totalPrice.toLocaleString();
+			document.getElementById('priceTotal').value = totalPrice;
 		}
 		
 
@@ -355,6 +373,7 @@ request.setCharacterEncoding("UTF-8");
 
 			priceChk(price);
 		});
+		
 		
 	});
 
@@ -391,9 +410,33 @@ request.setCharacterEncoding("UTF-8");
 
 		document.getElementById('inputCount').innerText = totalStock;
 		document.getElementById('inputPriceTotal').innerText = totalPriceText;
+
+		document.getElementById('priceTotal').value = totalPrice;
 	};
+
+
+	 // 장바구니
+	function fn_InsertCart() {
+		var form = document.prodForm;
+
+		if(formChk() == false){
+			return false;
+		}
+		
+		form.action = "${contextPath}/prodList/prodDetail/cartAdd.do";
+		comSubmit.submit();
+	}
 	
-	<!--
+	function formChk(){
+		var optionList = document.getElementsByClassName('optionList');
+
+		if(optionList.length <= 0){
+			alert("생상 및 기종을 선택해 주세요.")
+			return false;
+		}
+	}
+	
+	/*
 	
 	function fn_InsertWish() { // 좋아요
 			var comSubmit = new ComSubmit();
@@ -416,26 +459,26 @@ request.setCharacterEncoding("UTF-8");
 			}
 	}
 	
-	
-	function fn_InsertCart() { // 장바구니
+	// 장바구니
+	function fn_InsertCart() {
+	if(doubleSubmitCheck()) return; // 중복클릭 방지
+		var arraycode = document.getElementsByName("BASKET_GOODS_AMOUNT");
+		var len = arraycode.length;
+		if(len==0){
+			alert("상품을 추가해 주세요.");
+		} else{
+			var url = "/stu/shop/basketPopUp.do";
+			var name = "popup";
+			var option = "width=382, height=227, top=500, left=800, location=no";
 
-		if(doubleSubmitCheck()) return; // 중복클릭 방지
-			var arraycode = document.getElementsByName("BASKET_GOODS_AMOUNT");
-			var len = arraycode.length;
-			if(len==0){
-				alert("상품을 추가해 주세요.");
-			} else{
-				var url = "/stu/shop/basketPopUp.do";
-				var name = "popup";
-				var option = "width=382, height=227, top=500, left=800, location=no";
-		
-			    var comSubmit = new ComSubmit("frm");
-				comSubmit.setUrl("<c:url value='/cart.do'/>");
-				window.open(url,name,option);
-				comSubmit.submit();
-			}
+			var comSubmit = new ComSubmit("frm");
+			comSubmit.setUrl("<c:url value='/cart.do'/>");
+			window.open(url,name,option);
+			comSubmit.submit();
+		}
 	}
+
 	
-	-->
+	*/
 	
 </script>

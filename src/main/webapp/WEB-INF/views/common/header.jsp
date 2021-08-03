@@ -30,7 +30,7 @@ request.setCharacterEncoding("UTF-8");
 						</c:choose>
 
 						<li class="nav-item mr-3"><a class="nav-link text-secondary"
-							href="${contextPath }/cart.do">장바구니</a></li>
+							href="${contextPath }/cartList.do">장바구니</a></li>
 						<c:choose>
 							<c:when test="${isLogOn == true && member != null }">
 								<li class="nav-item dropdown mr-3"><a

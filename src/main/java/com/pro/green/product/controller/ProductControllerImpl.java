@@ -36,9 +36,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.pro.green.member.vo.MemberVO;
 import com.pro.green.product.service.MypageProductService;
 import com.pro.green.product.service.ProductService;
+import com.pro.green.product_M.vo.CartAddVO;
 import com.pro.green.product_M.vo.Criteria;
 import com.pro.green.product_M.vo.PageMaker;
 import com.pro.green.product_M.vo.ProductVO2;
+import com.pro.green.product_M.vo.Product_optionVO;
 
 @Controller("productController")
 public class ProductControllerImpl implements ProductController {
@@ -48,6 +50,8 @@ public class ProductControllerImpl implements ProductController {
 	private ProductVO2 productVO;
 	@Autowired
 	private MypageProductService mypageProductService;
+	@Autowired
+	private CartAddVO cartAddVO;
 
 	// 상품 목록
 	// 상품 목록
@@ -189,7 +193,7 @@ public class ProductControllerImpl implements ProductController {
 
 		ModelAndView mav = new ModelAndView();
 		ProductVO2 prodList = new ProductVO2();
-		
+
 		HttpSession session = request.getSession();
 		MemberVO member = (MemberVO) session.getAttribute("member");
 

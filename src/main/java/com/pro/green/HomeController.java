@@ -202,12 +202,6 @@ public class HomeController {
 		return "noMember";
 	}
 
-	// 장바구니
-	@RequestMapping(value = "/cart.do", method = RequestMethod.GET)
-	public String cart(Locale locale, Model model) {
-		return "cart";
-	}
-
 	// 주문서 작성
 	@RequestMapping(value = "/orderList.do", method = RequestMethod.GET)
 	public String orderList(Locale locale, Model model) {

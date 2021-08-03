@@ -18,4 +18,13 @@ public interface MypageProductDAO {
 	// 관심테이블에 등록 여부
 	public int wishYN(Map<String, Object> addOption) throws DataAccessException;
 
+	// 장바구니 등록
+	public int cartAdd(Map<String, Object> option) throws DataAccessException;
+
+	// 장바구니 리스트 조회
+	public List<Map<String, Object>> cartList(String id) throws DataAccessException;
+
+	// 장바구니 삭제
+	public int cartDelete(Map<String, Object> option) throws DataAccessException;
+
 }
