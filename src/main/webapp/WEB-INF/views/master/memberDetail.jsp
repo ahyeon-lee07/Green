@@ -40,8 +40,8 @@ request.setCharacterEncoding("UTF-8");
 								<label for="inputMasterYN" class="bd-highlight col-form-label pl-2" style="width: 140px;">회원권한</label>
 								<div class="d-flex flex-row bd-highlight pr-2">
 									<div class="custom-control custom-switch pt-2">
-										<input type="checkbox" class="custom-control-input YNChk" id="inputMasterYN" value="${memerInf.masterYN }">
-										<input id="masterYN_V" class="input_V" type="text" name="masterYN" value="${memerInf.masterYN }" style="display: none;">
+										<input type="checkbox" class="custom-control-input YNChk" id="inputMasterYN" value="${memberInf.masterYN }">
+										<input id="masterYN_V" class="input_V" type="text" name="masterYN" value="${memberInf.masterYN }" style="display: none;">
 										<label id="inputMasterYNLabel" class="custom-control-label" for="inputMasterYN" style="width: 70px;"></label>
 									</div>
 								</div>
@@ -49,7 +49,7 @@ request.setCharacterEncoding("UTF-8");
 						</div>
 					</div>
 					<c:choose>
-						<c:when test="${memerInf.pw == 'SNSJoin'}">
+						<c:when test="${memberInf.pw == 'SNSJoin'}">
 							<div class="row border-bottom py-2">
 								<div class="col p-0">
 									<div class="d-flex bd-highlight">
@@ -59,7 +59,7 @@ request.setCharacterEncoding("UTF-8");
 											<input type="text" class="form-control" id="inputId" name=""
 												value="SNS가입자" readonly> <input type="text"
 												class="form-control" id="inputId" name="id"
-												value="${memerInf.id}" style="display: none;">
+												value="${memberInf.id}" style="display: none;">
 										</div>
 										<input type="hidden" name="checked_id" value="Y">
 									</div>
@@ -103,7 +103,7 @@ request.setCharacterEncoding("UTF-8");
 											style="width: 140px;">아이디</label>
 										<div class="flex-grow bd-highlight pr-2">
 											<input type="text" class="form-control" id="inputId"
-												name="id" value="${memerInf.id}" readonly>
+												name="id" value="${memberInf.id}" readonly>
 										</div>
 										<input type="hidden" name="checked_id" value="Y">
 									</div>
@@ -146,7 +146,7 @@ request.setCharacterEncoding("UTF-8");
 									src="${contextPath }/resources/img/require.png">이름</label>
 								<div class="flex-grow bd-highlight pr-2">
 									<input type="text" class="form-control" id="inputName"
-										name="name" value="${memerInf.name}">
+										name="name" value="${memberInf.name}">
 								</div>
 							</div>
 						</div>
@@ -158,7 +158,7 @@ request.setCharacterEncoding("UTF-8");
 									style="width: 140px;">생년월일</label>
 								<div class="flex-grow bd-highlight pr-2">
 									<input type="text" class="form-control" id="inputBirth"
-										name="birth" maxlength='8' value="${memerInf.birth}" placeholder="'-' 없이 입력해주세요.">
+										name="birth" maxlength='8' value="${memberInf.birth}" placeholder="'-' 없이 입력해주세요.">
 								</div>
 							</div>
 						</div>
@@ -174,7 +174,7 @@ request.setCharacterEncoding("UTF-8");
 										<div class="d-flex flex-row bd-highlight">
 											<div class="bd-highlight">
 												<input type="text" class="form-control"
-													id="sample6_postcode" placeholder="우편번호" name="zipCode" value="${memerInf.zipCode}"
+													id="sample6_postcode" placeholder="우편번호" name="zipCode" value="${memberInf.zipCode}"
 													readonly>
 											</div>
 											<div class="bd-highlight ml-2">
@@ -189,7 +189,7 @@ request.setCharacterEncoding("UTF-8");
 										<div class="d-flex flex-row bd-highlight">
 											<div class="bd-highlight">
 												<input type="text" class="form-control" id="sample6_address"
-													placeholder="주소" style="width: 316px;" name="addr1" value="${memerInf.addr1}"
+													placeholder="주소" style="width: 316px;" name="addr1" value="${memberInf.addr1}"
 													readonly>
 											</div>
 										</div>
@@ -200,8 +200,8 @@ request.setCharacterEncoding("UTF-8");
 											<div class="d-flex flex-row">
 												<input type="text" class="form-control"
 													style="width: 316px;" id="sample6_detailAddress"
-													placeholder="상세주소" name="addr2" value="${memerInf.addr2}"> 
-													<input type="text" class="form-control" style="display: none;" id="sample6_extraAddress" placeholder="참고항목" name="addr3" value="${memerInf.addr3}" readonly>
+													placeholder="상세주소" name="addr2" value="${memberInf.addr2}"> 
+													<input type="text" class="form-control" style="display: none;" id="sample6_extraAddress" placeholder="참고항목" name="addr3" value="${memberInf.addr3}" readonly>
 											</div>
 										</div>
 									</div>
@@ -217,7 +217,7 @@ request.setCharacterEncoding("UTF-8");
 									src="${contextPath }/resources/img/require.png">휴대전화</label>
 								<div class="flex-grow bd-highlight pr-2">
 									<input type="text" class="form-control" id="inputNumber"
-										name="phone" maxlength='11' placeholder="'-' 없이 입력해주세요." value="${memerInf.phone}">
+										name="phone" maxlength='11' placeholder="'-' 없이 입력해주세요." value="${memberInf.phone}">
 								</div>
 							</div>
 						</div>
@@ -231,7 +231,7 @@ request.setCharacterEncoding("UTF-8");
 									<div class="flex-grow-1 bd-highlight pr-2">
 										<div class="d-flex flex-row">
 											<input type="text" class="form-control" id="inputEmail1"
-												style="width: 150px;" name="email1" value="${memerInf.email1}">
+												style="width: 150px;" name="email1" value="${memberInf.email1}">
 											<div class="p-2">@</div>
 											<select id="inputEmail2" class="form-control"
 												style="width: 140px;" name="email2">
@@ -265,7 +265,7 @@ request.setCharacterEncoding("UTF-8");
 							<div class="d-flex bd-highlight">
 								<label for="inputMileage" class="bd-highlight col-form-label pl-2" style="width: 140px;">마일리지</label>
 								<div class="flex-grow bd-highlight pr-2">
-									<input type="number" class="form-control" id="inputMileage" name="mileage" min="0" value="${memerInf.mileage}">
+									<input type="number" class="form-control" id="inputMileage" name="mileage" min="0" value="${memberInf.mileage}">
 								</div>
 							</div>
 						</div>
@@ -276,7 +276,7 @@ request.setCharacterEncoding("UTF-8");
 								<label for="inputOrderPriceSum" class="bd-highlight col-form-label pl-2" style="width: 140px;">누적 구매 금액</label>
 								<div class="flex-grow bd-highlight pr-2">
 									<input type="number" class="form-control" id="inputOrderPriceSum" name="orderPriceSum" min="0"
-										value='<fmt:formatNumber value="${memerInf.orderPriceSum }" pattern="#,###" />' readonly>
+										value='<fmt:formatNumber value="${memberInf.orderPriceSum }" pattern="#,###" />' readonly>
 								</div>
 							</div>
 						</div>
@@ -305,8 +305,8 @@ request.setCharacterEncoding("UTF-8");
 <script>
 //페이지가 노드 되면서 memver의 email2 주소는 입력 , 회면 로딩시 스위치 YN 체크
 window.onload = function() {
-	document.getElementById('inputEmail2').value = "${memerInf.email2}";
-	document.getElementById('inputGrade').value = "${memerInf.grade}";
+	document.getElementById('inputEmail2').value = "${memberInf.email2}";
+	document.getElementById('inputGrade').value = "${memberInf.grade}";
 
 	var YNChk = document.getElementById('inputMasterYN');
 	var input_V = document.getElementById('masterYN_V');
@@ -396,9 +396,9 @@ window.onload = function() {
 						} else {
 							if (confirm("입력한 내용을 정보를 변경하기겠습니까? ") == true) {
 								if (pwExp == '') {
-									document.getElementById('Password').value = '${memerInf.pw}';
+									document.getElementById('Password').value = '${memberInf.pw}';
 								};
-								form.action = "${contextPath }/memberList/memberEdit/Edit.do${pageMaker.makeQueryPage(bList.IDX, pageMaker.cri.page) }&productId=${memerInf.id }&options=${options }";
+								form.action = "${contextPath }/memberList/memberEdit/Edit.do${pageMaker.makeQueryPage(bList.IDX, pageMaker.cri.page) }&productId=${memberInf.id }&options=${options }";
 								form.submit();
 							} else {
 								return;

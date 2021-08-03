@@ -352,13 +352,13 @@ public class MemberControllerImpl implements MemberController {
 		// 包府磊 技记 眉农 (ModelAndView, 技记沥焊, "立加拳搁捞抚")
 		sessionChk(mav, sessinLogin, "memberDetail");
 
-		MemberVO memerInf = new MemberVO();
+		MemberVO memberInf = new MemberVO();
 
-		memerInf = memberService.memberDetail(productId);
+		memberInf = memberService.memberDetail(productId);
 
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		mav.addObject("memerInf", memerInf);
+		mav.addObject("memberInf", memberInf);
 		mav.addObject("pageMaker", pageMaker);
 
 		return mav;
