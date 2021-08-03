@@ -38,6 +38,21 @@
 	</select>
 	
 	<!-- 상품 목록 조회 -->
+
+	<select id="prodArray" resultMap="productResult" parameterType="java.util.HashMap">
+    <![CDATA[
+		select p.*, p.price as salePrice,i.* from product p
+		inner join image i on p.productId=i.productId
+		where p.p_group = #{p_group} and p.discountYN = 'N' and i.imgType = 'product_M'
+		union all
+		select p.*, p.discount as salePrice,i.* from product p
+		inner join image i on p.productId=i.productId
+		where p.p_group = #{p_group} and p.discountYN = 'Y' and i.imgType = 'product_M'
+		order by ${keyWord};
+    ]]>
+	</select>
+
+	<!-- 
  	<select id="prodArray" resultMap="productResult" parameterType="java.util.HashMap">
     <![CDATA[
 		SELECT p.*, i.* from product p 
@@ -46,7 +61,8 @@
 		ORDER BY ${keyWord};
     ]]>
 	</select>
-	
+	 -->
+	 
 	<!-- 상품 상세페이지 조회는 아래 selectProduct, selectOptionList, selectProductImg 사용-->
 
 	

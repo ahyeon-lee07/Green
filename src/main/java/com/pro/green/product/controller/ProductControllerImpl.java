@@ -147,9 +147,9 @@ public class ProductControllerImpl implements ProductController {
 		} else if (keyWord.equals("newProd")) {
 			prodArray.put("keyWord", "productDate DESC");
 		} else if (keyWord.equals("lowPrice")) {
-			prodArray.put("keyWord", "price");
+			prodArray.put("keyWord", "salePrice");
 		} else if (keyWord.equals("highPrice")) {
-			prodArray.put("keyWord", "price DESC");
+			prodArray.put("keyWord", "salePrice DESC");
 		}
 
 		List<ProductVO2> result = productService.prodArray(prodArray);
