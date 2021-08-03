@@ -54,7 +54,7 @@ request.setCharacterEncoding("UTF-8");
                     <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 66px">적립금</th>
                     <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 90px">배송구분</th>
                     <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 98px">배송비</th>
-                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 80px">합계</th>
+                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 100px">합계</th>
                     <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 90px">선택</th>
                 </tr>
             </thead>
@@ -107,7 +107,8 @@ request.setCharacterEncoding("UTF-8");
                                         <input type="text" class="discountYN" value="${product.discountYN}" style="display: none;">
 										<div class="bd-highlight text-danger font-weight-bold">
 											<fmt:formatNumber value="${product.price}" pattern="##,###" /><span>원</span>	
-                                            <input type="text" class="price" name="price" value="${product.price}" style="display: none;">	
+                                            <input type="text" class="price" name="price" value="${product.price}" style="display: none;">
+                                            <input type="text" class="discount" name="discount" value="${product.discount}" style="display: none;">
 										</div>
 									</c:otherwise>
 								</c:choose>
@@ -149,7 +150,7 @@ request.setCharacterEncoding("UTF-8");
             <div class="col bg-light border rounded p-2">
                 <div class="d-flex justify-content-between">
                     <div class="bd-highlight">[기본 배송]</div>
-                    <div class="bd-highlight">상품 구매금액(<span>12,000</span>)+배송비(<span>2,000</span>)-상품 할인금액(<span>3,000</span>)=합계:(<span>11,000</span>)원
+                    <div class="bd-highlight">상품 구매금액(<span class="totalBoxPrice"></span>)+배송비(<span class="totalBoxShip"></span>)-상품 할인금액(<span class="totalBoxDiscount"></span>)=합계:(<span class="duePayment"></span>)원
                     </div>
                 </div>
             </div>
@@ -164,17 +165,17 @@ request.setCharacterEncoding("UTF-8");
                         </div>
                         <div class="row text-center font-weight-bold p-4">
                             <div class="col">
-                                <span>12,000</span> 원
+                                <span class="totalBoxPrice"></span> 원
                             </div>
                         </div>
                     </div>
                     <div class="col-3 border border-left-0">
                         <div class="row text-center bg-light p-3 border-bottom">
-                            <div class="col">총 배송비</div>
+                            <div class="col ">총 배송비</div>
                          </div>
                          <div class="row text-center font-weight-bold p-4">
                              <div class="col">
-                                 + <span>2,000</span> 원
+                                 + <span class="totalBoxShip"></span> 원
                              </div>
                          </div>
                     </div>
@@ -184,7 +185,7 @@ request.setCharacterEncoding("UTF-8");
                          </div>
                          <div class="row text-center font-weight-bold p-4">
                              <div class="col">
-                                 - <span>3,000</span> 원
+                                 - <span class="totalBoxDiscount"></span> 원
                              </div>
                          </div>
                     </div>
@@ -194,7 +195,7 @@ request.setCharacterEncoding("UTF-8");
                          </div>
                          <div class="row text-center font-weight-bold p-4">
                              <div class="col">
-                                 = <span>11,000</span> 원
+                                 = <span class="duePayment"></span> 원
                              </div>
                          </div>
                     </div>
@@ -304,16 +305,23 @@ function checkSelectAll()  {
 
         var shipTotal_O = 2500;
         var shipTotal =  shipTotal_O.toLocaleString();
-
+        
         var shipTotalList = document.getElementsByClassName('shipTotalList');
         var shipTotal_V_List = document.getElementsByClassName('shipTotal_V_List');
+
+        var totalBoxShip = document.getElementsByClassName('totalBoxShip');
 
         for(var i=0; i<shipTotalList.length; i++){
             shipTotalList[i].value = shipTotal+"원";
             shipTotal_V_List[i].value = shipTotal;
         }
 
+        for (var i = 0; i < totalBoxShip.length; i++) {
+            totalBoxShip[i].innerText = shipTotal;
+        }
+    
         totalChk();
+        totalBoxChk();
     }
 
     //수량 클릭시 합계 변경
@@ -337,11 +345,15 @@ function checkSelectAll()  {
                 var total_V_Text = total_V.toLocaleString();
 
                 totalList[Num].innerText = total_V_Text + "원";
+                totalBoxChk();
             });
         }
+
+        
+
     }
 
-    //가격 체크
+    //가격 체크 
     function discountYNCHk(NUM){
         var discountYN = document.getElementsByClassName('discountYN')[NUM].value;
 
@@ -364,6 +376,40 @@ function checkSelectAll()  {
 		} else {
 			return;
 		}
+    };
+
+    //총 금액 세팅 
+    function totalBoxChk(){
+        var S_stockBox = document.getElementsByClassName('S_stockBox');
+        var totalBoxPrice = document.getElementsByClassName('totalBoxPrice');
+        var totalBoxDiscount = document.getElementsByClassName('totalBoxDiscount');
+        var duePayment = document.getElementsByClassName('duePayment');
+        var totalProductPrice = 0;
+        
+        var price = document.getElementsByClassName('price');
+        var totalPrice = 0;
+
+        var shipTotal_O = 2500;
+
+        for (var i = 0; i < price.length; i++) {
+            totalPrice += (S_stockBox[i].value * price[i].value);
+        }
+
+        for (var i = 0; i < S_stockBox.length; i++) {
+           totalProductPrice += (S_stockBox[i].value * discountYNCHk(i));
+        }
+
+        for (var i = 0; i < totalBoxPrice.length; i++) {
+            totalBoxPrice[i].innerText = totalProductPrice.toLocaleString();
+        }
+
+        for (var i = 0; i < totalBoxDiscount.length; i++) {
+            totalBoxDiscount[i].innerText = (totalPrice - totalProductPrice).toLocaleString();
+        }
+
+        for (var i = 0; i < duePayment.length; i++) {
+            duePayment[i].innerText = (totalProductPrice + shipTotal_O - (totalPrice - totalProductPrice)).toLocaleString();
+        }
     };
 
 </script>
