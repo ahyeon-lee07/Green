@@ -192,11 +192,11 @@ request.setCharacterEncoding("UTF-8");
 							<button type="button" class="btn btn-secondary ml-3" onclick="return commentEdit()">댓글</button>
 						</c:if>
 					</c:when>
-					<c:when test="${member.id != null}">
+					<c:when test="${member.masterYN == 'M'}">
 						<c:if test="${pageTitle == 'QnA' }">
 							<button type="button" class="btn btn-secondary ml-3" onclick="return commentEdit()">댓글</button>
 						</c:if>
-	`				</c:when>
+					</c:when>
 				</c:choose>
 			</div>
 		</div>
