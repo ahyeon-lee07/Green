@@ -179,10 +179,8 @@ request.setCharacterEncoding("UTF-8");
                          </div>
                     </div>
                     <div class="col-3 border border-left-0">
-                        <div class="row text-center bg-light p-3 border-bottom" style="height: 57px;">
-                            <div class="col">총 할인금액
-                                <button type="button" class="btn btn-outline-secondary btn-sm ml-1">내역 보기</button>
-                            </div>
+                        <div class="row text-center bg-light p-3 border-bottom">
+                            <div class="col">총 할인금액</div>
                          </div>
                          <div class="row text-center font-weight-bold p-4">
                              <div class="col">
@@ -363,26 +361,6 @@ function checkSelectAll()  {
             var optionId = event.target.parentNode.parentNode.parentNode.id;
 
             document.location.href = "${contextPath}/cartList/cartDelete.do?optionId="+optionId;
-            /*
-            $.ajax({
-                type : "POST",
-                async : true,
-                url : "${contextPath}/cartList/cartDelete.do",
-                dataType : "text",
-                data : {
-                    optionId : optionId
-                },
-                success : function(commentList) {
-
-                },
-                error : function(data, textStatus) {
-
-                },
-                complete : function(data, textStatus) {
-
-                }
-            });
-            */
 		} else {
 			return;
 		}
