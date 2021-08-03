@@ -24,5 +24,8 @@ public interface MypageProductService {
 	//장바구니 리스트 조회
 	public List<Map<String, Object>> cartList(String id) throws DataAccessException;
 
+	//장바구니 삭제
+	public int cartDelete(Map<String, Object> option) throws DataAccessException;
+
 
 }

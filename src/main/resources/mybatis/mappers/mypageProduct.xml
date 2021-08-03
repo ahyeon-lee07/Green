@@ -123,7 +123,7 @@
 	</select>
 	
 	<!-- 상품 조회 -->
-	<select id="selectProduct" resultType="productVO" parameterType="String">
+	<select id="selectProduct" resultType="hashmap" parameterType="String">
     <![CDATA[
 		SELECT 
 			A.*,
@@ -166,7 +166,15 @@
 			id = #{userId} AND cartType = #{type} AND productId = #{productId};
 	   ]]>  
 	</delete>
-	
+			
+	<!-- 카트상품 삭제 -->
+	<delete id="cartDelete" parameterType="hashmap">
+		<![CDATA[
+	  DELETE FROM cart
+		WHERE
+			S_option = #{optionId} AND id = #{userId } AND cartType = #{cartType};
+	   ]]>  
+	</delete>
 	
 	<!-- /삭제==========================================================================================  -->
 

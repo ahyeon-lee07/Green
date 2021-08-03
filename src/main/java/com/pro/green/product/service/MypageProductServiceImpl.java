@@ -45,4 +45,9 @@ public class MypageProductServiceImpl implements MypageProductService {
 	public List<Map<String, Object>> cartList(String id) throws DataAccessException {
 		return mypageProductDAO.cartList(id);
 	}
+
+	// 장바구니 삭제
+	public int cartDelete(Map<String, Object> option) throws DataAccessException {
+		return mypageProductDAO.cartDelete(option);
+	}
 }
