@@ -26,7 +26,7 @@ public class ProductVO2 {
 	private int p_stock;
 
 	// 이미지 관려
-	private String ImageId;
+	private String imgId;
 	private String imgType;
 	private String imgURL;
 	
@@ -161,11 +161,11 @@ public class ProductVO2 {
 	}
 
 	public String getImageId() {
-		return ImageId;
+		return imgId;
 	}
 
-	public void setImageId(String imageId) {
-		ImageId = imageId;
+	public void setImageId(String imgId) {
+		imgId = imgId;
 	}
 
 	public String getImgType() {

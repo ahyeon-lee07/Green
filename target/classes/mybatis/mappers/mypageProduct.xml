@@ -12,6 +12,27 @@
 		<result property="S_stock" column="S_stock" />
 		<result property="cartType" column="cartType" />
 	</resultMap>
+	
+	<resultMap id="productResult" type="productVO">
+		<result property="productId" column="productId" />
+		<result property="p_group" column="p_group" />
+		<result property="productName" column="productName" />
+		<result property="price" column="price" />
+		<result property="discount" column="discount" />
+		<result property="productMileage" column="productMileage" />
+		<result property="salesSum" column="salesSum" />
+		<result property="discountYN" column="discountYN" />
+		<result property="productDate" column="productDate" />
+		<result property="showYN" column="showYN" />
+
+		<result property="product_optionId" column="product_optionId" />
+		<result property="option" column="option" />
+		<result property="stock" column="stock" />
+
+		<result property="ImageId" column="ImageId" />
+		<result property="imgType" column="imgType" />
+		<result property="imgURL" column="imgURL" />
+	</resultMap>
 
 	
 	
@@ -21,7 +42,7 @@
 	<insert id="wishAdd" parameterType="hashmap">
 		<![CDATA[
 	  INSERT INTO 
-			cart(id, productId, cartType, S_option)
+			cart(id, productId, cartType)
 		VALUES
 			(#{userId}, #{productId}, #{type});
 	   ]]>  
@@ -85,16 +106,35 @@
 	   ]]>  
 	</select>
 	
-	<!-- 관심상품 조회 -->
+	<!-- 카트 상품 조회 -->
 	<select id="cartList" parameterType="String" resultType="hashmap">
 		<![CDATA[
 	   SELECT 
-			* 
+			A.*,
+		    B.p_option,
+		    B.p_stock
 		FROM 
-			green.cart
+			cart AS A
+		LEFT JOIN
+			product_option AS B ON A.S_option = B.p_optionId
 		WHERE
-			id = #{id};
+			id = #{id} AND cartType = 'cart';
 	   ]]>  
+	</select>
+	
+	<!-- 상품 조회 -->
+	<select id="selectProduct" resultType="productVO" parameterType="String">
+    <![CDATA[
+		SELECT 
+			A.*,
+		    B.*
+		FROM 
+			product AS A
+		LEFT JOIN
+			image AS B ON A.productId = B.productId
+		WHERE
+			A.productId = #{productId} AND B.imgType = 'product_M';
+    ]]>
 	</select>
 	
 	

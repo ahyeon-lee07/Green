@@ -30,15 +30,17 @@ request.setCharacterEncoding("UTF-8");
 		<div class="row" style="padding: 0 15px">
             <div class="col bg-light border rounded p-2">
                 <c:choose>
-                    <c:when test="${wishCount != '' }">
-                        일반 상품 (<span id="wishCount">${cartCount }</span>)
+                    <c:when test="${cartCount != '' }">
+                        일반 상품 (<span id="cartCount">${cartCount }</span>)
                     </c:when>
                     <c:otherwise>
-                        일반 상품 (<span id="wishCount">0</span>)
+                        일반 상품 (<span id="cartCount">0</span>)
                     </c:otherwise>
                 </c:choose>
             </div>
         </div>
+
+        <div>${cartList}</div>
 
         <table class="table table-hover m-0 mt-2">
 			<thead class=" border-bottom border-top bg-light">
@@ -60,6 +62,18 @@ request.setCharacterEncoding("UTF-8");
                 </tr>
             </thead>
             <tbody>
+            	<c:forEach items="${cartList}" var="cartList">
+            		<tr id="${cartList.S_option }">
+            			<th class="text-center align-middle align-middle px-1">
+	                        <div style="height: 14px;">
+	                            <input type='checkbox' name='Choice' value='Choice1' onclick='checkSelectAll()'/>
+	                        </div>
+                    	</th>
+                    	<td class="text-center align-middle px-2">
+                    		<img src="${contextPath }/resources/img/img.webp"  class="img-thumbnail" alt="#">
+                    	</td>
+            		</tr>
+            	</c:forEach>
                 <tr class="">
                     <th class="text-center align-middle align-middle px-1">
                         <div style="height: 14px;">
@@ -96,6 +110,7 @@ request.setCharacterEncoding("UTF-8");
                         </div>
                     </td>
                 </tr>
+                
             </tbody>
         </table>
 

@@ -275,6 +275,8 @@ public class ProductControllerImpl implements ProductController {
 			cartList = mypageProductService.cartList(user.getId());
 		}
 
+		mav.addObject("cartList", cartList);
+		mav.addObject("cartCount", cartList.size());
 		mav.setViewName("cart");
 		return mav;
 	}
@@ -293,7 +295,7 @@ public class ProductControllerImpl implements ProductController {
 		Map<String, Object> option = new HashMap<String, Object>();
 
 		int result = 0;
-
+ 
 		if (user != null) {
 
 			option.put("userId", user.getId());
