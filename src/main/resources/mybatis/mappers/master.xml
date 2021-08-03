@@ -9,8 +9,8 @@
 		<result property="couponName" column="couponName" />
 		<result property="couponContent" column="couponContent" />
 		<result property="couponPay" column="couponPay" />
-		<result property="couponPeroid_start" column="couponPeroid_start" />
-		<result property="couponPeroid_end" column="couponPeroid_end" />
+		<result property="couponPeriod_start" column="couponPeriod_start" />
+		<result property="couponPeriod_end" column="couponPeriod_end" />
 		<result property="useYN" column="useYN" />
 		<result property="discountType" column="discountType" />
 		<result property="couponDate" column="couponDate" />
@@ -23,7 +23,7 @@
 	<!-- 쿠폰등록 (쿠폰명, 쿠폰혜택, 할인타입, 할인가, 할인시작일, 하일종료일, 사용여부) -->
 	<insert id="couponAdd" parameterType="couponVO">
 		<![CDATA[
-		 CALL couponAdd_PRO(#{couponName}, #{couponContent}, #{discountType}, #{couponPay}, #{couponPeroid_start}, #{couponPeroid_end}, #{useYN});
+		 CALL couponAdd_PRO(#{couponName}, #{couponContent}, #{discountType}, #{couponPay}, #{couponPeriod_start}, #{couponPeriod_end}, #{useYN});
 		]]>
 	</insert>
 	
@@ -133,8 +133,8 @@
 		    couponContent = #{couponContent}, 
 		    discountType = #{discountType}, 
 		    couponPay = #{couponPay}, 
-		    couponPeroid_start = #{couponPeroid_start}, 
-		    couponPeroid_end = #{couponPeroid_end},  
+		    couponPeriod_start = #{couponPeriod_start}, 
+		    couponPeriod_end = #{couponPeriod_end},  
 		    useYN = #{useYN}
 		WHERE
 			couponId = #{couponId}

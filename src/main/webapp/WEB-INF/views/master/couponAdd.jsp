@@ -53,11 +53,11 @@ request.setCharacterEncoding("UTF-8");
 							<div class="d-flex bd-highlight">
 								<label for="inputMasterYN" class="bd-highlight col-form-label pl-2" style="width: 140px;">쿠폰 사용기간</label>
 								<div class="d-flex flex-row bd-highlight pr-2">
-									<input id="couponPeroid_start" class="mr-2 form-control" type='date' value='' style="width: 170px;"/>
-									<input id="couponPeroid_start_V" type='text' name='couponPeroid_start' value='0000-00-00' style="display:none"/>
+									<input id="couponPeriod_start" class="mr-2 form-control" type='date' value='' style="width: 170px;"/>
+									<input id="couponPeriod_start_V" type='text' name='couponPeriod_start' value='0000-00-00' style="display:none"/>
 									 ~
-									<input id="couponPeroid_end" class="ml-2 form-control"  type='date' value='' style="width: 170px;"/>
-									<input id="couponPeroid_end_V" type='text' name='couponPeroid_end' value='0000-00-00' style="display:none"/>
+									<input id="couponPeriod_end" class="ml-2 form-control"  type='date' value='' style="width: 170px;"/>
+									<input id="couponPeriod_end_V" type='text' name='couponPeriod_end' value='0000-00-00' style="display:none"/>
 									<button id="" type="button" class="btn btn-outline-primary ml-2" onclick="btn_resset()" style="width: 80px;">초기화</button>
 								</div>
 							</div>
@@ -169,15 +169,15 @@ request.setCharacterEncoding("UTF-8");
 			}
 		});
 	}
-	inputValueChk('couponPeroid_start');
-	inputValueChk('couponPeroid_end');
+	inputValueChk('couponPeriod_start');
+	inputValueChk('couponPeriod_end');
 
 	//날짜 입력값 비우기
 	function btn_resset(){
-		document.getElementById('couponPeroid_start').value = '';
-		document.getElementById('couponPeroid_start_V').value = '0000-00-00';
-		document.getElementById('couponPeroid_end').value = '';
-		document.getElementById('couponPeroid_end_V').value = '0000-00-00';
+		document.getElementById('couponPeriod_start').value = '';
+		document.getElementById('couponPeriod_start_V').value = '0000-00-00';
+		document.getElementById('couponPeriod_end').value = '';
+		document.getElementById('couponPeriod_end_V').value = '0000-00-00';
 	}
 
 	//쿠폰 유효성검사
@@ -186,10 +186,10 @@ request.setCharacterEncoding("UTF-8");
 		var Type = inputState.value;
 		form.action = "${contextPath }/couponList/couponAdd.do";
 
-		var couponPeroidStart = document.getElementById('couponPeroid_start');
-		var couponPeroidEnd = document.getElementById('couponPeroid_end');
+		var couponPeriodStart = document.getElementById('couponPeriod_start');
+		var couponPeriodEnd = document.getElementById('couponPeriod_end');
 
-		if(couponPeroidStart.value == "" && couponPeroidEnd.value == "" || couponPeroidStart.value != "" && couponPeroidEnd.value != ""){
+		if(couponPeriodStart.value == "" && couponPeriodEnd.value == "" || couponPeriodStart.value != "" && couponPeriodEnd.value != ""){
 			
 			if(form.couponName.value == ""){
 				alert("쿠폰명을 입력해 주세요.");

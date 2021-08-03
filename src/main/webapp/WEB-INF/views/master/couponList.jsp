@@ -92,9 +92,9 @@ request.setCharacterEncoding("UTF-8");
 							</c:when>
 						</c:choose>
 						<c:choose>
-							<c:when test="${list.couponPeroid_start != NULL }">
+							<c:when test="${list.couponPeriod_start != NULL }">
 								<td class="text-center align-middle align-middle px-1" style="font-size: .8rem;">
-									${list.couponPeroid_start } ~ ${list.couponPeroid_end }
+									${list.couponPeriod_start } ~ ${list.couponPeriod_end }
 								</td>
 							</c:when>
 							<c:otherwise>

@@ -11,8 +11,8 @@ public class CouponVO {
 	private String couponName;
 	private String couponContent;
 	private Integer couponPay;
-	private String couponPeroid_start;
-	private String couponPeroid_end;
+	private String couponPeriod_start;
+	private String couponPeriod_end;
 	private Date couponDate;
 	private String discountType;
 	private String useYN;
@@ -59,17 +59,17 @@ public class CouponVO {
 	public void setCouponPay(Integer couponPay) {
 		this.couponPay = couponPay;
 	}
-	public String getCouponPeroid_start() {
-		return couponPeroid_start;
+	public String getCouponPeriod_start() {
+		return couponPeriod_start;
 	}
-	public void setCouponPeroid_start(String couponPeroid_start) {
-		this.couponPeroid_start = couponPeroid_start;
+	public void setCouponPeriod_start(String couponPeriod_start) {
+		this.couponPeriod_start = couponPeriod_start;
 	}
-	public String getCouponPeroid_end() {
-		return couponPeroid_end;
+	public String getCouponPeriod_end() {
+		return couponPeriod_end;
 	}
-	public void setCouponPeroid_end(String couponPeroid_end) {
-		this.couponPeroid_end = couponPeroid_end;
+	public void setCouponPeriod_end(String couponPeriod_end) {
+		this.couponPeriod_end = couponPeriod_end;
 	}
 	
 }
