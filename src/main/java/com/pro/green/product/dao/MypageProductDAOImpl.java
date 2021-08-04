@@ -73,6 +73,14 @@ public class MypageProductDAOImpl implements MypageProductDAO {
 		return result;
 	}
 
+	// 비회원 장바구니 조회
+	public Map<String, Object> nonmemberCartList(String productId) throws DataAccessException {
+		
+		Map<String, Object> result = sqlSession.selectMap("mapper.mypageProduct.selectProduct", productId);
+		
+		return result;
+	}
+
 	// 장바구니 삭제
 	public int cartDelete(Map<String, Object> option) throws DataAccessException {
 		int result = sqlSession.delete("mapper.mypageProduct.cartDelete", option);

@@ -163,19 +163,60 @@ public class MypageProductControllerImpl implements MypageProductController {
 		MemberVO user = (MemberVO) session.getAttribute("member");
 
 		List<Map<String, Object>> cartList = new ArrayList<Map<String, Object>>();
-
-		if (user != null) {
-			cartList = mypageProductService.cartList(user.getId());
-		}
+		
+		List<CartAddVO> nonmemberCart = (List<CartAddVO>) session.getAttribute("nonmemberCart");
+		
+		Map<String, Object> cart = new HashMap<String, Object>();
+		Map<String, Object> cart1 = new HashMap<String, Object>();
 
 		pageMaker.setCri(cri);
+		
+		if (user != null) {
+			
+			cartList = mypageProductService.cartList(user.getId());
+			
+			pageMaker.setTotalCount(cartList.size());
+			
+			mav.addObject("cartCount", cartList.size());
+			
+		}else if (user == null && nonmemberCart != null){
+			
+			int nonmemberCartSize = 0;
+			
+			for(int i=0; i<nonmemberCart.size(); i++) {
+				for(int y=0; y<nonmemberCart.get(i).getP_optionId().size(); y++) {
+					
+					String productId = nonmemberCart.get(i).getProductId();
+					
+					cart1 = mypageProductService.nonmemberCartList(productId);
+					cart.put("productId", nonmemberCart.get(i).getProductId());
+					cart.put("S_option", nonmemberCart.get(i).getP_optionId().get(y));
+					cart.put("S_stock", nonmemberCart.get(i).getStock().get(y));
+					cart.put("p_option", nonmemberCart.get(i).getOption().get(y));
+					cart.put("product", mypageProductService.nonmemberCartList(productId));
+					cartList.add(cart);
+					//cartList.get(i).put("product",mypageProductService.nonmemberCartList(productId));
 
-		pageMaker.setTotalCount(cartList.size());
+					//cartList.get(i).put("product", cart);
+					
+					//cartList.get(i).put("productId", nonmemberCart.get(i).getProductId());
+					//cartList.get(i).put("S_option", nonmemberCart.get(i).getP_optionId().get(y));
+					//cartList.get(i).put("S_stock", nonmemberCart.get(i).getStock().get(y));
+					//cartList.get(i).put("p_option", nonmemberCart.get(i).getOption().get(y));
+	
+					
+					nonmemberCartSize += 1;
+				}
+			}
+			pageMaker.setTotalCount(nonmemberCartSize);
+			mav.addObject("cartCount", nonmemberCartSize);
+		}
 
-		mav.addObject("cartList", cartList);
-		mav.addObject("cartCount", cartList.size());
+		
+
+
 		mav.setViewName("cart");
-
+		mav.addObject("cartList", cartList);
 		mav.addObject("pageMaker", pageMaker);
 		return mav;
 	}
@@ -193,6 +234,10 @@ public class MypageProductControllerImpl implements MypageProductController {
 		MemberVO user = (MemberVO) session.getAttribute("member");
 		Map<String, Object> option = new HashMap<String, Object>();
 
+		List<CartAddVO> nonmemberCartList = new ArrayList<CartAddVO>();
+
+		List<CartAddVO> nonmemberCart = (List<CartAddVO>) session.getAttribute("nonmemberCart");
+
 		int result = 0;
 
 		if (user != null) {
@@ -208,6 +253,43 @@ public class MypageProductControllerImpl implements MypageProductController {
 				result = mypageProductService.cartAdd(option);
 			}
 
+		} else if (user == null) {
+
+			if (nonmemberCart == null) {
+				session.setAttribute("nonmemberCart", nonmemberCartList);
+				nonmemberCartList.add(product);
+			} else {
+
+				for (int i = 0; i < nonmemberCart.size(); i++) {
+
+					if (nonmemberCart.get(i).getProductId().equals(product.getProductId())) {
+
+						for (int y = 0; y < nonmemberCart.get(i).getP_optionId().size(); y++) {
+
+							String cartOptionId = nonmemberCart.get(i).getP_optionId().get(y);
+
+							for (int k = 0; k < product.getP_optionId().size(); k++) {
+
+								String optionId = (String) product.getP_optionId().get(k);
+
+								if (cartOptionId.equals(optionId)) {
+									nonmemberCart.get(i).getStock().set(y, product.getStock().get(k));
+
+								} else {
+									nonmemberCart.get(i).setOption(product.getOption());
+									nonmemberCart.get(i).setP_optionId(product.getP_optionId());
+									nonmemberCart.get(i).setStock(product.getStock());
+								}
+							}
+						}
+
+					} else {
+						nonmemberCart.add(product);
+					}
+
+				}
+
+			}
 		}
 
 		mav.setViewName("redirect:/cartList.do");
@@ -244,8 +326,8 @@ public class MypageProductControllerImpl implements MypageProductController {
 	// 장바구니 수량 변경
 	@RequestMapping(value = "/cartList/stockChange.do", method = RequestMethod.POST)
 	public ResponseEntity stockChange(@RequestParam(value = "optionId") String optionId,
-									@RequestParam(value = "stockCount") String stockCount, 
-									HttpServletRequest request, HttpServletResponse response) throws Exception {
+			@RequestParam(value = "stockCount") String stockCount, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 
 		ResponseEntity resEntity = null;
 
@@ -253,12 +335,12 @@ public class MypageProductControllerImpl implements MypageProductController {
 		MemberVO user = (MemberVO) session.getAttribute("member");
 
 		int result = 0;
-		
+
 		Map<String, Object> option = new HashMap<String, Object>();
 		option.put("userId", user.getId());
 		option.put("stock", stockCount);
 		option.put("optionId", optionId);
-		
+
 		result = mypageProductService.stockChange(option);
 
 		resEntity = new ResponseEntity(result, HttpStatus.OK);

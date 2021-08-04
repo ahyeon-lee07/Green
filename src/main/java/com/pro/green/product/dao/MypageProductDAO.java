@@ -30,4 +30,7 @@ public interface MypageProductDAO {
 	// 장바구니 수량 변경
 	public int stockChange(Map<String, Object> option) throws DataAccessException;
 
+	//비회원 장바구니 조회
+	public Map<String, Object> nonmemberCartList(String productId) throws DataAccessException;
+
 }

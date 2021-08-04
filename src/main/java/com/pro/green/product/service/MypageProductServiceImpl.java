@@ -55,4 +55,9 @@ public class MypageProductServiceImpl implements MypageProductService {
 	public int stockChange(Map<String, Object> option) throws DataAccessException {
 		return mypageProductDAO.stockChange(option);
 	}
+
+	// 비회원 장바구니 조회
+	public Map<String, Object> nonmemberCartList(String productId) throws DataAccessException {
+		return mypageProductDAO.nonmemberCartList(productId);
+	}
 }

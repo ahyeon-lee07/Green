@@ -135,7 +135,7 @@ request.setCharacterEncoding("UTF-8");
 		                                style="font-size: 0.7rem; width: 100%;">주문하기</button>
 		                        </div>
 		                        <div class="bd-highlight">
-		                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="return cartDelete()"
+		                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="return cartDelete('${cartList.S_option }')"
 		                                style="font-size: 0.7rem; width: 100%;">삭제</button>
 		                        </div>
                     		</td>
@@ -372,9 +372,9 @@ function checkSelectAll()  {
 
 
     //장바구니리스트 삭제
-    function cartDelete(){
+    function cartDelete(optionId){
         if (confirm("해당 상품을 장바구니에서 삭제 하시겠습니까?") == true) {
-            var optionId = event.target.parentNode.parentNode.parentNode.id;
+            var optionId = optionId;
 
             document.location.href = "${contextPath}/cartList/cartDelete.do?optionId="+optionId;
 		} else {
