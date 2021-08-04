@@ -57,7 +57,7 @@ public class MypageProductServiceImpl implements MypageProductService {
 	}
 
 	// 비회원 장바구니 조회
-	public Map<String, Object> nonmemberCartList(String productId) throws DataAccessException {
+	public List<Map<String, Object>> nonmemberCartList(String productId) throws DataAccessException {
 		return mypageProductDAO.nonmemberCartList(productId);
 	}
 }

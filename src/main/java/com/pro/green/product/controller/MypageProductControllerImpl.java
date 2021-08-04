@@ -163,57 +163,42 @@ public class MypageProductControllerImpl implements MypageProductController {
 		MemberVO user = (MemberVO) session.getAttribute("member");
 
 		List<Map<String, Object>> cartList = new ArrayList<Map<String, Object>>();
-		
+
 		List<CartAddVO> nonmemberCart = (List<CartAddVO>) session.getAttribute("nonmemberCart");
-		
-		Map<String, Object> cart = new HashMap<String, Object>();
-		Map<String, Object> cart1 = new HashMap<String, Object>();
 
 		pageMaker.setCri(cri);
-		
+
 		if (user != null) {
-			
+
 			cartList = mypageProductService.cartList(user.getId());
-			
+
 			pageMaker.setTotalCount(cartList.size());
-			
+
 			mav.addObject("cartCount", cartList.size());
-			
-		}else if (user == null && nonmemberCart != null){
-			
+
+		} else if (user == null && nonmemberCart != null) {
+
 			int nonmemberCartSize = 0;
-			
-			for(int i=0; i<nonmemberCart.size(); i++) {
-				for(int y=0; y<nonmemberCart.get(i).getP_optionId().size(); y++) {
-					
+
+			for (int i = 0; i < nonmemberCart.size(); i++) {
+				for (int y = 0; y < nonmemberCart.get(i).getP_optionId().size(); y++) {
+					Map<String, Object> cart = new HashMap<String, Object>();
+
 					String productId = nonmemberCart.get(i).getProductId();
-					
-					cart1 = mypageProductService.nonmemberCartList(productId);
+
 					cart.put("productId", nonmemberCart.get(i).getProductId());
 					cart.put("S_option", nonmemberCart.get(i).getP_optionId().get(y));
 					cart.put("S_stock", nonmemberCart.get(i).getStock().get(y));
 					cart.put("p_option", nonmemberCart.get(i).getOption().get(y));
 					cart.put("product", mypageProductService.nonmemberCartList(productId));
-					cartList.add(cart);
-					//cartList.get(i).put("product",mypageProductService.nonmemberCartList(productId));
+					cartList.add(y, cart);
 
-					//cartList.get(i).put("product", cart);
-					
-					//cartList.get(i).put("productId", nonmemberCart.get(i).getProductId());
-					//cartList.get(i).put("S_option", nonmemberCart.get(i).getP_optionId().get(y));
-					//cartList.get(i).put("S_stock", nonmemberCart.get(i).getStock().get(y));
-					//cartList.get(i).put("p_option", nonmemberCart.get(i).getOption().get(y));
-	
-					
 					nonmemberCartSize += 1;
 				}
 			}
 			pageMaker.setTotalCount(nonmemberCartSize);
 			mav.addObject("cartCount", nonmemberCartSize);
 		}
-
-		
-
 
 		mav.setViewName("cart");
 		mav.addObject("cartList", cartList);
@@ -260,34 +245,95 @@ public class MypageProductControllerImpl implements MypageProductController {
 				nonmemberCartList.add(product);
 			} else {
 
+				for(int i=0; i<product.getP_optionId().size(); i++) {
+					
+					String optionId = (String) product.getP_optionId().get(i);
+					
+					for (int y = 0; y < nonmemberCart.size(); y++) {
+						
+						if (product.getProductId().equals(nonmemberCart.get(i).getProductId())) {
+							
+						}
+					}
+				}
+				
+				/*
+				// nonmemberCart 가 있으면
 				for (int i = 0; i < nonmemberCart.size(); i++) {
-
+					// nonmemberCart 안에 상품아이디와 새로 등록한 product 상품아이디가 같다면
 					if (nonmemberCart.get(i).getProductId().equals(product.getProductId())) {
-
-						for (int y = 0; y < nonmemberCart.get(i).getP_optionId().size(); y++) {
-
-							String cartOptionId = nonmemberCart.get(i).getP_optionId().get(y);
-
-							for (int k = 0; k < product.getP_optionId().size(); k++) {
-
-								String optionId = (String) product.getP_optionId().get(k);
-
+						// product의 옵션 아이디 만틈 반복
+						for (int k = 0; k < product.getP_optionId().size(); k++) {
+							// product 옵션 아이디의 k번째 아이디를 optionId로 저장
+							String optionId = (String) product.getP_optionId().get(k);
+							
+							System.out.println(optionId);
+							System.out.println(product.getP_optionId().size());
+							// nonmemberCart 안 옵션 아이디 만큼 반복한다.
+							for (int y = 0; y < nonmemberCart.get(i).getP_optionId().size(); y++) {
+								// nonmemberCart i번째 옵션아이디 y번째 옵션 아이디를 cartOptionId 저장
+								String cartOptionId = nonmemberCart.get(i).getP_optionId().get(y);
+								System.out.println(nonmemberCart.get(i).getP_optionId().size());
+								System.out.println(cartOptionId);
 								if (cartOptionId.equals(optionId)) {
 									nonmemberCart.get(i).getStock().set(y, product.getStock().get(k));
-
-								} else {
+								}else if (product.getP_optionId().size() > nonmemberCart.get(i).getP_optionId().size()) {
 									nonmemberCart.get(i).setOption(product.getOption());
 									nonmemberCart.get(i).setP_optionId(product.getP_optionId());
 									nonmemberCart.get(i).setStock(product.getStock());
 								}
 							}
 						}
-
 					} else {
 						nonmemberCart.add(product);
 					}
-
 				}
+
+				
+				 * //nonmemberCart 안 옵션 아이디 만큼 반복한다. for (int y = 0; y <
+				 * nonmemberCart.get(i).getP_optionId().size(); y++) {
+				 * 
+				 * //nonmemberCart i번째 옵션아이디 y번째 옵션 아이디를 cartOptionId 저장 String cartOptionId =
+				 * nonmemberCart.get(i).getP_optionId().get(y);
+				 * 
+				 * //product의 옵션 아이디 만틈 반복 for (int k = 0; k < product.getP_optionId().size();
+				 * k++) {
+				 * 
+				 * //product 옵션 아이디의 k번째 아이디를 optionId로 저장 String optionId = (String)
+				 * product.getP_optionId().get(k);
+				 * 
+				 * if (cartOptionId.equals(optionId)) { nonmemberCart.get(i).getStock().set(y,
+				 * product.getStock().get(k));
+				 * 
+				 * } else if(optionId != null) {
+				 * nonmemberCart.get(i).setOption(product.getOption());
+				 * nonmemberCart.get(i).setP_optionId(product.getP_optionId());
+				 * nonmemberCart.get(i).setStock(product.getStock()); } } }
+				 * 
+				 * 
+				 * for (int i = 0; i < nonmemberCart.size(); i++) {
+				 * 
+				 * if (nonmemberCart.get(i).getProductId().equals(product.getProductId())) {
+				 * 
+				 * for (int y = 0; y < nonmemberCart.get(i).getP_optionId().size(); y++) {
+				 * 
+				 * String cartOptionId = nonmemberCart.get(i).getP_optionId().get(y);
+				 * 
+				 * for (int k = 0; k < product.getP_optionId().size(); k++) {
+				 * 
+				 * String optionId = (String) product.getP_optionId().get(k);
+				 * 
+				 * if (cartOptionId.equals(optionId)) { nonmemberCart.get(i).getStock().set(y,
+				 * product.getStock().get(k));
+				 * 
+				 * } else { nonmemberCart.get(i).setOption(product.getOption());
+				 * nonmemberCart.get(i).setP_optionId(product.getP_optionId());
+				 * nonmemberCart.get(i).setStock(product.getStock()); } } }
+				 * 
+				 * } else { nonmemberCart.add(product); }
+				 * 
+				 * }
+				 */
 
 			}
 		}
