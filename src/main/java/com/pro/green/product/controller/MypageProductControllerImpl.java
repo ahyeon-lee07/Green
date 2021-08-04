@@ -228,18 +228,41 @@ public class MypageProductControllerImpl implements MypageProductController {
 		Map<String, Object> option = new HashMap<String, Object>();
 
 		int result = 0;
-		
+
 		if (user != null) {
 			option.put("userId", user.getId());
 			option.put("cartType", "cart");
 			option.put("optionId", optionId);
-			
+
 			result = mypageProductService.cartDelete(option);
 		}
 
-
 		mav.setViewName("redirect:/cartList.do");
 		return mav;
+	}
+
+	// 장바구니 수량 변경
+	@RequestMapping(value = "/cartList/stockChange.do", method = RequestMethod.POST)
+	public ResponseEntity stockChange(@RequestParam(value = "optionId") String optionId,
+									@RequestParam(value = "stockCount") String stockCount, 
+									HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		ResponseEntity resEntity = null;
+
+		HttpSession session = request.getSession();
+		MemberVO user = (MemberVO) session.getAttribute("member");
+
+		int result = 0;
+		
+		Map<String, Object> option = new HashMap<String, Object>();
+		option.put("userId", user.getId());
+		option.put("stock", stockCount);
+		option.put("optionId", optionId);
+		
+		result = mypageProductService.stockChange(option);
+
+		resEntity = new ResponseEntity(result, HttpStatus.OK);
+		return resEntity;
 	}
 
 }

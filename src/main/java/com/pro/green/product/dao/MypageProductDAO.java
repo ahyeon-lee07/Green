@@ -27,4 +27,7 @@ public interface MypageProductDAO {
 	// 장바구니 삭제
 	public int cartDelete(Map<String, Object> option) throws DataAccessException;
 
+	// 장바구니 수량 변경
+	public int stockChange(Map<String, Object> option) throws DataAccessException;
+
 }

@@ -205,16 +205,19 @@ request.setCharacterEncoding("UTF-8");
 
         <div class="row">
             <div class="col">
-                <div class="d-flex flex-row-reverse bd-highlight">
-                    <div class=" bd-highlight">
-                        <a class="" href="${contextPath }/orderList.do"><button type="button" class="btn btn-outline-success">전체 상품주문</button></a>
-                    </div>
-                    <div class="px-3 bd-highlight">
-                         <a class="" href="${contextPath }/orderList.do"><button type="button" class="btn btn-outline-success">선택 상품주문</button></a>
-                    </div>
+                <div class="d-flex justify-content-between bd-highlight">
                     <div class=" bd-highlight">
                         <a class="" href="${contextPath }/main.do"><button type="button" class="btn btn-outline-secondary">쇼핑 계속하기</button></a>
                     </div>
+                    <div class="d-flex flex-row">
+                        <div class="px-2 bd-highlight">
+                            <a class="" href="${contextPath }/orderList.do"><button type="button" class="btn btn-outline-success">선택 상품주문</button></a>
+                       </div>
+                       <div class=" bd-highlight">
+                            <a class="" href="${contextPath }/orderList.do"><button type="button" class="btn btn-success">전체 상품주문</button></a>
+                       </div>
+                    </div>
+                   
                 </div>
             </div>
         </div>
@@ -344,12 +347,13 @@ function checkSelectAll()  {
                 var total_V = stock_V * price;
                 var total_V_Text = total_V.toLocaleString();
 
+                var optionId = event.target.parentNode.parentNode.id;
+
                 totalList[Num].innerText = total_V_Text + "원";
                 totalBoxChk();
+                stockChange(optionId, stock_V);
             });
         }
-
-        
 
     }
 
@@ -411,5 +415,28 @@ function checkSelectAll()  {
             duePayment[i].innerText = (totalProductPrice + shipTotal_O - (totalPrice - totalProductPrice)).toLocaleString();
         }
     };
+
+
+    //장바구니 수량 변경
+    function stockChange(optionId, stockCount){
+							
+	    $.ajax({
+		    type: "POST",
+		    async: true,
+		    url: "${contextPath}/cartList/stockChange.do",
+		    dataType: "text",
+		    data: { optionId: optionId, stockCount: stockCount },
+
+		    success: function (result) {
+		    
+		    },
+		    error: function (data, textStatus) {
+
+		    },
+	        complete: function (data, textStatus) {
+
+		    }
+	    });
+	};
 
 </script>

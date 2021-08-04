@@ -78,4 +78,10 @@ public class MypageProductDAOImpl implements MypageProductDAO {
 		int result = sqlSession.delete("mapper.mypageProduct.cartDelete", option);
 		return result;
 	}
+
+	// 장바구니 수량 변경
+	public int stockChange(Map<String, Object> option) throws DataAccessException {
+		int result = sqlSession.update("mapper.mypageProduct.stockChange", option);
+		return result;
+	}
 }

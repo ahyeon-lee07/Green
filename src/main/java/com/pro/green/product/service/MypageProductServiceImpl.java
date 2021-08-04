@@ -50,4 +50,9 @@ public class MypageProductServiceImpl implements MypageProductService {
 	public int cartDelete(Map<String, Object> option) throws DataAccessException {
 		return mypageProductDAO.cartDelete(option);
 	}
+
+	// 장바구니 수량 변경
+	public int stockChange(Map<String, Object> option) throws DataAccessException {
+		return mypageProductDAO.stockChange(option);
+	}
 }
