@@ -124,7 +124,7 @@
 									<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }"
 										var="pageNum">
 										<li class="page-item">
-											<a class="page-link" href='${contextPath }/prodList.do?page=${pageNum }&options=${options }'>${pageNum}</a>
+											<a class="page-link" href='${contextPath }/prodList.do?page=${pageNum }&p_group=${p_group }'>${pageNum}</a>
 										</li>
 									</c:forEach>
 									<c:if test="${pageMaker.next && pageMaker.endPage >0 }">

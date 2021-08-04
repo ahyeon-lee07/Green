@@ -93,6 +93,22 @@
     <![CDATA[
        SELECT
 			A.*,
+			B.name, B.grade
+		FROM
+			member_has_coupon AS A
+		LEFT JOIN 
+			member AS B
+		ON
+			A.id = B.id
+		WHERE
+			couponId = #{couponId};
+    ]]>
+	</select>
+	<!-- 
+	<select id="hasCouponList" resultType="hashmap" parameterType="String">
+    <![CDATA[
+       SELECT
+			A.*,
 			B.name
 		FROM
 			member_has_coupon AS A
@@ -104,7 +120,7 @@
 			couponId = #{couponId};
     ]]>
 	</select>
-	
+	 -->
 
 	<!-- /조회========================================================================================== -->
 

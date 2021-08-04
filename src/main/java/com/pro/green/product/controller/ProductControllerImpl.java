@@ -50,7 +50,6 @@ public class ProductControllerImpl implements ProductController {
 	private MypageProductService mypageProductService;
 
 	// 상품 목록
-	// 상품 목록
 	@Override
 	@RequestMapping(value = "/prodList.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView listProduct(@RequestParam("p_group") String p_group, HttpServletRequest request,
@@ -114,6 +113,7 @@ public class ProductControllerImpl implements ProductController {
 
 		mav.setViewName("prodList");
 		mav.addObject("pageMaker", pageMaker);
+		mav.addObject("p_group", p_group);
 
 		mav.addObject("productsList", productsList);
 		return mav;
