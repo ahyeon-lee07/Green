@@ -24,6 +24,9 @@ import com.pro.green.product.service.MypageProductService;
 import com.pro.green.product.service.ProductService;
 import com.pro.green.product.vo.CartVO;
 import com.pro.green.product_M.service.ProductService2;
+import com.pro.green.product_M.vo.CartAddVO;
+import com.pro.green.product_M.vo.Criteria;
+import com.pro.green.product_M.vo.PageMaker;
 import com.pro.green.product_M.vo.ProductVO2;
 
 @Controller("mypageProductController")
@@ -140,6 +143,123 @@ public class MypageProductControllerImpl implements MypageProductController {
 
 		// 관심테이블에 등록 여부
 		result = mypageProductService.wishYN(addOption);
+
+		resEntity = new ResponseEntity(result, HttpStatus.OK);
+		return resEntity;
+	}
+
+	// 장바구니조회
+	@RequestMapping(value = "/cartList.do", method = RequestMethod.GET)
+	public ModelAndView cartList(HttpServletRequest request, HttpServletResponse response, Criteria cri)
+			throws Exception {
+
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("html/text;charset=utf-8");
+		ModelAndView mav = new ModelAndView();
+
+		PageMaker pageMaker = new PageMaker();
+
+		HttpSession session = request.getSession();
+		MemberVO user = (MemberVO) session.getAttribute("member");
+
+		List<Map<String, Object>> cartList = new ArrayList<Map<String, Object>>();
+
+		if (user != null) {
+			cartList = mypageProductService.cartList(user.getId());
+		}
+
+		pageMaker.setCri(cri);
+
+		pageMaker.setTotalCount(cartList.size());
+
+		mav.addObject("cartList", cartList);
+		mav.addObject("cartCount", cartList.size());
+		mav.setViewName("cart");
+
+		mav.addObject("pageMaker", pageMaker);
+		return mav;
+	}
+
+	// 장바구니추가
+	@RequestMapping(value = "/prodList/prodDetail/cartAdd.do", method = RequestMethod.POST)
+	public ModelAndView cartAdd(@ModelAttribute CartAddVO product, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("html/text;charset=utf-8");
+		ModelAndView mav = new ModelAndView();
+
+		HttpSession session = request.getSession();
+		MemberVO user = (MemberVO) session.getAttribute("member");
+		Map<String, Object> option = new HashMap<String, Object>();
+
+		int result = 0;
+
+		if (user != null) {
+
+			option.put("userId", user.getId());
+			option.put("cartType", "cart");
+			option.put("productId", product.getProductId());
+
+			for (int i = 0; i < product.getOption().size(); i++) {
+				option.put("option", product.getP_optionId().get(i));
+				option.put("stock", product.getStock().get(i));
+
+				result = mypageProductService.cartAdd(option);
+			}
+
+		}
+
+		mav.setViewName("redirect:/cartList.do");
+		return mav;
+	}
+
+	// 장바구니삭제
+	@RequestMapping(value = "/cartList/cartDelete.do", method = RequestMethod.GET)
+	public ModelAndView cartDelete(@ModelAttribute(value = "optionId") String optionId, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("html/text;charset=utf-8");
+		ModelAndView mav = new ModelAndView();
+
+		HttpSession session = request.getSession();
+		MemberVO user = (MemberVO) session.getAttribute("member");
+		Map<String, Object> option = new HashMap<String, Object>();
+
+		int result = 0;
+
+		if (user != null) {
+			option.put("userId", user.getId());
+			option.put("cartType", "cart");
+			option.put("optionId", optionId);
+
+			result = mypageProductService.cartDelete(option);
+		}
+
+		mav.setViewName("redirect:/cartList.do");
+		return mav;
+	}
+
+	// 장바구니 수량 변경
+	@RequestMapping(value = "/cartList/stockChange.do", method = RequestMethod.POST)
+	public ResponseEntity stockChange(@RequestParam(value = "optionId") String optionId,
+									@RequestParam(value = "stockCount") String stockCount, 
+									HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		ResponseEntity resEntity = null;
+
+		HttpSession session = request.getSession();
+		MemberVO user = (MemberVO) session.getAttribute("member");
+
+		int result = 0;
+		
+		Map<String, Object> option = new HashMap<String, Object>();
+		option.put("userId", user.getId());
+		option.put("stock", stockCount);
+		option.put("optionId", optionId);
+		
+		result = mypageProductService.stockChange(option);
 
 		resEntity = new ResponseEntity(result, HttpStatus.OK);
 		return resEntity;

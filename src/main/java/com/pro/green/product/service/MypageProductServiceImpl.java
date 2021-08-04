@@ -36,4 +36,23 @@ public class MypageProductServiceImpl implements MypageProductService {
 		return mypageProductDAO.wishYN(addOption);
 	}
 
+	// 장바구니 등록
+	public int cartAdd(Map<String, Object> option) throws DataAccessException {
+		return mypageProductDAO.cartAdd(option);
+	}
+
+	// 장바구니 리스트 조회
+	public List<Map<String, Object>> cartList(String id) throws DataAccessException {
+		return mypageProductDAO.cartList(id);
+	}
+
+	// 장바구니 삭제
+	public int cartDelete(Map<String, Object> option) throws DataAccessException {
+		return mypageProductDAO.cartDelete(option);
+	}
+
+	// 장바구니 수량 변경
+	public int stockChange(Map<String, Object> option) throws DataAccessException {
+		return mypageProductDAO.stockChange(option);
+	}
 }

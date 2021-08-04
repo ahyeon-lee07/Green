@@ -11,13 +11,13 @@ request.setCharacterEncoding("UTF-8");
 
 <!-- 메인 -->
 <main class="mainH">
-	<div class="container">
+	<div class="container py-1">
 		<!-- 페이지 타이틀 부분 -->
-		<div class="d-flex justify-content-between mt-5">
+        <div class="d-flex justify-content-between mt-5">
 			<div class="bd-highlight">
-				<h4>장바구니</h4>
+				<h4 class="page_title">장바구니</h4>
 			</div>
-			<div class="bd-highlight">
+			<div class="bd-highlight page_subtitle">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb p-0 bg bg-transparent">
 						<li class="breadcrumb-item"><a href="${contextPath }/main.do">홈</a></li>
@@ -29,79 +29,120 @@ request.setCharacterEncoding("UTF-8");
 
 		<div class="row" style="padding: 0 15px">
             <div class="col bg-light border rounded p-2">
-                일반 상품 (
-                <span>1</span>
-                )
+                <c:choose>
+                    <c:when test="${cartCount != '' }">
+                        일반 상품 (<span id="cartCount">${cartCount }</span>)
+                    </c:when>
+                    <c:otherwise>
+                        일반 상품 (<span id="cartCount">0</span>)
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
-
-        <table class="table table-hover m-0">
-            <thead class=" border-bottom-0">
+        <table class="table table-hover m-0 mt-2">
+			<thead class=" border-bottom border-top bg-light">
                 <tr>
-                    <th class="text-center border-bottom-0 align-middle border-top-0 px-1" style="width: 28px">
-                        <div style="height: 14px;">
-                            <input type='checkbox' name='selectall' value='selectall' onclick='selectAll(this)'/>
+                    <th class="text-center border-bottom-0 align-middle border-top-0 px-1" style="width: 40px">
+                        <div>
+                            <input type='checkbox' name='selectall' value='selectall' onclick='selectAll(this)' />
                         </div>
                     </th>
-                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 120px">이미지</th>
+                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 140px">이미지</th>
                     <th class="text-center border-bottom-0 border-top-0 px-2" style="width: auto">상품 정보</th>
-                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 76px">판매가</th>
-                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 116px">수량</th>
+                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 80px">판매가</th>
+                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 80px">수량</th>
                     <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 66px">적립금</th>
-                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 90px">배송 구분</th>
-                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 70px">배송비</th>
-                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 80px">합계</th>
-                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 114px">선택</th>
+                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 90px">배송구분</th>
+                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 98px">배송비</th>
+                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 100px">합계</th>
+                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 90px">선택</th>
                 </tr>
             </thead>
+           
             <tbody>
-                <tr class="">
-                    <th class="text-center align-middle align-middle px-1">
-                        <div style="height: 14px;">
-                            <input type='checkbox' name='Choice' value='Choice1' onclick='checkSelectAll()'/>
-                        </div>
-                    </th>
-                    <td class="text-center align-middle px-2"><img src="${contextPath }/resources/img/img.webp"
-                            class="img-thumbnail" alt="#"></td>
-                    <td class="align-middle pl-3">
-                        <div class="row font-weight-bold pb-1">
-                        <a href="${contextPath }/HardCaseDetail.do" style="color: black">
-                            컬러칩 케이스</a>
-                        </div>
-                        <div class="row" style="font-size: .8rem;">
-                            [옵션: 2. 옐로우/아이폰6(s)]
-                        </div>
-                    </td>
-                    <td class="text-center align-middle px-1">12,000원</td>
-                    <td class="text-center align-middle px-2">
-                        <div class="d-flex flex-column bd-highlight px-2">
-                            <div class="bd-highlight d-flex">
-                                <div class="flex-grow bd-highlight pr-3">
-                                <input type="number" class="form-control" id="inputnumber" step="1" value="1" min="1" max="99">
-                                </div>
-                            </div>
-                            <div class="bd-highlight mt-1"><button type="button" class="btn btn-outline-secondary btn-sm" style="font-size: .6rem">변경</button></div>
-                          </div>
-                    </td>
-                    <td class="text-center align-middle px-2" style="font-size: .8rem;">150</td>
-                    <td class="text-center align-middle px-2">기본 배송</td>
-                    <td class="text-center align-middle px-2">2,000원</td>
-                    <td class="text-center align-middle px-2">11,000원</td>
-                    <td class="text-center align-middle px-2 d-flex flex-column">
-                        <div class="bd-highlight">
-                        	<a class="btn btn-sm btn-outline-success" href="${contextPath}/orderList.do"
-                            style="font-size: 0.7rem; width: 100%; display: block;">주문하기</a>
-                        </div>
-                        <div class="bd-highlight my-1">
-                        	<a href="${contextPath}/wist_list.do">
-                            <button type="button" class="btn btn-outline-success btn-sm" style="font-size: 0.7rem; width: 100%; display: block;">관심상품 등록</button></a>
-                        </div>
-                        <div class="bd-highlight">
-                        	<a href="${contextPath}/cart.do">
-                            <button type="button" class="btn btn-outline-danger btn-sm" style="font-size: 0.7rem; width: 100%; display: block;">삭제</button></a>
-                        </div>
-                    </td>
-                </tr>
+                <c:if test="${empty cartList }">
+                	<tr>
+                		<th class="text-center align-middle align-middle px-1"></th>
+                	</tr>
+                </c:if>
+            	<c:forEach items="${cartList}" var="cartList" varStatus="indexNum">
+            		<tr id="${cartList.S_option }">
+                        <th style="display: none;">
+                            <input type="text" name="optionId[${indexNum.index}]" value="${cartList.S_option }" >
+                        </th>
+            			<th class="text-center align-middle align-middle px-1">
+	                        <div style="height: 14px;">
+	                            <input type='checkbox' name='Choice' value='Choice1' onclick='checkSelectAll()'/>
+	                        </div>
+                    	</th>
+                    	
+                    	<c:forEach items="${cartList.product }" var="product">
+	                    	<td class="text-center align-middle px-2">            
+	                    		<img src="${contextPath }/resources/img/${product.p_group }/${product.imgURL }"  class="img-thumbnail" alt="#">
+	                    	</td>
+	                    	<td class="align-middle align-middle px-2 ">
+		                        <div class="font-weight-bold pb-1 bd-highlight">
+		                            <a href="${contextPath}/prodList/prodDetail.do${pageMaker.makeQueryPage(bList.IDX, pageMaker.cri.page) }&productId=${cartList.productId}" style="color: black">
+		                                ${product.productName }
+		                             </a>
+		                        </div>
+		                        <div class="bd-highlight">
+		                            ${cartList.p_option }
+		                        </div>
+		                    </td>
+		                    <td class="text-center align-middle px-1">
+								<c:choose>
+									<c:when test="${product.discountYN == 'Y'}">
+                                        <input type="text" class="discountYN" value="${product.discountYN}" style="display: none;">
+										<div class="bd-highlight text-black-50 discountBox" style="font-size:.9rem;">
+											<fmt:formatNumber value="${product.price}" pattern="##,###" /><span>원</span>	
+                                            <input type="text" class="price" name="price" value="${product.price}" style="display: none;">	
+										</div>
+										<div class="bd-highlight text-danger font-weight-bold">
+											<fmt:formatNumber value="${product.discount}" pattern="##,###" /><span>원</span>	
+                                            <input type="text" class="discount" name="discount" value="${product.discount}" style="display: none;">	
+										</div>
+									</c:when>
+									<c:otherwise>
+                                        <input type="text" class="discountYN" value="${product.discountYN}" style="display: none;">
+										<div class="bd-highlight text-danger font-weight-bold">
+											<fmt:formatNumber value="${product.price}" pattern="##,###" /><span>원</span>	
+                                            <input type="text" class="price" name="price" value="${product.price}" style="display: none;">
+                                            <input type="text" class="discount" name="discount" value="${product.discount}" style="display: none;">
+										</div>
+									</c:otherwise>
+								</c:choose>
+							</td>
+							<td class="text-center align-middle px-2">
+		                        <input type="number" class="form-control S_stockBox" name="S_stock[${indexNum.index}]" data-index="${indexNum.index}" step="1" value="${cartList.S_stock}" min="1" max="${cartList.p_stock}">
+		                    </td>
+		                    <td class="text-center align-middle px-2">
+                                <input type="text" class="form-control inputBoxReadonly" name="productMileage[${indexNum.index}]"  value="${product.productMileage}" style="padding: 0; border: 0; text-align: center;" readonly>
+		                    </td>
+		                    <td class="text-center align-middle px-2" style="font-size: .8rem;">
+		                    	기본 배송
+		                    </td>
+		                    <td class="text-center align-middle px-2">
+		                    	<input type="text" class="form-control inputReadonly shipTotalList" value="" readonly>
+							    <input type="text" class="shipTotal_V_List" name="shipTotal" value="" style="display: none;">
+		                    </td>
+		                    <td class="text-center align-middle px-2 total">
+		                    	
+		                    </td>
+		                    <td class="text-center align-middle px-2">
+		                        <div class="bd-highlight mb-2">
+		                            <button type="button" class="btn btn-sm btn-outline-secondary"
+		                                style="font-size: 0.7rem; width: 100%;">주문하기</button>
+		                        </div>
+		                        <div class="bd-highlight">
+		                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="return cartDelete()"
+		                                style="font-size: 0.7rem; width: 100%;">삭제</button>
+		                        </div>
+                    		</td>
+                    	</c:forEach>
+            		</tr>
+            	</c:forEach>
+                
             </tbody>
         </table>
 
@@ -109,7 +150,7 @@ request.setCharacterEncoding("UTF-8");
             <div class="col bg-light border rounded p-2">
                 <div class="d-flex justify-content-between">
                     <div class="bd-highlight">[기본 배송]</div>
-                    <div class="bd-highlight">상품 구매금액(<span>12,000</span>)+배송비(<span>2,000</span>)-상품 할인금액(<span>3,000</span>)=합계:(<span>11,000</span>)원
+                    <div class="bd-highlight">상품 구매금액(<span class="totalBoxPrice"></span>)+배송비(<span class="totalBoxShip"></span>)-상품 할인금액(<span class="totalBoxDiscount"></span>)=합계:(<span class="duePayment"></span>)원
                     </div>
                 </div>
             </div>
@@ -124,29 +165,27 @@ request.setCharacterEncoding("UTF-8");
                         </div>
                         <div class="row text-center font-weight-bold p-4">
                             <div class="col">
-                                <span>12,000</span> 원
+                                <span class="totalBoxPrice"></span> 원
                             </div>
                         </div>
                     </div>
                     <div class="col-3 border border-left-0">
                         <div class="row text-center bg-light p-3 border-bottom">
-                            <div class="col">총 배송비</div>
+                            <div class="col ">총 배송비</div>
                          </div>
                          <div class="row text-center font-weight-bold p-4">
                              <div class="col">
-                                 + <span>2,000</span> 원
+                                 + <span class="totalBoxShip"></span> 원
                              </div>
                          </div>
                     </div>
                     <div class="col-3 border border-left-0">
-                        <div class="row text-center bg-light p-3 border-bottom" style="height: 57px;">
-                            <div class="col">총 할인금액
-                                <button type="button" class="btn btn-outline-secondary btn-sm ml-1">내역 보기</button>
-                            </div>
+                        <div class="row text-center bg-light p-3 border-bottom">
+                            <div class="col">총 할인금액</div>
                          </div>
                          <div class="row text-center font-weight-bold p-4">
                              <div class="col">
-                                 - <span>3,000</span> 원
+                                 - <span class="totalBoxDiscount"></span> 원
                              </div>
                          </div>
                     </div>
@@ -156,7 +195,7 @@ request.setCharacterEncoding("UTF-8");
                          </div>
                          <div class="row text-center font-weight-bold p-4">
                              <div class="col">
-                                 = <span>11,000</span> 원
+                                 = <span class="duePayment"></span> 원
                              </div>
                          </div>
                     </div>
@@ -166,16 +205,19 @@ request.setCharacterEncoding("UTF-8");
 
         <div class="row">
             <div class="col">
-                <div class="d-flex flex-row-reverse bd-highlight">
-                    <div class=" bd-highlight">
-                        <a class="" href="${contextPath }/orderList.do"><button type="button" class="btn btn-outline-success">전체 상품주문</button></a>
-                    </div>
-                    <div class="px-3 bd-highlight">
-                         <a class="" href="${contextPath }/orderList.do"><button type="button" class="btn btn-outline-success">선택 상품주문</button></a>
-                    </div>
+                <div class="d-flex justify-content-between bd-highlight">
                     <div class=" bd-highlight">
                         <a class="" href="${contextPath }/main.do"><button type="button" class="btn btn-outline-secondary">쇼핑 계속하기</button></a>
                     </div>
+                    <div class="d-flex flex-row">
+                        <div class="px-2 bd-highlight">
+                            <a class="" href="${contextPath }/orderList.do"><button type="button" class="btn btn-outline-success">선택 상품주문</button></a>
+                       </div>
+                       <div class=" bd-highlight">
+                            <a class="" href="${contextPath }/orderList.do"><button type="button" class="btn btn-success">전체 상품주문</button></a>
+                       </div>
+                    </div>
+                   
                 </div>
             </div>
         </div>
@@ -230,8 +272,9 @@ request.setCharacterEncoding("UTF-8");
 	</div>
 </main>
 
-<!-- 전체 선택  -->
+
 <script>
+//전체 선택 
 function checkSelectAll()  {
 	  // 전체 체크박스
 	  const checkboxes 
@@ -259,4 +302,141 @@ function checkSelectAll()  {
 	    checkbox.checked = selectAll.checked
 	  })
 	}
+
+    //로딩시 금액 입력
+    window.onload = function(){
+
+        var shipTotal_O = 2500;
+        var shipTotal =  shipTotal_O.toLocaleString();
+        
+        var shipTotalList = document.getElementsByClassName('shipTotalList');
+        var shipTotal_V_List = document.getElementsByClassName('shipTotal_V_List');
+
+        var totalBoxShip = document.getElementsByClassName('totalBoxShip');
+
+        for(var i=0; i<shipTotalList.length; i++){
+            shipTotalList[i].value = shipTotal+"원";
+            shipTotal_V_List[i].value = shipTotal;
+        }
+
+        for (var i = 0; i < totalBoxShip.length; i++) {
+            totalBoxShip[i].innerText = shipTotal;
+        }
+    
+        totalChk();
+        totalBoxChk();
+    }
+
+    //수량 클릭시 합계 변경
+    function totalChk() {
+
+        var S_stockBox = document.getElementsByClassName('S_stockBox');
+        var totalList = document.getElementsByClassName('total');
+
+        for(var i=0; i<S_stockBox.length; i++){
+
+            totalList[i].innerText = (S_stockBox[i].value * discountYNCHk(i)).toLocaleString()+ "원";
+
+            S_stockBox[i].addEventListener('change', function(){
+
+                var Num = event.target.dataset['index'];
+
+                var price = discountYNCHk(Num);
+
+                var stock_V = event.target.value;
+                var total_V = stock_V * price;
+                var total_V_Text = total_V.toLocaleString();
+
+                var optionId = event.target.parentNode.parentNode.id;
+
+                totalList[Num].innerText = total_V_Text + "원";
+                totalBoxChk();
+                stockChange(optionId, stock_V);
+            });
+        }
+
+    }
+
+    //가격 체크 
+    function discountYNCHk(NUM){
+        var discountYN = document.getElementsByClassName('discountYN')[NUM].value;
+
+            if(discountYN == "Y"){
+                var price = document.getElementsByClassName('discount')[NUM].value;
+            }else{
+                var price = document.getElementsByClassName('price')[NUM].value;
+            }
+
+            return price;
+    };
+
+
+    //장바구니리스트 삭제
+    function cartDelete(){
+        if (confirm("해당 상품을 장바구니에서 삭제 하시겠습니까?") == true) {
+            var optionId = event.target.parentNode.parentNode.parentNode.id;
+
+            document.location.href = "${contextPath}/cartList/cartDelete.do?optionId="+optionId;
+		} else {
+			return;
+		}
+    };
+
+    //총 금액 세팅 
+    function totalBoxChk(){
+        var S_stockBox = document.getElementsByClassName('S_stockBox');
+        var totalBoxPrice = document.getElementsByClassName('totalBoxPrice');
+        var totalBoxDiscount = document.getElementsByClassName('totalBoxDiscount');
+        var duePayment = document.getElementsByClassName('duePayment');
+        var totalProductPrice = 0;
+        
+        var price = document.getElementsByClassName('price');
+        var totalPrice = 0;
+
+        var shipTotal_O = 2500;
+
+        for (var i = 0; i < price.length; i++) {
+            totalPrice += (S_stockBox[i].value * price[i].value);
+        }
+
+        for (var i = 0; i < S_stockBox.length; i++) {
+           totalProductPrice += (S_stockBox[i].value * discountYNCHk(i));
+        }
+
+        for (var i = 0; i < totalBoxPrice.length; i++) {
+            totalBoxPrice[i].innerText = totalProductPrice.toLocaleString();
+        }
+
+        for (var i = 0; i < totalBoxDiscount.length; i++) {
+            totalBoxDiscount[i].innerText = (totalPrice - totalProductPrice).toLocaleString();
+        }
+
+        for (var i = 0; i < duePayment.length; i++) {
+            duePayment[i].innerText = (totalProductPrice + shipTotal_O - (totalPrice - totalProductPrice)).toLocaleString();
+        }
+    };
+
+
+    //장바구니 수량 변경
+    function stockChange(optionId, stockCount){
+							
+	    $.ajax({
+		    type: "POST",
+		    async: true,
+		    url: "${contextPath}/cartList/stockChange.do",
+		    dataType: "text",
+		    data: { optionId: optionId, stockCount: stockCount },
+
+		    success: function (result) {
+		    
+		    },
+		    error: function (data, textStatus) {
+
+		    },
+	        complete: function (data, textStatus) {
+
+		    }
+	    });
+	};
+
 </script>
