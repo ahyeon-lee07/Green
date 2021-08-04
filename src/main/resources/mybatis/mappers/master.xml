@@ -162,13 +162,13 @@
 	<!-- 삭제========================================================================================== -->
 	
 	<!-- member_has_coupon 테이블 삭제-->
-	<insert id="hasCouponDelete" parameterType="hashmap">
+	<delete id="hasCouponDelete" parameterType="hashmap">
 		<![CDATA[
 		 DELETE FROM member_has_coupon
 			WHERE
 				member_has_coupon.couponId = #{couponId} AND member_has_coupon.id = #{userId}
 		]]>
-	</insert>
+	</delete>
 
 	<!-- /삭제========================================================================================== -->
 
