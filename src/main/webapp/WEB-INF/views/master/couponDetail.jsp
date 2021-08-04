@@ -229,14 +229,20 @@ request.setCharacterEncoding("UTF-8");
 								<td class="text-center align-middle align-middle px-1"><c:choose>
 										<c:when test="${list.hasCoupon == 'Y' }">
 											<div>
+												<!-- 
 												<input class="checkbox" type='checkbox' name='useYN'
-													value='Y' onclick="fn_couponYN()" checked />
+													value='Y' onclick="fn_couponYN()" checked />  -->
+												<input id="chk1" type='checkbox' name='terms' value='terms1'
+													onclick='checkSelectAll()' />
 											</div>
 										</c:when>
 										<c:otherwise>
 											<div>
+												<!-- 
 												<input class="checkbox" type='checkbox' name='useYN'
-													value='N' onclick="fn_couponYN()" />
+													value='N' onclick="fn_couponYN()" />  -->
+												<input id="chk2" type='checkbox' name='terms' value='terms2'
+													onclick='checkSelectAll()' />
 											</div>
 										</c:otherwise>
 									</c:choose></td>
@@ -254,13 +260,22 @@ request.setCharacterEncoding("UTF-8");
 					</tbody>
 				</table>
 			</div>
-			<div class="col-1">
-				<a href="#" onclick="">
-					<button type="button" class="btn btn-light" style="font-size: .8rem">발급<img src="${contextPath }/resources/img/chevron-double-right.svg"></button>
-				</a>
-				<a href="#" onclick="">
-					<button type="button" class="btn btn-light" style="font-size: .8rem">회수<img src="${contextPath }/resources/img/chevron-double-left.svg"></button>
-				</a>
+			<div class="col-1 d-flex align-items-center">
+				<div class="d-flex flex-column">
+					<!-- 
+					<a class="bd-highlight mb-2" href="#" name='useYN' value='Y' onclick="fn_couponYN()">
+						<button type="button" class="btn btn-outline-secondary" style="font-size: .8rem">발급▶</button>
+					</a>
+					<a class="bd-highlight" href="#" name='useYN' value='N' onclick="fn_couponYN()">
+						<button type="button" class="btn btn-outline-secondary" style="font-size: .8rem">◀회수</button>
+					</a>
+				-->
+					<button type="button" class="btn btn-outline-secondary mb-2" name='useYN' value='Y' onclick="fn_couponYN()"
+						style="font-size: .8rem">발급▶</button>
+					<button type="button" class="btn btn-outline-secondary" name='useYN' value='N' onclick="fn_couponYN()"
+						style="font-size: .8rem">◀회수</button>
+				</div>
+
 			</div>
 			<div class="col-6 p-0 pl-2">
 				<div class="row">
@@ -475,9 +490,9 @@ request.setCharacterEncoding("UTF-8");
 						memberList += '	<td class="text-center align-middle align-middle px-1">';
 						
 						if(list["memberList"][i]["hasCoupon"] == 'Y'){
-						memberList += '<div><input class="checkbox" type="checkbox" name="useYN" value="Y" onclick="fn_couponYN()" checked /></div>';
+						memberList += '<div><input id="chk1" type="checkbox" name="terms" value="terms1" onclick="checkSelectAll()" /></div>';
 						}else {
-						memberList += '<div><input class="checkbox" type="checkbox" name="useYN" value="N" onclick="fn_couponYN()" /></div>';
+						memberList += '<div><input id="chk1" type="checkbox" name="terms" value="terms2" onclick="checkSelectAll()" /></div>';
 						}
 
 						memberList += '</td>';
