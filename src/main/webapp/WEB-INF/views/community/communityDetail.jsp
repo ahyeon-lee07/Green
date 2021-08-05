@@ -264,7 +264,7 @@ request.setCharacterEncoding("UTF-8");
 		$.ajax({
 			type : "POST",
 			async : true,
-			url : "${contextPath}/communityDerail/commentAdd.do",
+			url : "${contextPath}/communityDetail/commentAdd.do",
 			dataType : "json",
 			data : {
 				id : id,
@@ -298,7 +298,7 @@ request.setCharacterEncoding("UTF-8");
 			$.ajax({
 				type : "POST",
 				async : true,
-				url : "${contextPath}/communityDerail/commentDelete.do",
+				url : "${contextPath}/communityDetail/commentDelete.do",
 				dataType : "json",
 				data : {
 					qnANum : qnANum,
