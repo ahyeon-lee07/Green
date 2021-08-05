@@ -93,12 +93,12 @@
 													<c:when test="${wishList != 'N' }">
 														<c:choose>
 															<c:when test="${product.cartType == 'wish'}">
-																<div class="bd-highlight btn btn-sm btn-outline-success ml-1 btn_product btn_wish" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
+																<div class="bd-highlight btn btn-sm btn-link btn_product btn_wish" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
 																	<img class="icon_wish" data-value="Y" src="${contextPath }/resources/img/heart-fill.svg" alt="">
 																</div>
 															</c:when>
 															<c:otherwise>
-																<div class="bd-highlight btn btn-sm btn-outline-success ml-1 btn_product btn_wish" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
+																<div class="bd-highlight btn btn-sm btn-link btn_product btn_wish" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
 																	<img class="icon_wish" data-value="N" src="${contextPath }/resources/img/heart.svg" alt="">
 																</div>
 															</c:otherwise>
@@ -196,11 +196,11 @@
 							
 										if(wishList != 'N'){
 											if(result[i]['cartType'] == 'wish'){
-												str += '<div class="bd-highlight btn btn-sm btn-outline-success ml-1 btn_product btn_wish" onclick="btn_wishYN(\''+productId+'\')" style="width: 40px;">';
+												str += '<div class="bd-highlight btn btn-sm btn-link btn_product btn_wish" onclick="btn_wishYN(\''+productId+'\')" style="width: 40px;">';
 												str += '<img class="icon_wish" data-value="Y" src="${contextPath }/resources/img/heart-fill.svg" alt="">';
 												str += '</div>';
 											}else {
-												str += '<div class="bd-highlight btn btn-sm btn-outline-success ml-1 btn_product btn_wish" onclick="btn_wishYN(\''+productId+'\')" style="width: 40px;">';
+												str += '<div class="bd-highlight btn btn-sm btn-link btn_product btn_wish" onclick="btn_wishYN(\''+productId+'\')" style="width: 40px;">';
 												str += '<img class="icon_wish" data-value="N" src="${contextPath }/resources/img/heart.svg" alt="">';
 												str += '</div>';
 											}

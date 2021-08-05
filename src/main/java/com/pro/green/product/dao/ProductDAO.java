@@ -40,7 +40,11 @@ public interface ProductDAO {
 	public List<ProductVO2> discountProductList() throws DataAccessException;
 
 	// 추천 상품 5개
-	public List<ProductVO2> RecommendProductList() throws DataAccessException;
+	public List<ProductVO2> RecommendProductList(String productId) throws DataAccessException;
+
+	// 회원일 경우 관심상품 조회
+	public ProductVO2 viewMemberProdDetail(Map<String, Object> selectOption) throws DataAccessException;
+
 
 
 }

@@ -98,8 +98,22 @@ request.setCharacterEncoding("UTF-8");
 							</div>
 						</div>
 						<div class="d-flex justify-content-end py-3">
-							<button class="btn btn-outline-secondary flex-fill bd-highlight mx-1" id="insertWish" onclick="fn_InsertWish()" style="opacity: .6; height: 46px;">관심상품</button>
-							<button class="btn btn-outline-secondary flex-fill bd-highlight mx-1" id="insertCart" onclick="return fn_InsertCart()" style="opacity: .6; height: 46px;">장바구니</button>
+							<c:if test="${member != null }">
+								<c:choose>
+									<c:when test="${prodList.cartType == 'wish'}">
+										<button class="btn btn-outline-secondary flex-fill bd-highlight mx-1 ${prodList.productId}" type="button" id="insertWish" onclick="btn_wishYN('${prodList.productId}')" style=" height: 46px;">
+											<img class="icon_wish" data-value="Y" src="${contextPath }/resources/img/heart-fill.svg" alt="" style="padding-right: 6px">관심상품
+										</button>		
+									</c:when>
+									<c:otherwise>
+										<button class="btn btn-outline-secondary flex-fill bd-highlight mx-1 ${prodList.productId}" type="button" id="insertWish" onclick="btn_wishYN('${prodList.productId}')" style=" height: 46px;">
+											<img class="icon_wish" data-value="N" src="${contextPath }/resources/img/heart.svg" alt="" style="padding-right: 6px">관심상품
+										</button>	
+									</c:otherwise>
+								</c:choose>
+								
+							</c:if>
+							<button class="btn btn-outline-secondary flex-fill bd-highlight mx-1" id="insertCart" onclick="return fn_InsertCart()" style=" height: 46px;">장바구니</button>
 							<button class="btn btn-success flex-fill bd-highlight mx-1" id="prodOrder" onclick="fn_ProdOrder()"style="height: 46px;">바로구매</button>
 						</div>
 						
@@ -151,12 +165,12 @@ request.setCharacterEncoding("UTF-8");
 									<c:when test="${RecommendProductwishList != 'N' }">
 										<c:choose>
 											<c:when test="${product.cartType == 'wish'}">
-												<div class="bd-highlight btn btn-sm btn-outline-success ml-1 btn_product btn_wish" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
+												<div class="bd-highlight btn btn-sm btn-outline-success ml-1 btn_product btn_wish ${product.productId}" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
 													<img class="icon_wish ${product.productId}" data-value="Y" src="${contextPath }/resources/img/heart-fill.svg" alt="">
 												</div>
 											</c:when>
 											<c:otherwise>
-												<div class="bd-highlight btn btn-sm btn-outline-success ml-1 btn_product btn_wish" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
+												<div class="bd-highlight btn btn-sm btn-outline-success ml-1 btn_product btn_wish ${product.productId}" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
 													<img class="icon_wish ${product.productId}" data-value="N" src="${contextPath }/resources/img/heart.svg" alt="">
 												</div>
 											</c:otherwise>
@@ -435,6 +449,40 @@ document.addEventListener('keydown', function(event) {
 			return false;
 		}
 	}
+
+	//관심 상품 등록
+	function btn_wishYN(productId){
+	
+	var tarGetImg = event.currentTarget.firstElementChild;
+	var tarGet_V = tarGetImg.dataset['value'];
+	
+	$.ajax({
+		type: "POST",
+		async: true,
+		url: "${contextPath}/wish_list/wishAdd.do",
+		dataType: "text",
+		data: { productId: productId },
+		success: function (result) {						
+			if(result == 0){
+				alert("죄송합니다. 잠시후 다시 시도해 주세요.");
+			}else if(result == 1){
+				if(tarGet_V == 'Y'){
+					tarGetImg.dataset.value = 'N';
+					tarGetImg.src = "${contextPath }/resources/img/heart.svg";
+				}else {
+					tarGetImg.dataset.value  = 'Y';
+					tarGetImg.src = "${contextPath }/resources/img/heart-fill.svg";
+				}
+			}
+		},
+		error: function (data, textStatus) {
+
+		},
+		complete: function (data, textStatus) {
+
+		}
+	});
+}
 	
 	/*
 	

@@ -107,7 +107,7 @@
 	<!-- 상품 조회 -->
 	<select id="selectProduct" resultType="productVO" parameterType="String">
     <![CDATA[
-       SELECT 
+    	SELECT 
 			*
 		FROM 
 			product
@@ -302,7 +302,7 @@
 	</select>
 	
 	<!-- // 추천 상품 5개 -->
- 	<select id="RecommendProductList" resultType="productVO">
+ 	<select id="RecommendProductList" resultType="productVO" parameterType="String">
     <![CDATA[
 		SELECT
 			 p.*, i.* 
@@ -312,7 +312,7 @@
 		INNER JOIN 
 			image AS i ON p.productId=i.productId
 		WHERE
-			i.imgType = 'product_M'
+			i.imgType = 'product_M' AND NOT p.productId = #{productId}
 		ORDER BY
 			salesSum DESC
 		LIMIT 5

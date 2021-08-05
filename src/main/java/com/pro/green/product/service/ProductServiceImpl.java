@@ -26,8 +26,12 @@ public class ProductServiceImpl implements ProductService {
 		return productsList;
 	}
 
-	// 상품 상세페이지
+	// 회원일 경우 관심상품 조회
+	public ProductVO2 viewMemberProdDetail(Map<String, Object> selectOption) throws DataAccessException {
+		return productDAO.viewMemberProdDetail(selectOption);
+	}
 
+	// 상품 상세페이지
 	// 상품 옵션
 	@Override
 	public List<Map<String, Object>> selectProdOption(String productId) throws DataAccessException {
@@ -35,9 +39,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	// 상품명&가격
-
 	@Override
-
 	public ProductVO2 viewProdDetail(String productId) throws DataAccessException {
 		return productDAO.viewProdDetail(productId);
 	}
@@ -74,8 +76,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	// 추천 상품 5개
-	public List<ProductVO2> RecommendProductList() throws DataAccessException {
-		return productDAO.RecommendProductList();
+	public List<ProductVO2> RecommendProductList(String productId) throws DataAccessException {
+		return productDAO.RecommendProductList(productId);
 	}
 
 }

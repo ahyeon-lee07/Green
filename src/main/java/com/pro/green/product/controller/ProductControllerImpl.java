@@ -197,9 +197,22 @@ public class ProductControllerImpl implements ProductController {
 		HttpSession session = request.getSession();
 		MemberVO member = (MemberVO) session.getAttribute("member");
 
-		prodList = productService.viewProdDetail(productId);
+		if(member != null) {
+			Map<String, Object> selectOption = new HashMap<String, Object>();
+			selectOption.put("userId", member.getId());
+			selectOption.put("productId", productId);
+			selectOption.put("type", "wish");
+			
+			prodList = productService.viewMemberProdDetail(selectOption);
+		}else {
+			prodList = productService.viewProdDetail(productId);
+		}
+		
 		List<Map<String, Object>> prodOption = productService.selectProdOption(productId);
 		List<Map<String, Object>> img = productService.selectProdImg(productId);
+		
+		
+		
 
 		mav.setViewName("prodDetail");
 
@@ -210,7 +223,7 @@ public class ProductControllerImpl implements ProductController {
 
 		// 추천 상품 5개
 		List<ProductVO2> RecommendProduct = new ArrayList<ProductVO2>();
-		RecommendProduct = productService.RecommendProductList();
+		RecommendProduct = productService.RecommendProductList(productId);
 		// 메인페이지 상품 조회 관심상품처리 (ModelAndView, 회원, 관심상품 )
 		wishListChk(mav, member, RecommendProduct, "RecommendProductwishList");
 
