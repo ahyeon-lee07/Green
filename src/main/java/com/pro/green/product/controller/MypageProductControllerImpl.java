@@ -267,6 +267,8 @@ public class MypageProductControllerImpl implements MypageProductController {
 								// product 옵션 아이디의 k번째 아이디를 optionId로 저장
 								String optionId = (String) product.getP_optionId().get(k);
 	
+								List<String> nonmemberCartOptionIdList = new ArrayList<String>();
+								
 								// nonmemberCart 안 옵션 아이디 만큼 반복한다.
 								for (int y = 0; y < nonmemberCart.get(i).getP_optionId().size(); y++) {
 									// nonmemberCart i번째 옵션아이디 y번째 옵션 아이디를 cartOptionId 저장
@@ -274,11 +276,15 @@ public class MypageProductControllerImpl implements MypageProductController {
 
 									if (cartOptionId.equals(optionId)) {
 										nonmemberCart.get(i).getStock().set(y, product.getStock().get(k));
-									}else if (product.getP_optionId().size() > nonmemberCart.get(i).getP_optionId().size()) {
-										nonmemberCart.get(i).setOption(product.getOption());
-										nonmemberCart.get(i).setP_optionId(product.getP_optionId());
-										nonmemberCart.get(i).setStock(product.getStock());
 									}
+									
+									nonmemberCartOptionIdList.add(nonmemberCart.get(i).getP_optionId().get(y));
+								}
+								
+								if(!nonmemberCartOptionIdList.contains(optionId)) {
+									nonmemberCart.get(i).getOption().add(product.getOption().get(k));
+									nonmemberCart.get(i).getP_optionId().add(product.getP_optionId().get(k));
+									nonmemberCart.get(i).getStock().add(product.getStock().get(k));
 								}
 							}
 							
@@ -307,6 +313,8 @@ public class MypageProductControllerImpl implements MypageProductController {
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO) session.getAttribute("member");
 		Map<String, Object> option = new HashMap<String, Object>();
+		
+		List<CartAddVO> nonmemberCart = (List<CartAddVO>) session.getAttribute("nonmemberCart");
 
 		int result = 0;
 
@@ -316,6 +324,24 @@ public class MypageProductControllerImpl implements MypageProductController {
 			option.put("optionId", optionId);
 
 			result = mypageProductService.cartDelete(option);
+			
+		}else if(user == null) {
+			
+			for(int i=0; i<nonmemberCart.size(); i++) {
+				for(int y=0; y<nonmemberCart.get(i).getP_optionId().size(); y++) {
+					
+					if(nonmemberCart.get(i).getP_optionId().get(y).equals(optionId)) {
+						nonmemberCart.get(i).getOption().remove(y);
+						nonmemberCart.get(i).getP_optionId().remove(y);
+						nonmemberCart.get(i).getStock().remove(y);
+					}
+				}
+				
+				if(nonmemberCart.get(i).getP_optionId().size()==0) {
+					nonmemberCart.remove(i);
+				}
+			}
+			
 		}
 
 		mav.setViewName("redirect:/cartList.do");
