@@ -2,6 +2,7 @@ package com.pro.green.product.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -245,96 +246,48 @@ public class MypageProductControllerImpl implements MypageProductController {
 				nonmemberCartList.add(product);
 			} else {
 
-				for(int i=0; i<product.getP_optionId().size(); i++) {
-					
-					String optionId = (String) product.getP_optionId().get(i);
-					
-					for (int y = 0; y < nonmemberCart.size(); y++) {
-						
-						if (product.getProductId().equals(nonmemberCart.get(i).getProductId())) {
-							
-						}
-					}
+				//받은 상품 정보의 아이디를 가지고 nonmemberCart안에 상품 아이디가 있는지 확인
+				//반은 상품 아이디를 inputProductId 변수 명에 저장
+				String inputProductId = product.getProductId();
+				List<String> nonmemberCartProductIdList = new ArrayList<String>();
+				
+				//nonmemberCart안 내용 만큼 반봅
+				for(int i=0; i<nonmemberCart.size(); i++) {
+					nonmemberCartProductIdList.add(nonmemberCart.get(i).getProductId());
 				}
 				
-				/*
-				// nonmemberCart 가 있으면
-				for (int i = 0; i < nonmemberCart.size(); i++) {
-					// nonmemberCart 안에 상품아이디와 새로 등록한 product 상품아이디가 같다면
-					if (nonmemberCart.get(i).getProductId().equals(product.getProductId())) {
-						// product의 옵션 아이디 만틈 반복
-						for (int k = 0; k < product.getP_optionId().size(); k++) {
-							// product 옵션 아이디의 k번째 아이디를 optionId로 저장
-							String optionId = (String) product.getP_optionId().get(k);
-							
-							System.out.println(optionId);
-							System.out.println(product.getP_optionId().size());
-							// nonmemberCart 안 옵션 아이디 만큼 반복한다.
-							for (int y = 0; y < nonmemberCart.get(i).getP_optionId().size(); y++) {
-								// nonmemberCart i번째 옵션아이디 y번째 옵션 아이디를 cartOptionId 저장
-								String cartOptionId = nonmemberCart.get(i).getP_optionId().get(y);
-								System.out.println(nonmemberCart.get(i).getP_optionId().size());
-								System.out.println(cartOptionId);
-								if (cartOptionId.equals(optionId)) {
-									nonmemberCart.get(i).getStock().set(y, product.getStock().get(k));
-								}else if (product.getP_optionId().size() > nonmemberCart.get(i).getP_optionId().size()) {
-									nonmemberCart.get(i).setOption(product.getOption());
-									nonmemberCart.get(i).setP_optionId(product.getP_optionId());
-									nonmemberCart.get(i).setStock(product.getStock());
+				if(nonmemberCartProductIdList.contains(inputProductId)) {
+					//nonmemberCart안 내용 만큼 반봅
+					for(int i=0; i<nonmemberCart.size(); i++) {
+						// nonmemberCart 안에 상품아이디와 새로 등록한 product 상품아이디가 같다면
+						if (nonmemberCart.get(i).getProductId().equals(inputProductId)) {
+
+							// product의 옵션 아이디 만틈 반복
+							for (int k = 0; k < product.getP_optionId().size(); k++) {
+								// product 옵션 아이디의 k번째 아이디를 optionId로 저장
+								String optionId = (String) product.getP_optionId().get(k);
+	
+								// nonmemberCart 안 옵션 아이디 만큼 반복한다.
+								for (int y = 0; y < nonmemberCart.get(i).getP_optionId().size(); y++) {
+									// nonmemberCart i번째 옵션아이디 y번째 옵션 아이디를 cartOptionId 저장
+									String cartOptionId = nonmemberCart.get(i).getP_optionId().get(y);
+
+									if (cartOptionId.equals(optionId)) {
+										nonmemberCart.get(i).getStock().set(y, product.getStock().get(k));
+									}else if (product.getP_optionId().size() > nonmemberCart.get(i).getP_optionId().size()) {
+										nonmemberCart.get(i).setOption(product.getOption());
+										nonmemberCart.get(i).setP_optionId(product.getP_optionId());
+										nonmemberCart.get(i).setStock(product.getStock());
+									}
 								}
 							}
+							
 						}
-					} else {
-						nonmemberCart.add(product);
 					}
+				}else {
+					nonmemberCart.add(product);
 				}
-
 				
-				 * //nonmemberCart 안 옵션 아이디 만큼 반복한다. for (int y = 0; y <
-				 * nonmemberCart.get(i).getP_optionId().size(); y++) {
-				 * 
-				 * //nonmemberCart i번째 옵션아이디 y번째 옵션 아이디를 cartOptionId 저장 String cartOptionId =
-				 * nonmemberCart.get(i).getP_optionId().get(y);
-				 * 
-				 * //product의 옵션 아이디 만틈 반복 for (int k = 0; k < product.getP_optionId().size();
-				 * k++) {
-				 * 
-				 * //product 옵션 아이디의 k번째 아이디를 optionId로 저장 String optionId = (String)
-				 * product.getP_optionId().get(k);
-				 * 
-				 * if (cartOptionId.equals(optionId)) { nonmemberCart.get(i).getStock().set(y,
-				 * product.getStock().get(k));
-				 * 
-				 * } else if(optionId != null) {
-				 * nonmemberCart.get(i).setOption(product.getOption());
-				 * nonmemberCart.get(i).setP_optionId(product.getP_optionId());
-				 * nonmemberCart.get(i).setStock(product.getStock()); } } }
-				 * 
-				 * 
-				 * for (int i = 0; i < nonmemberCart.size(); i++) {
-				 * 
-				 * if (nonmemberCart.get(i).getProductId().equals(product.getProductId())) {
-				 * 
-				 * for (int y = 0; y < nonmemberCart.get(i).getP_optionId().size(); y++) {
-				 * 
-				 * String cartOptionId = nonmemberCart.get(i).getP_optionId().get(y);
-				 * 
-				 * for (int k = 0; k < product.getP_optionId().size(); k++) {
-				 * 
-				 * String optionId = (String) product.getP_optionId().get(k);
-				 * 
-				 * if (cartOptionId.equals(optionId)) { nonmemberCart.get(i).getStock().set(y,
-				 * product.getStock().get(k));
-				 * 
-				 * } else { nonmemberCart.get(i).setOption(product.getOption());
-				 * nonmemberCart.get(i).setP_optionId(product.getP_optionId());
-				 * nonmemberCart.get(i).setStock(product.getStock()); } } }
-				 * 
-				 * } else { nonmemberCart.add(product); }
-				 * 
-				 * }
-				 */
-
 			}
 		}
 

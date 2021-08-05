@@ -404,7 +404,7 @@ function checkSelectAll()  {
         }
 
         for (var i = 0; i < totalBoxPrice.length; i++) {
-            totalBoxPrice[i].innerText = totalProductPrice.toLocaleString();
+            totalBoxPrice[i].innerText = totalPrice.toLocaleString();
         }
 
         for (var i = 0; i < totalBoxDiscount.length; i++) {
@@ -412,7 +412,7 @@ function checkSelectAll()  {
         }
 
         for (var i = 0; i < duePayment.length; i++) {
-            duePayment[i].innerText = (totalProductPrice + shipTotal_O - (totalPrice - totalProductPrice)).toLocaleString();
+            duePayment[i].innerText = (totalPrice + shipTotal_O - (totalPrice - totalProductPrice)).toLocaleString();
         }
     };
 
