@@ -11,6 +11,7 @@ public class CartVO {
 	private String S_option;
 	private String S_stock;
 	private String cartType;
+	
 	public int getCartNum() {
 		return cartNum;
 	}

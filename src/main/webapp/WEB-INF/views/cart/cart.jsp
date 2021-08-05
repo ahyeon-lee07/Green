@@ -135,7 +135,7 @@ request.setCharacterEncoding("UTF-8");
 		                                style="font-size: 0.7rem; width: 100%;">주문하기</button>
 		                        </div>
 		                        <div class="bd-highlight">
-		                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="return cartDelete()"
+		                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="return cartDelete('${cartList.S_option }')"
 		                                style="font-size: 0.7rem; width: 100%;">삭제</button>
 		                        </div>
                     		</td>
@@ -372,9 +372,9 @@ function checkSelectAll()  {
 
 
     //장바구니리스트 삭제
-    function cartDelete(){
+    function cartDelete(optionId){
         if (confirm("해당 상품을 장바구니에서 삭제 하시겠습니까?") == true) {
-            var optionId = event.target.parentNode.parentNode.parentNode.id;
+            var optionId = optionId;
 
             document.location.href = "${contextPath}/cartList/cartDelete.do?optionId="+optionId;
 		} else {
@@ -404,7 +404,7 @@ function checkSelectAll()  {
         }
 
         for (var i = 0; i < totalBoxPrice.length; i++) {
-            totalBoxPrice[i].innerText = totalProductPrice.toLocaleString();
+            totalBoxPrice[i].innerText = totalPrice.toLocaleString();
         }
 
         for (var i = 0; i < totalBoxDiscount.length; i++) {
@@ -412,7 +412,7 @@ function checkSelectAll()  {
         }
 
         for (var i = 0; i < duePayment.length; i++) {
-            duePayment[i].innerText = (totalProductPrice + shipTotal_O - (totalPrice - totalProductPrice)).toLocaleString();
+            duePayment[i].innerText = (totalPrice + shipTotal_O - (totalPrice - totalProductPrice)).toLocaleString();
         }
     };
 
