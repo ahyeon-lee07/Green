@@ -328,8 +328,8 @@ public class BoardControllerImpl2 implements BoardController2 {
 	}
 
 	// 페이지상세
-	@RequestMapping(value = "/communityDerail/derailPage.do", method = RequestMethod.GET)
-	public ModelAndView communityDerail(@RequestParam(value = "communityNum") String communityNum,
+	@RequestMapping(value = "/communityDetail/detailPage.do", method = RequestMethod.GET)
+	public ModelAndView communityDetail(@RequestParam(value = "communityNum") String communityNum,
 			@RequestParam(value = "communityType") String communityType, HttpServletRequest request,
 			HttpServletResponse response, Criteria cri) throws Exception {
 
@@ -363,7 +363,7 @@ public class BoardControllerImpl2 implements BoardController2 {
 					paramMap.put("qnANum", communityNum);
 					commentList = boardService.selectComment(paramMap);
 
-					mav.setViewName("communityDerail");
+					mav.setViewName("communityDetail");
 				}else if (community.getPwYN().equals("Y")) {
 					mav.setViewName(
 							"redirect:/communityChk.do?communityNum=" + communityNum + "&communityType=" + communityType);
@@ -379,7 +379,7 @@ public class BoardControllerImpl2 implements BoardController2 {
 					paramMap.put("qnANum", communityNum);
 					commentList = boardService.selectComment(paramMap);
 
-					mav.setViewName("communityDerail");
+					mav.setViewName("communityDetail");
 				}
 			}
 			
@@ -394,7 +394,7 @@ public class BoardControllerImpl2 implements BoardController2 {
 
 			community = boardService.selectCommunity(selectOption);
 
-			mav.setViewName("communityDerail");
+			mav.setViewName("communityDetail");
 		} else if (communityType.equals("event")) {
 			mav.addObject("pageTitle", "이벤트");
 			selectOption.put("communityNum", "eventNum='" + communityNum + "'");
@@ -404,7 +404,7 @@ public class BoardControllerImpl2 implements BoardController2 {
 
 			community = boardService.selectCommunity(selectOption);
 
-			mav.setViewName("communityDerail");
+			mav.setViewName("communityDetail");
 		} else if (communityType.equals("review")) {
 			mav.addObject("pageTitle", "리뷰");
 			selectOption.put("communityNum", "reviewNum='" + communityNum + "'");
@@ -414,7 +414,7 @@ public class BoardControllerImpl2 implements BoardController2 {
 
 			community = boardService.selectCommunity(selectOption);
 
-			mav.setViewName("communityDerail");
+			mav.setViewName("communityDetail");
 		}
 
 		PageMaker pageMaker = new PageMaker();
@@ -583,10 +583,10 @@ public class BoardControllerImpl2 implements BoardController2 {
 
 		if (communitypw.equals(pw)) {
 			mav.addObject("community", community);
-			mav.setViewName("communityDerail");
+			mav.setViewName("communityDetail");
 
 			mav.addObject("pageTitle", "QnA");
-			mav.setViewName("communityDerail");
+			mav.setViewName("communityDetail");
 
 			paramMap.put("qnANum", communityNum);
 			commentList = boardService.selectComment(paramMap);
@@ -609,7 +609,7 @@ public class BoardControllerImpl2 implements BoardController2 {
 	}
 
 	// 댓글 추가
-	@RequestMapping(value = "/communityDerail/commentAdd.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/communityDetail/commentAdd.do", method = RequestMethod.POST)
 	public ResponseEntity commentAdd(@RequestParam(value = "id") String id,
 			@RequestParam(value = "qnANum") String qnANum,
 			@RequestParam(value = "commentContent") String commentContent, HttpServletRequest request,
@@ -633,7 +633,7 @@ public class BoardControllerImpl2 implements BoardController2 {
 	}
 
 	// 댓글 삭제
-	@RequestMapping(value = "/communityDerail/commentDelete.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/communityDetail/commentDelete.do", method = RequestMethod.POST)
 	public ResponseEntity commentDelete(@RequestParam(value = "num") String num,
 			@RequestParam(value = "qnANum") String qnANum, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {

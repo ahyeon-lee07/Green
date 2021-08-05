@@ -53,7 +53,7 @@ request.setCharacterEncoding("UTF-8");
 			</thead>
 			<tbody class="border-bottom">
 				<c:forEach items="${list }" var="list">
-					<tr id="${list.num }" class="" style="font-size: .8rem; cursor:pointer;"  onclick="location.href='${contextPath}/communityDerail/derailPage.do${pageMaker.makeQueryPage(bList.IDX, pageMaker.cri.page) }&communityNum=${list.num }&communityType=${communityType }'" >
+					<tr id="${list.num }" class="" style="font-size: .8rem; cursor:pointer;"  onclick="location.href='${contextPath}/communityDetail/detailPage.do${pageMaker.makeQueryPage(bList.IDX, pageMaker.cri.page) }&communityNum=${list.num }&communityType=${communityType }'" >
 						<td class="text-center align-middle px-2">
 							${list.num }
 						</td>

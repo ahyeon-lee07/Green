@@ -27,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.pro.green.member.service.MemberService;
 import com.pro.green.member.vo.MemberVO;
+import com.pro.green.product_M.vo.CartAddVO;
 import com.pro.green.product_M.vo.Criteria;
 import com.pro.green.product_M.vo.PageMaker;
 
@@ -234,6 +235,7 @@ public class MemberControllerImpl implements MemberController {
 				session.setAttribute("isLogOn", true); // 세션에 로그인 상태를 true로 설정
 				String action = (String) session.getAttribute("action"); // 로그인 성공 시 세션에 저장된 action 값을 가져온다.
 				session.removeAttribute("action"); // 게시물 등록
+				session.removeAttribute("nonmemberCart");
 				if (action != null) { // action 값이 null이 아니면 action 값을 뷰이름으로 지정해 글쓰기창으로 이동한다.
 					mav.setViewName("redirect:" + action);
 				} else {

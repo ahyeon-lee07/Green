@@ -246,19 +246,19 @@ public class MypageProductControllerImpl implements MypageProductController {
 				nonmemberCartList.add(product);
 			} else {
 
-				//받은 상품 정보의 아이디를 가지고 nonmemberCart안에 상품 아이디가 있는지 확인
-				//반은 상품 아이디를 inputProductId 변수 명에 저장
+				// 받은 상품 정보의 아이디를 가지고 nonmemberCart안에 상품 아이디가 있는지 확인
+				// 반은 상품 아이디를 inputProductId 변수 명에 저장
 				String inputProductId = product.getProductId();
 				List<String> nonmemberCartProductIdList = new ArrayList<String>();
-				
-				//nonmemberCart안 내용 만큼 반봅
-				for(int i=0; i<nonmemberCart.size(); i++) {
+
+				// nonmemberCart안 내용 만큼 반봅
+				for (int i = 0; i < nonmemberCart.size(); i++) {
 					nonmemberCartProductIdList.add(nonmemberCart.get(i).getProductId());
 				}
-				
-				if(nonmemberCartProductIdList.contains(inputProductId)) {
-					//nonmemberCart안 내용 만큼 반봅
-					for(int i=0; i<nonmemberCart.size(); i++) {
+
+				if (nonmemberCartProductIdList.contains(inputProductId)) {
+					// nonmemberCart안 내용 만큼 반봅
+					for (int i = 0; i < nonmemberCart.size(); i++) {
 						// nonmemberCart 안에 상품아이디와 새로 등록한 product 상품아이디가 같다면
 						if (nonmemberCart.get(i).getProductId().equals(inputProductId)) {
 
@@ -266,9 +266,9 @@ public class MypageProductControllerImpl implements MypageProductController {
 							for (int k = 0; k < product.getP_optionId().size(); k++) {
 								// product 옵션 아이디의 k번째 아이디를 optionId로 저장
 								String optionId = (String) product.getP_optionId().get(k);
-	
+
 								List<String> nonmemberCartOptionIdList = new ArrayList<String>();
-								
+
 								// nonmemberCart 안 옵션 아이디 만큼 반복한다.
 								for (int y = 0; y < nonmemberCart.get(i).getP_optionId().size(); y++) {
 									// nonmemberCart i번째 옵션아이디 y번째 옵션 아이디를 cartOptionId 저장
@@ -277,23 +277,23 @@ public class MypageProductControllerImpl implements MypageProductController {
 									if (cartOptionId.equals(optionId)) {
 										nonmemberCart.get(i).getStock().set(y, product.getStock().get(k));
 									}
-									
+
 									nonmemberCartOptionIdList.add(nonmemberCart.get(i).getP_optionId().get(y));
 								}
-								
-								if(!nonmemberCartOptionIdList.contains(optionId)) {
+
+								if (!nonmemberCartOptionIdList.contains(optionId)) {
 									nonmemberCart.get(i).getOption().add(product.getOption().get(k));
 									nonmemberCart.get(i).getP_optionId().add(product.getP_optionId().get(k));
 									nonmemberCart.get(i).getStock().add(product.getStock().get(k));
 								}
 							}
-							
+
 						}
 					}
-				}else {
+				} else {
 					nonmemberCart.add(product);
 				}
-				
+
 			}
 		}
 
@@ -313,7 +313,7 @@ public class MypageProductControllerImpl implements MypageProductController {
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO) session.getAttribute("member");
 		Map<String, Object> option = new HashMap<String, Object>();
-		
+
 		List<CartAddVO> nonmemberCart = (List<CartAddVO>) session.getAttribute("nonmemberCart");
 
 		int result = 0;
@@ -324,24 +324,24 @@ public class MypageProductControllerImpl implements MypageProductController {
 			option.put("optionId", optionId);
 
 			result = mypageProductService.cartDelete(option);
-			
-		}else if(user == null) {
-			
-			for(int i=0; i<nonmemberCart.size(); i++) {
-				for(int y=0; y<nonmemberCart.get(i).getP_optionId().size(); y++) {
-					
-					if(nonmemberCart.get(i).getP_optionId().get(y).equals(optionId)) {
+
+		} else if (user == null) {
+
+			for (int i = 0; i < nonmemberCart.size(); i++) {
+				for (int y = 0; y < nonmemberCart.get(i).getP_optionId().size(); y++) {
+
+					if (nonmemberCart.get(i).getP_optionId().get(y).equals(optionId)) {
 						nonmemberCart.get(i).getOption().remove(y);
 						nonmemberCart.get(i).getP_optionId().remove(y);
 						nonmemberCart.get(i).getStock().remove(y);
 					}
 				}
-				
-				if(nonmemberCart.get(i).getP_optionId().size()==0) {
+
+				if (nonmemberCart.get(i).getP_optionId().size() == 0) {
 					nonmemberCart.remove(i);
 				}
 			}
-			
+
 		}
 
 		mav.setViewName("redirect:/cartList.do");
@@ -359,14 +359,27 @@ public class MypageProductControllerImpl implements MypageProductController {
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO) session.getAttribute("member");
 
+		List<CartAddVO> nonmemberCart = (List<CartAddVO>) session.getAttribute("nonmemberCart");
+
 		int result = 0;
 
 		Map<String, Object> option = new HashMap<String, Object>();
-		option.put("userId", user.getId());
-		option.put("stock", stockCount);
-		option.put("optionId", optionId);
+		
+		if (user != null) {
+			option.put("userId", user.getId());
+			option.put("stock", stockCount);
+			option.put("optionId", optionId);
+			result = mypageProductService.stockChange(option);
 
-		result = mypageProductService.stockChange(option);
+		} else if(user == null) {
+			for (int i = 0; i < nonmemberCart.size(); i++) {
+				for (int y = 0; y < nonmemberCart.get(i).getP_optionId().size(); y++) {
+					if (nonmemberCart.get(i).getP_optionId().get(y).equals(optionId)) {
+						nonmemberCart.get(i).getStock().set(y, Integer.parseInt(stockCount));
+					}
+				}
+			}
+		}
 
 		resEntity = new ResponseEntity(result, HttpStatus.OK);
 		return resEntity;
