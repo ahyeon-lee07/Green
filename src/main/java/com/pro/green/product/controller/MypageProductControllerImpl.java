@@ -184,16 +184,16 @@ public class MypageProductControllerImpl implements MypageProductController {
 			for (int i = 0; i < nonmemberCart.size(); i++) {
 				for (int y = 0; y < nonmemberCart.get(i).getP_optionId().size(); y++) {
 					Map<String, Object> cart = new HashMap<String, Object>();
-					
+
 					String optionId = nonmemberCart.get(i).getP_optionId().get(y);
-					
+
 					String p_stock = mypageProductService.selectP_stock(optionId);
 
 					String productId = nonmemberCart.get(i).getProductId();
 
 					cart.put("productId", nonmemberCart.get(i).getProductId());
 					cart.put("s_optionId", nonmemberCart.get(i).getP_optionId().get(y));
-					cart.put("S_stock", nonmemberCart.get(i).getStock().get(y));
+					cart.put("s_stock", nonmemberCart.get(i).getStock().get(y));
 					cart.put("p_option", nonmemberCart.get(i).getOption().get(y));
 					cart.put("p_stock", p_stock);
 					cart.put("product", mypageProductService.nonmemberCartList(productId));
@@ -369,14 +369,14 @@ public class MypageProductControllerImpl implements MypageProductController {
 		int result = 0;
 
 		Map<String, Object> option = new HashMap<String, Object>();
-		
+
 		if (user != null) {
 			option.put("userId", user.getId());
 			option.put("stock", stockCount);
 			option.put("optionId", optionId);
 			result = mypageProductService.stockChange(option);
 
-		} else if(user == null) {
+		} else if (user == null) {
 			for (int i = 0; i < nonmemberCart.size(); i++) {
 				for (int y = 0; y < nonmemberCart.get(i).getP_optionId().size(); y++) {
 					if (nonmemberCart.get(i).getP_optionId().get(y).equals(optionId)) {
@@ -388,6 +388,22 @@ public class MypageProductControllerImpl implements MypageProductController {
 
 		resEntity = new ResponseEntity(result, HttpStatus.OK);
 		return resEntity;
+	}
+
+	// 주문하기 @RequestParam("choiceProductList") List<Map<String, Object>> choiceProductList
+	@RequestMapping(value = "/product/productOrder.do", method = RequestMethod.POST)
+	public ModelAndView productOrder(@RequestParam(value = "productId[]") List<String> productId,
+			@RequestParam(value = "s_stock[]") List<String> s_stock,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		ModelAndView mav = new ModelAndView();
+
+		HttpSession session = request.getSession();
+		MemberVO user = (MemberVO) session.getAttribute("member");
+
+
+		mav.setViewName("redirect:/orderList.do");
+		return mav;
 	}
 
 }

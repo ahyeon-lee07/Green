@@ -39,6 +39,7 @@ request.setCharacterEncoding("UTF-8");
                 </c:choose>
             </div>
         </div>
+            
         <table class="table table-hover m-0 mt-2">
 			<thead class=" border-bottom border-top bg-light">
                 <tr>
@@ -114,7 +115,7 @@ request.setCharacterEncoding("UTF-8");
 								</c:choose>
 							</td>
 							<td class="text-center align-middle px-2">
-		                        <input type="number" class="form-control S_stockBox" name="S_stock[${indexNum.index}]" data-index="${indexNum.index}" step="1" value="${cartList.S_stock}" min="1" max="${cartList.p_stock}">
+		                        <input type="number" class="form-control s_stockBox" name="s_stock[${indexNum.index}]" data-index="${indexNum.index}" step="1" value="${cartList.s_stock}" min="1" max="${cartList.p_stock}">
 		                    </td>
 		                    <td class="text-center align-middle px-2">
                                 <input type="text" class="form-control inputBoxReadonly" name="productMileage[${indexNum.index}]"  value="${product.productMileage}" style="padding: 0; border: 0; text-align: center;" readonly>
@@ -141,9 +142,8 @@ request.setCharacterEncoding("UTF-8");
                     		</td>
                     	</c:forEach>
             		</tr>
-            	</c:forEach>
-                
-            </tbody>
+            	</c:forEach>           
+            </tbody>        
         </table>
 
         <div class="row" style="padding: 0 15px">
@@ -211,7 +211,7 @@ request.setCharacterEncoding("UTF-8");
                     </div>
                     <div class="d-flex flex-row">
                         <div class="px-2 bd-highlight">
-                            <a class="" href="${contextPath }/orderList.do"><button type="button" class="btn btn-outline-success">선택 상품주문</button></a>
+                            <button type="button" class="btn btn-outline-success" onclick="return productOrder()">선택 상품주문</button>
                        </div>
                        <div class=" bd-highlight">
                             <a class="" href="${contextPath }/orderList.do"><button type="button" class="btn btn-success">전체 상품주문</button></a>
@@ -330,14 +330,14 @@ function checkSelectAll()  {
     //수량 클릭시 합계 변경
     function totalChk() {
 
-        var S_stockBox = document.getElementsByClassName('S_stockBox');
+        var s_stockBox = document.getElementsByClassName('s_stockBox');
         var totalList = document.getElementsByClassName('total');
 
-        for(var i=0; i<S_stockBox.length; i++){
+        for(var i=0; i<s_stockBox.length; i++){
 
-            totalList[i].innerText = (S_stockBox[i].value * discountYNCHk(i)).toLocaleString()+ "원";
+            totalList[i].innerText = (s_stockBox[i].value * discountYNCHk(i)).toLocaleString()+ "원";
 
-            S_stockBox[i].addEventListener('change', function(){
+            s_stockBox[i].addEventListener('change', function(){
 
                 var max_V = event.target.max;
                 if(event.target.value > max_V){
@@ -390,7 +390,7 @@ function checkSelectAll()  {
 
     //총 금액 세팅 
     function totalBoxChk(){
-        var S_stockBox = document.getElementsByClassName('S_stockBox');
+        var s_stockBox = document.getElementsByClassName('s_stockBox');
         var totalBoxPrice = document.getElementsByClassName('totalBoxPrice');
         var totalBoxDiscount = document.getElementsByClassName('totalBoxDiscount');
         var duePayment = document.getElementsByClassName('duePayment');
@@ -402,11 +402,11 @@ function checkSelectAll()  {
         var shipTotal_O = 2500;
 
         for (var i = 0; i < price.length; i++) {
-            totalPrice += (S_stockBox[i].value * price[i].value);
+            totalPrice += (s_stockBox[i].value * price[i].value);
         }
 
-        for (var i = 0; i < S_stockBox.length; i++) {
-           totalProductPrice += (S_stockBox[i].value * discountYNCHk(i));
+        for (var i = 0; i < s_stockBox.length; i++) {
+           totalProductPrice += (s_stockBox[i].value * discountYNCHk(i));
         }
 
         for (var i = 0; i < totalBoxPrice.length; i++) {
@@ -421,7 +421,6 @@ function checkSelectAll()  {
             duePayment[i].innerText = (totalPrice + shipTotal_O - (totalPrice - totalProductPrice)).toLocaleString();
         }
     };
-
 
     //장바구니 수량 변경
     function stockChange(optionId, stockCount){
@@ -444,6 +443,55 @@ function checkSelectAll()  {
 		    }
 	    });
 	};
+
+    //선택상품 주문 s_stockBox
+    function productOrder(){
+        
+        var checkList = document.getElementsByName('Choice');
+        var choiceProductList = [];
+        
+
+        for(var i=0; i<checkList.length; i++){
+            if(checkList[i].checked){
+
+                var choiceProduct = new Map(); 
+                choiceProduct.set("productId",checkList[i].parentElement.parentElement.parentElement.id);
+                choiceProduct.set("s_stock",document.getElementsByClassName('s_stockBox')[i].value);
+                choiceProductList.push(choiceProduct);
+            }
+        }
+
+        if(choiceProductList.length == 0){
+            alert("한개 이상은 상품을 선택해야 합니다.");
+        }
+
+        console.log(choiceProductList);
+        //location.href = "${contextPath}/product/productOrder.do?choiceProductList="+choiceProductList;
+
+        post_to_url("${contextPath}/product/productOrder.do", choiceProductList);
+
+    }
+
+    function post_to_url(path, params, method) {
+        method = method || "post"; 
+        var form = document.createElement("form");
+        form.setAttribute("method", method);
+        form.setAttribute("action", path);
+
+        for(var i=0; i<params.length; i++){
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("productId", params[i].get("productId"));
+            hiddenField.setAttribute("s_stock", params[i].get("s_stock"));
+
+            console.log(hiddenField);
+
+            form.appendChild(hiddenField)
+        }
+        document.body.appendChild(form);
+        form.submit();
+    }
+
 
     
 

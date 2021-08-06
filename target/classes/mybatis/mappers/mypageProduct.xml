@@ -8,8 +8,8 @@
 		<result property="cartNum" column="cartNum" />
 		<result property="id" column="id" />
 		<result property="productId" column="productId" />
-		<result property="S_option" column="S_option" />
-		<result property="S_stock" column="S_stock" />
+		<result property="s_optionId" column="s_optionId" />
+		<result property="s_stock" column="s_stock" />
 		<result property="cartType" column="cartType" />
 	</resultMap>
 	
@@ -52,7 +52,7 @@
 	<insert id="cartAdd" parameterType="hashmap">
 		<![CDATA[
 	  INSERT INTO 
-			cart(id, productId, cartType, S_option, S_stock)
+			cart(id, productId, cartType, s_optionId, s_stock)
 		VALUES
 			(#{userId}, #{productId}, #{cartType}, #{option}, #{stock});
 	   ]]>  
@@ -102,7 +102,7 @@
 		FROM
 			cart
 		WHERE
-			id = #{userId} AND productId = #{productId} AND S_option= #{option} AND cartType = #{cartType};
+			id = #{userId} AND productId = #{productId} AND s_optionId= #{option} AND cartType = #{cartType};
 	   ]]>  
 	</select>
 	
@@ -116,7 +116,7 @@
 		FROM 
 			cart AS A
 		LEFT JOIN
-			product_option AS B ON A.S_option = B.p_optionId
+			product_option AS B ON A.s_optionId = B.p_optionId
 		WHERE
 			id = #{id} AND cartType = 'cart';
 	   ]]>  
@@ -160,9 +160,9 @@
 	   UPDATE
 			cart
 		SET
-			S_stock = #{stock}
+			s_stock = #{stock}
 		WHERE
-			id = #{userId} AND productId = #{productId} AND S_option= #{option} AND cartType = #{cartType};
+			id = #{userId} AND productId = #{productId} AND s_optionId= #{option} AND cartType = #{cartType};
 	   ]]>  
 	</update>
 	
@@ -172,9 +172,9 @@
 	   UPDATE
 			cart
 		SET
-			S_stock = #{stock}
+			s_stock = #{stock}
 		WHERE
-			S_option = #{optionId} AND id = #{userId};
+			s_optionId = #{optionId} AND id = #{userId};
 	   ]]>  
 	</update>
 	<!-- /수정==========================================================================================  -->
@@ -195,7 +195,7 @@
 		<![CDATA[
 	  DELETE FROM cart
 		WHERE
-			S_option = #{optionId} AND id = #{userId } AND cartType = #{cartType};
+			s_optionId = #{optionId} AND id = #{userId } AND cartType = #{cartType};
 	   ]]>  
 	</delete>
 	
