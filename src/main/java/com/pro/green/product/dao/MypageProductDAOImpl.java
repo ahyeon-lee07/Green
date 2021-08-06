@@ -75,9 +75,9 @@ public class MypageProductDAOImpl implements MypageProductDAO {
 
 	// 비회원 장바구니 조회
 	public List<Map<String, Object>> nonmemberCartList(String productId) throws DataAccessException {
-		
+
 		List<Map<String, Object>> result = sqlSession.selectList("mapper.mypageProduct.selectProduct", productId);
-		
+
 		return result;
 	}
 
@@ -92,4 +92,11 @@ public class MypageProductDAOImpl implements MypageProductDAO {
 		int result = sqlSession.update("mapper.mypageProduct.stockChange", option);
 		return result;
 	}
+
+	// 비회원 장바구니 추가 시 상품 재고 조회
+	public String selectP_stock(String optionId) throws DataAccessException {
+		String result = sqlSession.selectOne("mapper.mypageProduct.selectP_stock", optionId);
+		return result;
+	}
+
 }

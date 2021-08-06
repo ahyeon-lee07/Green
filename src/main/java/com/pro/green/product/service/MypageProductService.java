@@ -33,5 +33,8 @@ public interface MypageProductService {
 	//비회원 장바구니 조회
 	public List<Map<String, Object>> nonmemberCartList(String productId) throws DataAccessException;
 
+	//비회원 장바구니 추가 시 상품 재고 조회
+	public String selectP_stock(String optionId) throws DataAccessException;
+
 
 }

@@ -184,6 +184,10 @@ public class MypageProductControllerImpl implements MypageProductController {
 			for (int i = 0; i < nonmemberCart.size(); i++) {
 				for (int y = 0; y < nonmemberCart.get(i).getP_optionId().size(); y++) {
 					Map<String, Object> cart = new HashMap<String, Object>();
+					
+					String optionId = nonmemberCart.get(i).getP_optionId().get(y);
+					
+					String p_stock = mypageProductService.selectP_stock(optionId);
 
 					String productId = nonmemberCart.get(i).getProductId();
 
@@ -191,6 +195,7 @@ public class MypageProductControllerImpl implements MypageProductController {
 					cart.put("S_option", nonmemberCart.get(i).getP_optionId().get(y));
 					cart.put("S_stock", nonmemberCart.get(i).getStock().get(y));
 					cart.put("p_option", nonmemberCart.get(i).getOption().get(y));
+					cart.put("p_stock", p_stock);
 					cart.put("product", mypageProductService.nonmemberCartList(productId));
 					cartList.add(y, cart);
 

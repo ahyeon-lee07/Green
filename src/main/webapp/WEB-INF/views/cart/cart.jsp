@@ -339,6 +339,12 @@ function checkSelectAll()  {
 
             S_stockBox[i].addEventListener('change', function(){
 
+                var max_V = event.target.max;
+                if(event.target.value > max_V){
+				    alert("재고 수량은 \"" + max_V +"\" 개 입니다.");
+				    event.target.value = max_V;
+			    }
+
                 var Num = event.target.dataset['index'];
 
                 var price = discountYNCHk(Num);
@@ -438,5 +444,7 @@ function checkSelectAll()  {
 		    }
 	    });
 	};
+
+    
 
 </script>

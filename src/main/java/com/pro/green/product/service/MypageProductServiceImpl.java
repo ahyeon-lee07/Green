@@ -60,4 +60,10 @@ public class MypageProductServiceImpl implements MypageProductService {
 	public List<Map<String, Object>> nonmemberCartList(String productId) throws DataAccessException {
 		return mypageProductDAO.nonmemberCartList(productId);
 	}
+
+	// 비회원 장바구니 추가 시 상품 재고 조회
+	public String selectP_stock(String optionId) throws DataAccessException {
+		return mypageProductDAO.selectP_stock(optionId);
+	}
+
 }

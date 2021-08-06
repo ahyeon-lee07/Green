@@ -137,6 +137,18 @@
     ]]>
 	</select>
 	
+	<!-- 비회원 장바구니 추가 시 상품 재고 조회 -->
+	<select id="selectP_stock" resultType="String" parameterType="String">
+    <![CDATA[
+		SELECT
+			p_stock
+		FROM
+			product_option
+		WHERE
+			p_optionId = #{optionId};
+    ]]>
+	</select>
+	
 	
 	<!-- /조회==========================================================================================  -->
 	
