@@ -209,8 +209,8 @@ request.setCharacterEncoding("UTF-8");
 						<tr>
 							<th
 								class="text-center border-bottom-0 align-middle border-top-0 px-1"
-								style="width: 36px"><input type='checkbox' name='selectall'
-								value='selectall' onclick='selectAll(this)' /></th>
+								style="width: 36px"><input type='checkbox' name='selectall1'
+								value='selectall' onclick='selectAll(this, "terms1")' /></th>
 							<th
 								class="text-center border-bottom-0 align-middle border-top-0 px-1"
 								style="width: auto">이름</th>
@@ -218,61 +218,39 @@ request.setCharacterEncoding("UTF-8");
 								style="width: auto">아이디</th>
 							<th class="text-center border-bottom-0 border-top-0 px-2"
 								style="width: auto">등급</th>
-							<!--  
-							<th class="text-center border-bottom-0 border-top-0 px-2"
-								style="width: 156px">가입일</th> -->
+
 						</tr>
 					</thead>
 					<tbody class="border-bottom" id="memberList">
 						<c:forEach items="${memberList }" var="list">
-							<tr id="${list.id }" class="">
-								<td class="text-center align-middle align-middle px-1"><c:choose>
-										<c:when test="${list.hasCoupon == 'Y' }">
-											<div>
-												<!-- 
-												<input class="checkbox" type='checkbox' name='useYN'
-													value='Y' onclick="fn_couponYN()" checked />  -->
-												<input id="chk1" type='checkbox' name='terms' value='terms1'
-													onclick='checkSelectAll()' />
-											</div>
-										</c:when>
-										<c:otherwise>
-											<div>
-												<!-- 
-												<input class="checkbox" type='checkbox' name='useYN'
-													value='N' onclick="fn_couponYN()" />  -->
-												<input id="chk2" type='checkbox' name='terms' value='terms2'
-													onclick='checkSelectAll()' />
-											</div>
-										</c:otherwise>
-									</c:choose></td>
-								<td class="text-center align-middle align-middle px-1">
-									${list.name }</td>
-								<td class="text-center align-middle align-middle px-1">
-									${list.id }</td>
-								<td class="text-center align-middle align-middle px-1">
-									${list.grade }</td>
-								<!-- 
-								<td class="text-center align-middle align-middle px-1"
-									style="font-size: .8rem">${list.joinDate }</td>  -->
-							</tr>
+							<c:if test="${list.hasCoupon == null }">
+								<tr id="${list.id }" class="">
+									<td class="text-center align-middle align-middle px-1">
+										<div>
+											<input class="terms1" type='checkbox' name='terms1' value=''
+												onclick='checkSelectAll("selectall1", "terms1")' />
+										</div>
+									</td>	
+									<td class="text-center align-middle align-middle px-1">
+										${list.name }</td>
+									<td class="text-center align-middle align-middle px-1 terms1_userId">
+										${list.id }</td>
+									<td class="text-center align-middle align-middle px-1">
+										${list.grade }</td>
+								</tr>
+							</c:if>
+							
 						</c:forEach>
 					</tbody>
 				</table>
 			</div>
 			<div class="col-1 d-flex align-items-center">
 				<div class="d-flex flex-column">
-					<!-- 
-					<a class="bd-highlight mb-2" href="#" name='useYN' value='Y' onclick="fn_couponYN()">
-						<button type="button" class="btn btn-outline-secondary" style="font-size: .8rem">발급▶</button>
-					</a>
-					<a class="bd-highlight" href="#" name='useYN' value='N' onclick="fn_couponYN()">
-						<button type="button" class="btn btn-outline-secondary" style="font-size: .8rem">◀회수</button>
-					</a>
-				-->
-					<button type="button" class="btn btn-outline-secondary mb-2" name='useYN' value='Y' onclick="fn_couponYN()"
+					<button type="button" class="btn btn-outline-secondary mb-2"
+						name='useYN' value='Y' onclick="fn_couponYN('terms1')"
 						style="font-size: .8rem">발급▶</button>
-					<button type="button" class="btn btn-outline-secondary" name='useYN' value='N' onclick="fn_couponYN()"
+					<button type="button" class="btn btn-outline-secondary"
+						name='useYN' value='N' onclick="fn_couponYN('terms2')"
 						style="font-size: .8rem">◀회수</button>
 				</div>
 
@@ -288,8 +266,8 @@ request.setCharacterEncoding("UTF-8");
 						<tr>
 							<th
 								class="text-center border-bottom-0 align-middle border-top-0 px-1"
-								style="width: 36px"><input type='checkbox' name='selectall'
-								value='selectall' onclick='selectAll(this)' /></th>
+								style="width: 36px"><input type='checkbox' name='selectall2'
+								value='selectall' onclick='selectAll(this, "terms2")' /></th>
 							<th
 								class="text-center border-bottom-0 align-middle border-top-0 px-1"
 								style="width: 100px">이름</th>
@@ -302,23 +280,23 @@ request.setCharacterEncoding("UTF-8");
 						</tr>
 					</thead>
 					<tbody class="border-bottom" id="hasCouponList">
-						<c:forEach items="${hasCoupon }" var="list">
-							<tr id="${list.id }" class="">
-								<td class="text-center align-middle align-middle px-1">
-									<div>
-										<input class="checkbox" type='checkbox' name='useYN' value='Y'
-											onclick="fn_couponYN()" checked />
-									</div>
-								</td>
-								<td class="text-center align-middle align-middle px-1">
-									${list.name }</td>
-								<td class="text-center align-middle align-middle px-1">
-									${list.id }</td>
-								<td class="text-center align-middle align-middle px-1">
-									${list.grade }</td>
-								<td class="text-center align-middle align-middle px-1"
-									style="font-size: .8rem">${list.couponUseDate }</td>
-							</tr>
+						<c:forEach items="${hasCoupon}" var="list">
+								<tr id="${list.id }" class="">
+									<td class="text-center align-middle align-middle px-1">
+										<div>
+											<input class="terms2" type='checkbox' name='terms2' value=''
+												onclick='checkSelectAll("selectall2", "terms2")' />
+										</div>
+									</td>
+									<td class="text-center align-middle align-middle px-1">
+										${list.name }</td>
+									<td class="text-center align-middle align-middle px-1 terms2_userId">
+										${list.id }</td>
+									<td class="text-center align-middle align-middle px-1">
+										${list.grade }</td>
+									<td class="text-center align-middle align-middle px-1"
+										style="font-size: .8rem">${list.couponUseDate }</td>
+								</tr>
 						</c:forEach>
 					</tbody>
 				</table>
@@ -326,8 +304,8 @@ request.setCharacterEncoding("UTF-8");
 		</div>
 	</div>
 </main>
-<script>
 
+<script>
 
 	// 활성화 여부
 	var showYN = document.getElementById('inputUseYN');
@@ -438,7 +416,7 @@ request.setCharacterEncoding("UTF-8");
 		}else {
 			return false;
 		}
-	}
+	}	
 	
 	//초를 Date로 변환
 	function addZero(data){
@@ -456,18 +434,29 @@ request.setCharacterEncoding("UTF-8");
 	}
 	 
 	// 쿠폰
-	function fn_couponYN() {
-			var userId = event.currentTarget.parentNode.parentNode.parentNode.id;
-			var useYNChk = event.currentTarget.value;
+	function fn_couponYN(terms) {
+
+			var termsList = document.getElementsByClassName(terms);
+			var userId = document.getElementsByClassName(terms+'_userId');
+
+			var chk_arr=[];
+
+			for(var i=0; i<termsList.length; i++){
+				if(termsList[i].checked){
+					chk_arr.push(userId[i].innerText);
+				}
+			}
+
 			var couponId = "${couponInf.couponId }";
 			
-			var useYNChk_V;
+			var hasCouponYN;
 
-			if (useYNChk == 'Y') {
-				useYNChk_V = 'N';
-			} else {
-				useYNChk_V = 'Y';
+			if(terms == "terms1"){
+				hasCouponYN = "Y";
+			}else if(terms == "terms2"){
+				hasCouponYN = "N";
 			}
+
 			$.ajax({
 				type: "POST",
 				async: true,
@@ -475,8 +464,8 @@ request.setCharacterEncoding("UTF-8");
 				dataType: "json",
 				data: {
 					couponId: couponId,
-					value: useYNChk_V,
-					userId: userId
+					value: hasCouponYN,
+					userId: chk_arr
 				},
 				success: function (list) {
 
@@ -484,39 +473,30 @@ request.setCharacterEncoding("UTF-8");
 
 					for(var i=0; i< list["memberList"].length; i++){
 						
-						var joinDate = getTimestampToDate(list["memberList"][i]['joinDate']);
-
-						memberList += '<tr id="' + list["memberList"][i]['id'] +'" class="">';
-						memberList += '	<td class="text-center align-middle align-middle px-1">';
-						
-						if(list["memberList"][i]["hasCoupon"] == 'Y'){
-						memberList += '<div><input id="chk1" type="checkbox" name="terms" value="terms1" onclick="checkSelectAll()" /></div>';
-						}else {
-						memberList += '<div><input id="chk1" type="checkbox" name="terms" value="terms2" onclick="checkSelectAll()" /></div>';
+						if(list["memberList"][i]["hasCoupon"] == null){
+							memberList += '<tr id="' + list["memberList"][i]['id'] +'" >';
+							memberList += '<td class="text-center align-middle align-middle px-1">';
+							memberList += '<div><input class="terms1" type="checkbox" name="terms1" onclick="checkSelectAll(\'selectall1\', \'terms1\')" /></div>';
+							memberList += '</td>';
+							memberList += '<td class="text-center align-middle align-middle px-1">' + list["memberList"][i]['name'] +'</td>';
+							memberList += '<td class="text-center align-middle align-middle px-1 terms1_userId">' + list["memberList"][i]['id'] +'</td>';
+							memberList += '<td class="text-center align-middle align-middle px-1">' + list["memberList"][i]['grade'] +'</td>';
+							memberList += '</tr>';
 						}
-
-						memberList += '</td>';
-						memberList += '<td class="text-center align-middle align-middle px-1">' + list["memberList"][i]['name'] +'</td>';
-						memberList += '<td class="text-center align-middle align-middle px-1">' + list["memberList"][i]['id'] +'</td>';
-						memberList += '<td class="text-center align-middle align-middle px-1">' + list["memberList"][i]['grade'] +'</td>';
-						// memberList += '	<td class="text-center align-middle align-middle px-1" style="font-size: .8rem">' + joinDate +'</td>';
-						memberList += '</tr>';
-
 					}
 					document.getElementById('memberList').innerHTML = memberList;
 
 					var hasCouponList = "";
-
 					for (var i = 0; i < list["hasCoupon"].length; i++) {
 						
 						var useDate = getTimestampToDate(list["hasCoupon"][i]['couponUseDate']);
 
 						hasCouponList +='<tr id="' + list["hasCoupon"][i]['id'] +'" class="">';
 						hasCouponList +='<td class="text-center align-middle align-middle px-1">';
-						hasCouponList +='<div><input class="checkbox" type="checkbox" name="useYN" value="Y" onclick="fn_couponYN()" checked /></div>';
+						hasCouponList +='<div><input class="terms2" type="checkbox" name="terms2" onclick="checkSelectAll(\'selectall2\', \'terms2\')" /></div>';
 						hasCouponList +='</td>';
 						hasCouponList +='<td class="text-center align-middle align-middle px-1">' + list["hasCoupon"][i]['name'] +'</td>';
-						hasCouponList +='<td class="text-center align-middle align-middle px-1">' + list["hasCoupon"][i]['id'] +'</td>';
+						hasCouponList +='<td class="text-center align-middle align-middle px-1 terms2_userId">' + list["hasCoupon"][i]['id'] +'</td>';
 						hasCouponList +='<td class="text-center align-middle align-middle px-1">' + list["hasCoupon"][i]['grade'] +'</td>';
 
 						if(list["hasCoupon"][i]['couponUseDate'] != undefined ){
@@ -527,8 +507,11 @@ request.setCharacterEncoding("UTF-8");
 						
 						hasCouponList +='</tr>';
 					}
-
 					document.getElementById('hasCouponList').innerHTML = hasCouponList;
+
+					document.getElementsByName('selectall1')[0].checked = false;
+					document.getElementsByName('selectall2')[0].checked = false;
+
 				},
 				error: function (data, textStatus) {
 
@@ -538,17 +521,18 @@ request.setCharacterEncoding("UTF-8");
 				}
 			});
 		}
-	//전체 선택
-	function checkSelectAll() {
+
+	//전체 선택 "selectall1", "terms1"
+	function checkSelectAll(selectall, terms) {
 		// 전체 체크박스
 		const checkboxes
-			= document.querySelectorAll('input[name="terms"]');
+			= document.querySelectorAll('input[name='+terms+']');
 		// 선택된 체크박스
 		const checked
-			= document.querySelectorAll('input[name="terms"]:checked');
+			= document.querySelectorAll('input[name='+terms+']:checked');
 		// select all 체크박스
 		const selectAll
-			= document.querySelector('input[name="selectall"]');
+			= document.querySelector('input[name='+selectall+']');
 
 		if (checkboxes.length === checked.length) {
 			selectAll.checked = true;
@@ -558,9 +542,9 @@ request.setCharacterEncoding("UTF-8");
 
 	}
 
-	function selectAll(selectAll) {
+	function selectAll(selectAll, terms) {
 		const checkboxes
-			= document.getElementsByName('terms');
+			= document.getElementsByName(terms);
 
 		checkboxes.forEach((checkbox) => {
 			checkbox.checked = selectAll.checked

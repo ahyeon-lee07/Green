@@ -178,11 +178,11 @@ public class MasterControllerImpl implements MasterController {
 		
 		for(int i=0; i<hasCoupon.size(); i++) {
 			
-			String couponid = hasCoupon.get(i).get("id").toString();
+			String userId = hasCoupon.get(i).get("id").toString();
 			for(int j=0; j<memberList.size(); j++) {
 				
-				String memberid = memberList.get(j).get("id").toString();
-				if(couponid.equals(memberid)) {
+				String memberId = memberList.get(j).get("id").toString();
+				if(userId.equals(memberId)) {
 					memberList.get(j).put("hasCoupon", "Y");
 				}
 			}
@@ -199,25 +199,28 @@ public class MasterControllerImpl implements MasterController {
 	
 	//쿠폰 보유 정보 변경
 	@RequestMapping(value = "/couponList/hasCouponYN.do", method = RequestMethod.POST)
-	public ResponseEntity hasCouponYN(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ResponseEntity hasCouponYN(@RequestParam(value = "couponId") String couponId,
+									@RequestParam(value = "value") String value,
+									@RequestParam(value = "userId[]") List<String> userId,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ResponseEntity resEntity = null;
-		String couponId = request.getParameter("couponId");
-		String value = request.getParameter("value");
-		String userId = request.getParameter("userId");
-		
 
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("couponId", couponId);
-		paramMap.put("userId", userId);
 		
 		int result;
 		
-		if(value.equals("Y")) {
-			result = masterService.hasCouponAdd(paramMap);
-		}else {
-			result = masterService.hasCouponDelete(paramMap);
+		for(int i=0; i<userId.size(); i++) {
+			
+			paramMap.put("userId", userId.get(i));
+			
+			if(value.equals("Y")) {
+				result = masterService.hasCouponAdd(paramMap);
+			}else {
+				result = masterService.hasCouponDelete(paramMap);
+			}
 		}
-
+		
 		List<Map<String, Object>> memberList = masterService.memberList();
 		List<Map<String, Object>> hasCoupon = masterService.hasCouponList(couponId);
 		
