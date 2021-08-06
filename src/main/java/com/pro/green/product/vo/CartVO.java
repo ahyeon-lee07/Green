@@ -8,8 +8,8 @@ public class CartVO {
 	private int cartNum;
 	private String id;
 	private String productId;
-	private String S_option;
-	private String S_stock;
+	private String s_optionId;
+	private String s_stock;
 	private String cartType;
 	
 	public int getCartNum() {
@@ -31,16 +31,16 @@ public class CartVO {
 		this.productId = productId;
 	}
 	public String getS_option() {
-		return S_option;
+		return s_optionId;
 	}
-	public void setS_option(String s_option) {
-		S_option = s_option;
+	public void setS_option(String s_optionId) {
+		s_optionId = s_optionId;
 	}
 	public String getS_stock() {
-		return S_stock;
+		return s_stock;
 	}
 	public void setS_stock(String s_stock) {
-		S_stock = s_stock;
+		s_stock = s_stock;
 	}
 	public String getCartType() {
 		return cartType;

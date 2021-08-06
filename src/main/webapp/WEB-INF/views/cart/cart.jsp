@@ -66,9 +66,9 @@ request.setCharacterEncoding("UTF-8");
                 	</tr>
                 </c:if>
             	<c:forEach items="${cartList}" var="cartList" varStatus="indexNum">
-            		<tr id="${cartList.S_option }">
+            		<tr id="${cartList.s_optionId }">
                         <th style="display: none;">
-                            <input type="text" name="optionId[${indexNum.index}]" value="${cartList.S_option }" >
+                            <input type="text" name="optionId[${indexNum.index}]" value="${cartList.s_optionId }" >
                         </th>
             			<th class="text-center align-middle align-middle px-1">
 	                        <div style="height: 14px;">
@@ -135,7 +135,7 @@ request.setCharacterEncoding("UTF-8");
 		                                style="font-size: 0.7rem; width: 100%;">주문하기</button>
 		                        </div>
 		                        <div class="bd-highlight">
-		                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="return cartDelete('${cartList.S_option }')"
+		                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="return cartDelete('${cartList.s_optionId }')"
 		                                style="font-size: 0.7rem; width: 100%;">삭제</button>
 		                        </div>
                     		</td>

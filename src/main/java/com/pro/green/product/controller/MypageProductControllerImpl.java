@@ -192,7 +192,7 @@ public class MypageProductControllerImpl implements MypageProductController {
 					String productId = nonmemberCart.get(i).getProductId();
 
 					cart.put("productId", nonmemberCart.get(i).getProductId());
-					cart.put("S_option", nonmemberCart.get(i).getP_optionId().get(y));
+					cart.put("s_optionId", nonmemberCart.get(i).getP_optionId().get(y));
 					cart.put("S_stock", nonmemberCart.get(i).getStock().get(y));
 					cart.put("p_option", nonmemberCart.get(i).getOption().get(y));
 					cart.put("p_stock", p_stock);
