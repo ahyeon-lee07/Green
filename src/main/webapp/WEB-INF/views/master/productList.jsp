@@ -213,15 +213,15 @@ request.setCharacterEncoding("UTF-8");
 	//필터 버튼 활성화 처리
 	window.onload = function() {
 		var filterV = document.getElementById('filterV').innerText;
-		var optins = document.getElementsByName('options');
+		var options = document.getElementsByName('options');
 
-		for (var i = 0; i < optins.length; i++) {
-			var optin = optins[i];
-			optin.parentNode.setAttribute('class', 'btn btn-outline-secondary');
-			if (optin.value == filterV) {
-				optin.parentNode.setAttribute('class',
+		for (var i = 0; i < options.length; i++) {
+			var option = options[i];
+			option.parentNode.setAttribute('class', 'btn btn-outline-secondary');
+			if (option.value == filterV) {
+				option.parentNode.setAttribute('class',
 						'btn btn-outline-secondary active');
-				optin.checked = true;
+				option.checked = true;
 			}
 		}
 
