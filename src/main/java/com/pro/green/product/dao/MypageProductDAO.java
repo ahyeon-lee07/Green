@@ -36,4 +36,7 @@ public interface MypageProductDAO {
 	// 비회원 장바구니 추가 시 상품 재고 조회
 	public String selectP_stock(String optionId) throws DataAccessException;
 
+	// 주문서작성 조회
+	public List<Map<String, Object>> productOrderList(String optionId) throws DataAccessException;
+
 }

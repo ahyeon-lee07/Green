@@ -149,6 +149,18 @@
     ]]>
 	</select>
 	
+	<!-- 주문서작성 조회 -->
+	<select id="productOrderList" resultType="hashmap" parameterType="String">
+    <![CDATA[
+		SELECT
+			*
+		FROM
+			product_option
+		WHERE
+			p_optionId = #{optionId};
+    ]]>
+	</select>
+	
 	
 	<!-- /조회==========================================================================================  -->
 	

@@ -66,4 +66,9 @@ public class MypageProductServiceImpl implements MypageProductService {
 		return mypageProductDAO.selectP_stock(optionId);
 	}
 
+	// 주문서작성 조회
+	public List<Map<String, Object>> productOrderList(String optionId) throws DataAccessException {
+		return mypageProductDAO.productOrderList(optionId);
+	}
+
 }

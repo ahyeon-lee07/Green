@@ -99,4 +99,14 @@ public class MypageProductDAOImpl implements MypageProductDAO {
 		return result;
 	}
 
+	// 주문서작성 조회 selectProduct  =sqlSession.selectList("mapper.mypageProduct.selectProduct", productId);
+	public List<Map<String, Object>> productOrderList(String optionId) throws DataAccessException {
+
+		List<Map<String, Object>> result = sqlSession.selectList("mapper.mypageProduct.productOrderList", optionId);
+		String productId = (String) result.get(0).get("productId");
+		
+		result.get(0).put("product", sqlSession.selectList("mapper.mypageProduct.selectProduct", productId));
+		return result;
+	}
+
 }

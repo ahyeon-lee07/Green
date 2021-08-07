@@ -392,15 +392,23 @@ public class MypageProductControllerImpl implements MypageProductController {
 
 	// 주문하기 @RequestParam("choiceProductList") List<Map<String, Object>> choiceProductList
 	@RequestMapping(value = "/product/productOrder.do", method = RequestMethod.POST)
-	public ModelAndView productOrder(@RequestParam(value = "productId[]") List<String> productId,
-			@RequestParam(value = "s_stock[]") List<String> s_stock,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView productOrder(@ModelAttribute CartAddVO product ,HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		ModelAndView mav = new ModelAndView();
 
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO) session.getAttribute("member");
-
+		
+		List<Map<String, Object>> orderList = new ArrayList<Map<String, Object>>();
+		
+		for(int i=0; i<product.getP_optionId().size(); i++) {
+			String optionId = product.getP_optionId().get(i);
+			
+			orderList.addAll(mypageProductService.productOrderList(optionId));
+		}
+		
+		mav.addObject("orderList", orderList);
+		mav.addObject("user", user);
 
 		mav.setViewName("redirect:/orderList.do");
 		return mav;
