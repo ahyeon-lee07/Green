@@ -196,7 +196,7 @@ public class HomeController {
 		return "privacyPolicy";
 	}
 
-	// 비회원로그인
+	// 비회원 로그인
 	@RequestMapping(value = "/noMember.do", method = RequestMethod.GET)
 	public String unMember(Locale locale, Model model) {
 		return "noMember";
@@ -208,10 +208,16 @@ public class HomeController {
 		return "orderList";
 	}
 
-	// 구매내역 조회
+	// 구매 내역 조회
 	@RequestMapping(value = "/purchaseList.do", method = RequestMethod.GET)
 	public String purchaseList(Locale locale, Model model) {
 		return "purchaseList";
+	}
+	
+	// 구매 내역 상세
+	@RequestMapping(value = "/purchaseDetails.do", method = RequestMethod.GET)
+	public String purchaseDetails(Locale locale, Model model) {
+		return "purchaseDetails";
 	}
 
 	// 리뷰
@@ -220,7 +226,7 @@ public class HomeController {
 		return "review";
 	}
 
-	// 리뷰상세
+	// 리뷰 상세
 	@RequestMapping(value = "/review_in.do", method = RequestMethod.GET)
 	public String review_in(Locale locale, Model model) {
 		return "review_in";

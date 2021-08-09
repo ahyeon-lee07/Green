@@ -124,16 +124,22 @@
 		<put-attribute name="main" value="/WEB-INF/views/myPage/userPwChk.jsp" />
 	</definition>
 	
-	<!-- 회원정보수정/탈퇴 -->
+	<!-- 회원정보 수정/탈퇴 -->
 	<definition name="memberEdit" extends="baseLayout">
 		<put-attribute name="title" value="회원정보수정/탈퇴" />
 		<put-attribute name="main" value="/WEB-INF/views/myPage/memberCorrection.jsp" />
 	</definition>
 	
-	<!-- 구매내역조회 -->
+	<!-- 구매 내역 조회 -->
 	<definition name="purchaseList" extends="baseLayout">
 		<put-attribute name="title" value="구매내역조회" />
 		<put-attribute name="main" value="/WEB-INF/views/myPage/purchaseHistory.jsp" />
+	</definition>
+	
+	<!-- 구매 내역 상세 -->
+	<definition name="purchaseDetails" extends="baseLayout">
+		<put-attribute name="title" value="구매 내역 상세" />
+		<put-attribute name="main" value="/WEB-INF/views/myPage/purchaseDetails.jsp" />
 	</definition>
 	
 	<!-- 관심상품내역 조회 -->
