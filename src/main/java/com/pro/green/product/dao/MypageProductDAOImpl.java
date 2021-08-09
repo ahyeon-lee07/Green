@@ -9,6 +9,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.pro.green.product.vo.CartVO;
+import com.pro.green.product.vo.MemberHasCouponVO;
 
 @Repository("mypageProductDAO")
 public class MypageProductDAOImpl implements MypageProductDAO {
@@ -99,13 +100,26 @@ public class MypageProductDAOImpl implements MypageProductDAO {
 		return result;
 	}
 
-	// 주문서작성 조회 selectProduct  =sqlSession.selectList("mapper.mypageProduct.selectProduct", productId);
+	// 주문서작성 조회 selectProduct
+	// =sqlSession.selectList("mapper.mypageProduct.selectProduct", productId);
 	public List<Map<String, Object>> productOrderList(String optionId) throws DataAccessException {
 
 		List<Map<String, Object>> result = sqlSession.selectList("mapper.mypageProduct.productOrderList", optionId);
 		String productId = (String) result.get(0).get("productId");
-		
+
 		result.get(0).put("product", sqlSession.selectList("mapper.mypageProduct.selectProduct", productId));
+		return result;
+	}
+
+	// 유저 보유 쿠폰 정보 가져오기
+	public List<MemberHasCouponVO> memberHasCoupon(String userId) throws DataAccessException {
+		List<MemberHasCouponVO> result = sqlSession.selectList("mapper.mypageProduct.memberHasCoupon", userId);
+		return result;
+	}
+
+	// 유저 보유 쿠폰 조회
+	public List<Map<String, Object>> hasCouponList(String userId) throws DataAccessException {
+		List<Map<String, Object>> result = sqlSession.selectList("mapper.mypageProduct.hasCouponList", userId);
 		return result;
 	}
 

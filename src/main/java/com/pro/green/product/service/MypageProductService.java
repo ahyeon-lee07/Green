@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.dao.DataAccessException;
 
 import com.pro.green.product.vo.CartVO;
+import com.pro.green.product.vo.MemberHasCouponVO;
 
 public interface MypageProductService {
 
@@ -38,6 +39,12 @@ public interface MypageProductService {
 
 	//주문서작성 조회
 	public List<Map<String, Object>> productOrderList(String optionId) throws DataAccessException;
+
+	//유저 보유 쿠폰 정보 가져오기
+	public List<MemberHasCouponVO> memberHasCoupon(String userId) throws DataAccessException;
+
+	//유저 보유 쿠폰 조회
+	public List<Map<String, Object>> hasCouponList(String userId) throws DataAccessException;
 
 
 }

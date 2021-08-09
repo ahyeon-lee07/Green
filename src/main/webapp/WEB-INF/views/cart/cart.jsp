@@ -43,7 +43,7 @@ request.setCharacterEncoding("UTF-8");
         <table class="table table-hover m-0 mt-2">
 			<thead class=" border-bottom border-top bg-light">
                 <tr>
-                    <th class="text-center border-bottom-0 align-middle border-top-0 px-1" style="width: 40px">
+                    <th class="text-center border-bottom-0 align-middle border-top-0 px-1" style="width: 28px">
                         <div>
                             <input type='checkbox' name='selectall' value='selectall' onclick='selectAll(this)' />
                         </div>

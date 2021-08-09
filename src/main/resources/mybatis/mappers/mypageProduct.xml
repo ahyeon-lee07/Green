@@ -33,6 +33,14 @@
 		<result property="imgType" column="imgType" />
 		<result property="imgURL" column="imgURL" />
 	</resultMap>
+	
+	<resultMap id="memberHasCouponResult" type="memberHasCouponVO">
+		<result property="hasCouponNum" column="hasCouponNum" />
+		<result property="id" column="id" />
+		<result property="couponId" column="couponId" />
+		<result property="couponYN" column="couponYN" />
+		<result property="couponUseDate" column="couponUseDate" />
+	</resultMap>
 
 	
 	
@@ -158,6 +166,32 @@
 			product_option
 		WHERE
 			p_optionId = #{optionId};
+    ]]>
+	</select>
+	
+	<!-- 유저 보유 쿠폰 정보 조회 -->
+	<select id="memberHasCoupon" resultType="memberHasCouponVO" parameterType="String">
+    <![CDATA[
+		SELECT
+			*
+		FROM
+			member_has_coupon
+		WHERE
+			id = #{userId};
+    ]]>
+	</select>
+	
+	<!-- 유저 보유 쿠폰 조회 -->
+	<select id="hasCouponList" resultType="hashmap" parameterType="String">
+    <![CDATA[
+		SELECT
+			A.*,
+		    B.*
+		FROM
+			member_has_coupon AS A
+		LEFT JOIN coupon AS B ON A.couponId = B.couponId
+		WHERE
+			A.id = #{userId};
     ]]>
 	</select>
 	
