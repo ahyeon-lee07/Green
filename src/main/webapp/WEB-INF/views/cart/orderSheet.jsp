@@ -440,24 +440,34 @@ request.setCharacterEncoding("UTF-8");
                         </div>
                     </div>
                     <div class="row text-center border rounded-top">
-                        <div class="col-4">
+                        <div class="col-3">
                             <div class="row py-2 bg-light border-bottom">
                                 <div class="col">
                                     총 주문 금액
-                                    <button type="button" class="btn btn-outline-secondary btn-sm"
-                                        style="font-size: .6rem">내역 보기</button>
                                 </div>
                             </div>
                             <div class="row py-3">
                                 <div class="col">
-                                    <span class="font-weight-bold" style="font-size: 1.5rem;">12,000 </span>원
+                                    <span class="font-weight-bold totalBoxPrice" style="font-size: 1.5rem;"> </span>원
                                 </div>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-3">
                             <div class="row py-2 bg-light border-bottom">
                                 <div class="col">
-                                    총 할인 + 부가결제 금액
+                                    배송비
+                                </div>
+                            </div>
+                            <div class="row py-3">
+                                <div class="col">
+                                    <span class="font-weight-bold totalBoxShip" style="font-size: 1.5rem;"></span>원
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="row py-2 bg-light border-bottom">
+                                <div class="col">
+                                    총 할인
                                 </div>
                             </div>
                             <div class="row py-3">
@@ -466,7 +476,7 @@ request.setCharacterEncoding("UTF-8");
                                 </div>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-3">
                             <div class="row py-2 bg-light border-bottom">
                                 <div class="col">
                                     총 결제 예정 금액
@@ -480,12 +490,15 @@ request.setCharacterEncoding("UTF-8");
                         </div>
                     </div>
                     <div class="row border border-top-0" style="font-size: .9rem">
-                        <div class="col-2 bg-light py-2 border-right font-weight-bold">총 할인 금액</div>
-                        <div class="col-10 py-2">3,000원</div>
+                        <div class="col-2 bg-light py-2 border-right font-weight-bold">상품 할인 금액</div>
+                        <div class="col-10 py-2">
+                            <span class="totalBoxDiscount"></span>원
+                        </div>
                     </div>
                     <div class="row border border-top-0" style="font-size: .9rem">
                         <div class="col-2 bg-light py-2 border-right font-weight-bold">추가 할인 금액</div>
-                        <div class="col-10 py-2">0원
+                        <div class="col-10 py-2">
+                            <span id="totalUserUseDiscount"></span>원
                             <button type="button" class="btn btn-outline-secondary btn-sm ml-4"
                                 style="font-size: .6rem">내역 보기</button>
                         </div>
@@ -812,6 +825,8 @@ request.setCharacterEncoding("UTF-8");
 	        for (var i = 0; i < duePayment.length; i++) {
 	            duePayment[i].innerText = (totalPrice + shipTotal_O - (totalPrice - totalProductPrice)).toLocaleString();
 	        }
+
+            userUseDiscount();
 	    };
 
     //배송지 선택
@@ -865,7 +880,35 @@ request.setCharacterEncoding("UTF-8");
             alert("사용가능한 적립금은 \"" + mileageUseMax_V +"\" 원 입니다.");
 			mileageUse.value = mileageUseMax_V;
         }
+
+        userUseDiscount();
     });
+
+     //사용자 마이리지 및 쿠폰 totalUserUseDiscount
+    function userUseDiscount() {
+
+        var mileageUse = Number(document.getElementById('mileageUse').value);
+        var coupon_Input_CountType = document.getElementById('coupon_Input_CountType').value;
+        var coupon_Input_Pay = Number(document.getElementById('coupon_Input_Pay').value);
+
+        var s_stockBox = document.getElementsByClassName('s_stockBox');
+	        
+	    var price = document.getElementsByClassName('price');
+	    var totalPrice = 0;
+
+	    for (var i = 0; i < price.length; i++) {
+	        totalPrice += (s_stockBox[i].value * price[i].value);
+	    }
+
+        if( mileageUse != '' && coupon_Input_CountType == '') {
+            document.getElementById('totalUserUseDiscount').innerText = mileageUse.toLocaleString();
+        }else if(coupon_Input_CountType == 'normal') {
+            document.getElementById('totalUserUseDiscount').innerText = (mileageUse + coupon_Input_Pay).toLocaleString();
+        }else if(coupon_Input_CountType == 'percent'){
+            document.getElementById('totalUserUseDiscount').innerText = (mileageUse + (totalPrice * coupon_Input_Pay / 100)).toLocaleString();
+        }
+ 
+    };
 
     //쿠폰 검색
 	function couponSearch(){
