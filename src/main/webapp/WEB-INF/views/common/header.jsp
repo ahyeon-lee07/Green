@@ -54,9 +54,9 @@ request.setCharacterEncoding("UTF-8");
 							aria-expanded="false"> 커뮤니티 </a>
 							<div class="dropdown-menu mt-2" aria-labelledby="navbarDropdown">
 								<a class="dropdown-item" href="${contextPath }/community.do?communityType=notice">공지사항</a>
-								<a class="dropdown-item" href="${contextPath }/community.do?communityType=event">이벤트 게시판</a>
+								<a class="dropdown-item" href="${contextPath }/community.do?communityType=event">이벤트</a>
 								<a class="dropdown-item" href="${contextPath }/community.do?communityType=qna">Q&A</a>
-								<a class="dropdown-item" href="${contextPath }/community.do?communityType=review">Review</a>
+								<a class="dropdown-item" href="${contextPath }/community.do?communityType=review">리뷰</a>
 							</div>
 						</li>
 						<c:choose>
@@ -174,9 +174,9 @@ request.setCharacterEncoding("UTF-8");
 													class="bd-highlight border-bottom font-weight-bold py-2">커뮤니티
 												</div>
 												<a class="pb-1 text-black-50" href="${contextPath }/community.do?communityType=notice">공지사항</a>
-												<a class="pb-1 text-black-50" href="${contextPath }/community.do?communityType=event">이벤트 게시판</a>
+												<a class="pb-1 text-black-50" href="${contextPath }/community.do?communityType=event">이벤트</a>
 												<a class="py-1 text-black-50" href="${contextPath }/community.do?communityType=qna">Q&A</a>
-												<a class="pb-1 text-black-50" href="${contextPath }/community.do?communityType=review">Review</a>
+												<a class="pb-1 text-black-50" href="${contextPath }/community.do?communityType=review">리뷰</a>
 											</div>
 										</div>
 										<div class="bd-highlight">
