@@ -61,7 +61,8 @@ request.setCharacterEncoding("UTF-8");
 								</c:otherwise>
 							</c:choose></td>
 						<td class="text-center align-middle px-2"><c:choose>
-								<c:when test="${list.pw == '$2a$10$/1H.vjB3Wl9GtF5YfTDoF.4/SuH/Vty7.g.7cXnLhqZjCwYT8tnSq'}">
+								<c:when
+									test="${list.pw == '$2a$10$/1H.vjB3Wl9GtF5YfTDoF.4/SuH/Vty7.g.7cXnLhqZjCwYT8tnSq'}">
 									<div class="text-black-50">SNS 가입 회원</div>
 								</c:when>
 								<c:otherwise>
@@ -79,12 +80,14 @@ request.setCharacterEncoding("UTF-8");
 							style="font-size: .8rem;">
 							<div>
 								<c:choose>
-									<c:when test="${list.grade == 'new' }">
-																신규
-														</c:when>
-									<c:when test="${list.grade == 'gold' }">
-																골드
-														</c:when>
+									<c:when test="${list.grade == 'new' }">신규
+									</c:when>
+									<c:when test="${list.grade == 'general' }">일반
+									</c:when>
+									<c:when test="${list.grade == 'vip' }">우수
+									</c:when>
+									<c:when test="${list.grade == 'master' }">관리자
+									</c:when>
 								</c:choose>
 							</div>
 						</td>
