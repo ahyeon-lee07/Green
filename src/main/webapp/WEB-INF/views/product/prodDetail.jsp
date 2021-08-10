@@ -114,7 +114,7 @@ request.setCharacterEncoding("UTF-8");
 								
 							</c:if>
 							<button class="btn btn-outline-secondary flex-fill bd-highlight mx-1" id="insertCart" onclick="return fn_InsertCart()" style=" height: 46px;">장바구니</button>
-							<button class="btn btn-success flex-fill bd-highlight mx-1" id="prodOrder" onclick="fn_ProdOrder()"style="height: 46px;">바로구매</button>
+							<button class="btn btn-success flex-fill bd-highlight mx-1" id="prodOrder" type="button" onclick="return fn_ProdOrder()"style="height: 46px;">바로구매</button>
 						</div>
 						
 					</div>
@@ -140,7 +140,7 @@ request.setCharacterEncoding("UTF-8");
 								<div class="bd-highlight font-weight-bold text-secondary text-left productListTitle mt-2">
 									<p class="ell">${product.productName}</p>
 								</div>
-								<div class="d-flex bd-highlight flex-column text-left my-3" style="height: 46px;">
+								<div class="d-flex bd-highlight flex-column text-left mt-3" style="height: 46px;">
 									<c:choose>
 										<c:when test="${product.discountYN == 'Y'}">
 											<div class="bd-highlight text-black-50 discountBox" style="font-size:.9rem; width: 50%;">
@@ -159,18 +159,18 @@ request.setCharacterEncoding("UTF-8");
 								</div>
 							</a>
 							<div class="d-flex justify-content-center mt-2">
-								<div class="bd-highlight flex-grow-1 btn btn-sm btn-outline-secondary mr-1 btn_product" href="${contextPath}/wist_list.do">바로구매</div>
+								<a class="bd-highlight flex-grow-1 btn btn-sm btn-outline-secondary mr-1 btn_product" href="${contextPath}/prodList/prodDetail.do${pageMaker.makeQueryPage(bList.IDX, pageMaker.cri.page) }&productId=${product.productId}">바로구매</a>
 								
 								<c:choose>
 									<c:when test="${RecommendProductwishList != 'N' }">
 										<c:choose>
 											<c:when test="${product.cartType == 'wish'}">
-												<div class="bd-highlight btn btn-sm btn-outline-success ml-1 btn_product btn_wish ${product.productId}" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
+												<div class="bd-highlight btn btn-sm btn-link btn_product btn_wish ${product.productId}" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
 													<img class="icon_wish ${product.productId}" data-value="Y" src="${contextPath }/resources/img/heart-fill.svg" alt="">
 												</div>
 											</c:when>
 											<c:otherwise>
-												<div class="bd-highlight btn btn-sm btn-outline-success ml-1 btn_product btn_wish ${product.productId}" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
+												<div class="bd-highlight btn btn-sm btn-link btn_product btn_wish ${product.productId}" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
 													<img class="icon_wish ${product.productId}" data-value="N" src="${contextPath }/resources/img/heart.svg" alt="">
 												</div>
 											</c:otherwise>
@@ -440,6 +440,56 @@ document.addEventListener('keydown', function(event) {
 		form.action = "${contextPath}/prodList/prodDetail/cartAdd.do";
 		comSubmit.submit();
 	}
+
+	//바로구매
+	function fn_ProdOrder(){
+		var form = document.prodForm;
+
+		if(formChk() == false){
+			return false;
+		}
+		
+		var optionList = document.getElementsByClassName('optionList');
+        var choiceProductList = [];
+        
+        for(var i=0; i<optionList.length; i++){
+
+			var p_optionId = optionList[i].id.split('_')[1];
+            var choiceProduct = new Map(); 
+            choiceProduct.set("p_optionId",p_optionId);
+            choiceProduct.set("stock",document.getElementById("p_stock_"+p_optionId).value);
+            choiceProductList.push(choiceProduct);
+            
+        }
+
+		post_to_url("${contextPath}/product/productOrder.do", choiceProductList);
+	}
+
+	function post_to_url(path, params, method) {
+        method = method || "post"; 
+        var form = document.createElement("form");
+        form.setAttribute("method", method);
+        form.setAttribute("action", path);
+
+        for(var i=0; i<params.length; i++){
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", "p_optionId["+i+"]");
+            hiddenField.setAttribute("value", params[i].get("p_optionId"));
+
+            var hiddenField2 = document.createElement("input");
+            hiddenField2.setAttribute("type", "hidden");
+            hiddenField2.setAttribute("name", "stock[" + i + "]");
+            hiddenField2.setAttribute("value", params[i].get("stock"));
+
+            form.appendChild(hiddenField);
+            form.appendChild(hiddenField2);
+
+        }
+        console.log(form);
+        document.body.appendChild(form);
+        form.submit();
+    }
 	
 	function formChk(){
 		var optionList = document.getElementsByClassName('optionList');
@@ -483,50 +533,5 @@ document.addEventListener('keydown', function(event) {
 		}
 	});
 }
-	
-	/*
-	
-	function fn_InsertWish() { // 좋아요
-			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/wish_list.do'/>");
-			comSubmit.addParam("GOODS_NO", ${list.GOODS_NO});
-			comSubmit.submit();
-		}
-	
-	
-	function fn_ProdOrder() { // 구매하기
-		if(doubleSubmitCheck()) return; // 중복클릭 방지
-			var arraycode = document.getElementsByName("BASKET_GOODS_AMOUNT");
-			var len = arraycode.length;
-			if(len==0){
-				alert("상품을 추가해 주세요.");
-			} else{
-				var comSubmit = new ComSubmit("frm");
-				comSubmit.setUrl("<c:url value='/orderList.do'/>");
-				comSubmit.submit();
-			}
-	}
-	
-	// 장바구니
-	function fn_InsertCart() {
-	if(doubleSubmitCheck()) return; // 중복클릭 방지
-		var arraycode = document.getElementsByName("BASKET_GOODS_AMOUNT");
-		var len = arraycode.length;
-		if(len==0){
-			alert("상품을 추가해 주세요.");
-		} else{
-			var url = "/stu/shop/basketPopUp.do";
-			var name = "popup";
-			var option = "width=382, height=227, top=500, left=800, location=no";
-
-			var comSubmit = new ComSubmit("frm");
-			comSubmit.setUrl("<c:url value='/cart.do'/>");
-			window.open(url,name,option);
-			comSubmit.submit();
-		}
-	}
-
-	
-	*/
 	
 </script>

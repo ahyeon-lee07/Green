@@ -465,9 +465,6 @@ function checkSelectAll()  {
             alert("한개 이상은 상품을 선택해야 합니다.");
         }
 
-        console.log(choiceProductList);
-        //location.href = "${contextPath}/product/productOrder.do?choiceProductList="+choiceProductList;
-
         post_to_url("${contextPath}/product/productOrder.do", choiceProductList);
 
     }
