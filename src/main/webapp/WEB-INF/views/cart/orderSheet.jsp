@@ -57,11 +57,6 @@ request.setCharacterEncoding("UTF-8");
         <table class="table table-hover border-top m-0">
             <thead class=" border-bottom-0 bg-light">
                 <tr>
-                   <!--  <th class="text-center border-bottom-0 align-middle border-top-0 px-1" style="width: 28px">
-                        <div>
-                            <input type='checkbox' name='selectall' value='selectall' onclick='selectAll(this)' />
-                        </div>
-                    </th> -->
                     <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 140px">이미지</th>
                     <th class="text-center border-bottom-0 border-top-0 px-2" style="width: auto">상품 정보</th>
                     <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 80px">판매가</th>
@@ -79,18 +74,12 @@ request.setCharacterEncoding("UTF-8");
                         <th style="display: none;">
                             <input type="text" name="optionId[${indexNum.index}]" value="${cartList.s_optionId }" >
                         </th>
-            			<!-- <th class="text-center align-middle align-middle px-1">
-	                        <div style="height: 14px;">
-	                            <input type='checkbox' name='Choice' value='Choice1' onclick='checkSelectAll()'/>
-	                        </div>
-                    	</th> -->
-                    	
                     	<c:forEach items="${cartList.product }" var="product">
 	                    	<td class="text-center align-middle px-2">            
 	                    		<img src="${contextPath }/resources/img/${product.p_group }/${product.imgURL }"  class="img-thumbnail" alt="#">
 	                    	</td>
 	                    	<td class="align-middle align-middle px-2 ">
-		                        <div class="font-weight-bold pb-1 bd-highlight">
+		                        <div class="font-weight-bold pb-1 bd-highlight productName">
 		                            <a href="${contextPath}/prodList/prodDetail.do${pageMaker.makeQueryPage(bList.IDX, pageMaker.cri.page) }&productId=${cartList.productId}" style="color: black">
 		                                ${product.productName }
 		                             </a>
@@ -510,7 +499,7 @@ request.setCharacterEncoding("UTF-8");
                         </div>
                     </div>
 
-                    <!-- 결제 수단 -->
+                    <!-- 결제 수단 //card(신용카드), trans(실시간계좌이체), vbank(가상계좌), phone(휴대폰소액결제) -->
                     <div class="row">
                         <div class="col mt-4 mb-1 p-0">
                             <h6 class="font-weight-bold">결제 수단</h6>
@@ -521,25 +510,20 @@ request.setCharacterEncoding("UTF-8");
                             <div class="row p-3 border-bottom">
                                 <div class="col">
                                     <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" id="customRadioInline1" name="customRadioInline1"
-                                            class="custom-control-input">
-                                        <label class="custom-control-label" for="customRadioInline1">카드 결제</label>
+                                        <input type="radio" id="card" name="payType" class="custom-control-input payType" value="card" checked>
+                                        <label class="custom-control-label" for="card">카드 결제</label>
                                     </div>
                                     <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" id="customRadioInline2" name="customRadioInline1"
-                                            class="custom-control-input">
-                                        <label class="custom-control-label" for="customRadioInline2">에스크로(실시간
-                                            계좌이체)</label>
+                                        <input type="radio" id="trans" name="payType" class="custom-control-input payType" value="trans">
+                                        <label class="custom-control-label" for="trans">에스크로(실시간 계좌이체)</label>
                                     </div>
                                     <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" id="customRadioInline3" name="customRadioInline1"
-                                            class="custom-control-input">
-                                        <label class="custom-control-label" for="customRadioInline3">휴대폰 결제</label>
+                                        <input type="radio" id="phone" name="payType" class="custom-control-input payType" value="phone">
+                                        <label class="custom-control-label" for="phone">휴대폰 결제</label>
                                     </div>
                                     <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" id="customRadioInline4" name="customRadioInline1"
-                                            class="custom-control-input">
-                                        <label class="custom-control-label" for="customRadioInline4">무통장 입금</label>
+                                        <input type="radio" id="vbank" name="payType" class="custom-control-input payType" value="vbank">
+                                        <label class="custom-control-label" for="vbank">무통장 입금</label>
                                     </div>
                                 </div>
                             </div>
@@ -558,7 +542,7 @@ request.setCharacterEncoding("UTF-8");
                             </div>
                             <div class="row mt-3 mb-3">
                                 <div class="col">
-                                    <button type="button" class="btn btn-outline-success btn-block">결제하기</button>
+                                    <button type="button" class="btn btn-success btn-block" onclick="btn_pay()">결제하기</button>
                                 </div>
                             </div>
                         </div>
@@ -644,6 +628,8 @@ request.setCharacterEncoding("UTF-8");
 	</div>
 </main>
 
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <!-- 우편번호 API -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
@@ -838,6 +824,8 @@ request.setCharacterEncoding("UTF-8");
             for (var i = 0; i < finalPay.length; i++) {
 	            finalPay[i].innerText = (totalPrice + shipTotal_O - totalDiscountChk()).toLocaleString();
 	        }
+
+            return (totalPrice + shipTotal_O - totalDiscountChk());
 	    };
 
     //배송지 선택
@@ -976,4 +964,76 @@ request.setCharacterEncoding("UTF-8");
 		window.open("${contextPath }/couponSearch.do", "couponSearch", "width=800px, height=500px, left=100, top=50");
 	}
 
+
+    //결제하기
+    function btn_pay(){
+
+        var payTypeList = document.getElementsByClassName('payType');
+        var payType;
+
+        for(var i=0; i<payTypeList.length; i++){
+            if(payTypeList[i].checked == true){
+                payType = payTypeList[i].value;
+            }
+        };
+
+        var productName = document.getElementsByClassName('productName')[0].childNodes[1].innerText;
+        var amount = totalBoxChk();
+
+        var email = document.getElementById('inputEmail1').value+"@"+document.getElementById('inputEmail2').value;
+        var userName = document.getElementById('inputUser').value;
+        
+        var phone = document.getElementById('phone').value.substr(0,3)+"-"+document.getElementById('phone').value.substr(3,4)+"-"+document.getElementById('phone').value.substr(7,4);
+
+        var addr = document.getElementById('addr1').value+" "+document.getElementById('addr2').value; 
+        var zipCode = document.getElementById('zipCode').value;
+
+        var IMP = window.IMP; // 생략 가능
+        IMP.init("imp64568643"); // 예: imp00000000
+
+        IMP.request_pay({
+            pg : 'html5_inicis', //ActiveX 결제창은 inicis를 사용
+            pay_method : payType, //card(신용카드), trans(실시간계좌이체), vbank(가상계좌), phone(휴대폰소액결제)
+            merchant_uid : 'merchant_' + new Date().getTime(), //상점에서 관리하시는 고유 주문번호를 전달
+            name : productName,
+            amount : amount,
+            buyer_email : email,
+            buyer_name : userName,
+            buyer_tel : phone, //누락되면 이니시스 결제창에서 오류
+            buyer_addr : addr,
+            buyer_postcode : zipCode
+        }, function(rsp) {
+            if ( rsp.success ) {
+                //[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
+                jQuery.ajax({
+                    url: "/payments/complete", //cross-domain error가 발생하지 않도록 주의해주세요
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        imp_uid : rsp.imp_uid
+                        //기타 필요한 데이터가 있으면 추가 전달
+                    }
+                }).done(function(data) {
+                    //[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
+                    if ( everythings_fine ) {
+                        var msg = '결제가 완료되었습니다.';
+                        msg += '\n고유ID : ' + rsp.imp_uid;
+                        msg += '\n상점 거래ID : ' + rsp.merchant_uid;
+                        msg += '\n결제 금액 : ' + rsp.paid_amount;
+                        msg += '카드 승인번호 : ' + rsp.apply_num;
+                        
+                        alert(msg);
+                    } else {
+                        //[3] 아직 제대로 결제가 되지 않았습니다.
+                        //[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
+                    }
+                });
+            } else {
+                var msg = '결제에 실패하였습니다.';
+                msg += '에러내용 : ' + rsp.error_msg;
+                
+                alert(msg);
+            }
+        });
+    }
 </script>
