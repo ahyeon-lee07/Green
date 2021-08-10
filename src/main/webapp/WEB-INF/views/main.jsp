@@ -112,7 +112,7 @@ request.setCharacterEncoding("UTF-8");
 										<div class="bd-highlight font-weight-bold text-secondary text-left productListTitle mt-2">
 											<p class="ell">${product.productName}</p>
 										</div>
-										<div class="d-flex bd-highlight flex-column text-left my-3" style="height: 46px;">
+										<div class="d-flex bd-highlight flex-column text-left mt-3" style="height: 46px;">
 											<c:choose>
 												<c:when test="${product.discountYN == 'Y'}">
 													<div class="bd-highlight text-black-50 discountBox" style="font-size:.9rem; width: 50%;">
@@ -131,18 +131,18 @@ request.setCharacterEncoding("UTF-8");
 										</div>
 									</a>
 									<div class="d-flex justify-content-center mt-2">
-										<div class="bd-highlight flex-grow-1 btn btn-sm btn-outline-secondary mr-1 btn_product" href="${contextPath}/wist_list.do">바로구매</div>
+										<a class="bd-highlight flex-grow-1 btn btn-sm btn-outline-secondary mr-1 btn_product" href="${contextPath}/prodList/prodDetail.do${pageMaker.makeQueryPage(bList.IDX, pageMaker.cri.page) }&productId=${product.productId}">바로구매</a>
 										
 										<c:choose>
 											<c:when test="${newProductwishList != 'N' }">
 												<c:choose>
 													<c:when test="${product.cartType == 'wish'}">
-														<div class="bd-highlight btn btn-sm btn-outline-success ml-1 btn_product btn_wish" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
+														<div class="bd-highlight btn btn-sm btn-link btn_product btn_wish" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
 															<img class="icon_wish ${product.productId}" data-value="Y" src="${contextPath }/resources/img/heart-fill.svg" alt="">
 														</div>
 													</c:when>
 													<c:otherwise>
-														<div class="bd-highlight btn btn-sm btn-outline-success ml-1 btn_product btn_wish" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
+														<div class="bd-highlight btn btn-sm btn-link btn_product btn_wish" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
 															<img class="icon_wish ${product.productId}" data-value="N" src="${contextPath }/resources/img/heart.svg" alt="">
 														</div>
 													</c:otherwise>
@@ -184,7 +184,7 @@ request.setCharacterEncoding("UTF-8");
 										<div class="bd-highlight font-weight-bold text-secondary text-left productListTitle mt-2">
 											<p class="ell">${product.productName}</p>
 										</div>
-										<div class="d-flex bd-highlight flex-column text-left my-3" style="height: 46px;">
+										<div class="d-flex bd-highlight flex-column text-left mt-3" style="height: 46px;">
 											<c:choose>
 												<c:when test="${product.discountYN == 'Y'}">
 													<div class="bd-highlight text-black-50 discountBox" style="font-size:.9rem; width: 50%;">
@@ -203,18 +203,18 @@ request.setCharacterEncoding("UTF-8");
 										</div>
 									</a>
 									<div class="d-flex justify-content-center mt-2">
-										<div class="bd-highlight flex-grow-1 btn btn-sm btn-outline-secondary mr-1 btn_product" href="${contextPath}/wist_list.do">바로구매</div>
+										<a class="bd-highlight flex-grow-1 btn btn-sm btn-outline-secondary mr-1 btn_product" href="${contextPath}/prodList/prodDetail.do${pageMaker.makeQueryPage(bList.IDX, pageMaker.cri.page) }&productId=${product.productId}">바로구매</a>
 										
 										<c:choose>
 											<c:when test="${bestProductwishList != 'N' }">
 												<c:choose>
 													<c:when test="${product.cartType == 'wish'}">
-														<div class="bd-highlight btn btn-sm btn-outline-success ml-1 btn_product btn_wish" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
+														<div class="bd-highlight btn btn-sm btn-link btn_product btn_wish" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
 															<img class="icon_wish ${product.productId}" data-value="Y" src="${contextPath }/resources/img/heart-fill.svg" alt="">
 														</div>
 													</c:when>
 													<c:otherwise>
-														<div class="bd-highlight btn btn-sm btn-outline-success ml-1 btn_product btn_wish" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
+														<div class="bd-highlight btn btn-sm btn-link btn_product btn_wish" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
 															<img class="icon_wish ${product.productId}" data-value="N" src="${contextPath }/resources/img/heart.svg" alt="">
 														</div>
 													</c:otherwise>
@@ -256,7 +256,7 @@ request.setCharacterEncoding("UTF-8");
 										<div class="bd-highlight font-weight-bold text-secondary text-left productListTitle mt-2">
 											<p class="ell">${product.productName}</p>
 										</div>
-										<div class="d-flex bd-highlight flex-column text-left my-3" style="height: 46px;">
+										<div class="d-flex bd-highlight flex-column text-left mt-3" style="height: 46px;">
 											<c:choose>
 												<c:when test="${product.discountYN == 'Y'}">
 													<div class="bd-highlight text-black-50 discountBox" style="font-size:.9rem; width: 50%;">
@@ -275,18 +275,18 @@ request.setCharacterEncoding("UTF-8");
 										</div>
 									</a>
 									<div class="d-flex justify-content-center mt-2">
-										<div class="bd-highlight flex-grow-1 btn btn-sm btn-outline-secondary mr-1 btn_product" href="${contextPath}/wist_list.do">바로구매</div>
+										<a class="bd-highlight flex-grow-1 btn btn-sm btn-outline-secondary mr-1 btn_product" href="${contextPath}/prodList/prodDetail.do${pageMaker.makeQueryPage(bList.IDX, pageMaker.cri.page) }&productId=${product.productId}">바로구매</a>
 										
 										<c:choose>
 											<c:when test="${discountProductwishList != 'N' }">
 												<c:choose>
 													<c:when test="${product.cartType == 'wish'}">
-														<div class="bd-highlight btn btn-sm btn-outline-success ml-1 btn_product btn_wish" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
+														<div class="bd-highlight btn btn-sm btn-link btn_product btn_wish" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
 															<img class="icon_wish ${product.productId}" data-value="Y" src="${contextPath }/resources/img/heart-fill.svg" alt="">
 														</div>
 													</c:when>
 													<c:otherwise>
-														<div class="bd-highlight btn btn-sm btn-outline-success ml-1 btn_product btn_wish" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
+														<div class="bd-highlight btn btn-sm btn-link btn_product btn_wish" onclick="btn_wishYN('${product.productId}')" style="width: 40px;">
 															<img class="icon_wish ${product.productId}" data-value="N" src="${contextPath }/resources/img/heart.svg" alt="">
 														</div>
 													</c:otherwise>

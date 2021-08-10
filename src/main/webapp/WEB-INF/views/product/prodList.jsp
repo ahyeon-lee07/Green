@@ -68,7 +68,7 @@
 												<div class="bd-highlight font-weight-bold text-secondary text-left productListTitle mt-2">
 													<p class="ell">${product.productName}</p>
 												</div>
-												<div class="d-flex bd-highlight flex-column text-left my-3" style="height: 46px;">
+												<div class="d-flex bd-highlight flex-column text-left mt-3" style="height: 46px;">
 													<c:choose>
 														<c:when test="${product.discountYN == 'Y'}">
 															<div class="bd-highlight text-black-50 discountBox" style="font-size:.9rem; width: 50%;">
@@ -87,8 +87,7 @@
 												</div>
 											</a>
 											<div class="d-flex justify-content-center mt-2">
-												<div class="bd-highlight flex-grow-1 btn btn-sm btn-outline-secondary mr-1 btn_product" href="${contextPath}/wist_list.do">바로구매</div>
-												
+												<a class="bd-highlight flex-grow-1 btn btn-sm btn-outline-secondary mr-1 btn_product" href="${contextPath}/prodList/prodDetail.do${pageMaker.makeQueryPage(bList.IDX, pageMaker.cri.page) }&productId=${product.productId}">바로구매</a>
 												<c:choose>
 													<c:when test="${wishList != 'N' }">
 														<c:choose>
@@ -174,7 +173,7 @@
 										str += '<div class="bd-highlight font-weight-bold text-secondary text-left productListTitle mt-2">';
 										str += '<p class="ell">' + result[i]['productName'] +'</p>';
 										str += '</div>';
-										str += '<div class="d-flex bd-highlight flex-column text-left my-3" style="height: 46px;">';
+										str += '<div class="d-flex bd-highlight flex-column text-left mt-3" style="height: 46px;">';
 
 										if(result[i]['discountYN'] == 'Y'){
 											str += '<div class="bd-highlight text-black-50 discountBox" style="font-size:.9rem; width: 50%;">';
@@ -192,8 +191,8 @@
 										
 										str += '</a >';
 										str += '<div class="d-flex justify-content-center mt-2">';
-										str += '<div class="bd-highlight flex-grow-1 btn btn-sm btn-outline-secondary mr-1 btn_product" href="${contextPath}/wist_list.do">바로구매</div>';
-							
+										str += '<a class="bd-highlight flex-grow-1 btn btn-sm btn-outline-secondary mr-1 btn_product" href="${contextPath}/prodList/prodDetail.do${pageMaker.makeQueryPage(bList.IDX, pageMaker.cri.page) }&productId='+result[i]['productId']+'">바로구매</a>';
+										
 										if(wishList != 'N'){
 											if(result[i]['cartType'] == 'wish'){
 												str += '<div class="bd-highlight btn btn-sm btn-link btn_product btn_wish" onclick="btn_wishYN(\''+productId+'\')" style="width: 40px;">';

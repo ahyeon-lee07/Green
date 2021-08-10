@@ -499,8 +499,8 @@ request.setCharacterEncoding("UTF-8");
                         <div class="col-2 bg-light py-2 border-right font-weight-bold">추가 할인 금액</div>
                         <div class="col-10 py-2">
                             <span id="totalUserUseDiscount">0</span>원
-                            <button type="button" class="btn btn-outline-secondary btn-sm ml-4"
-                                style="font-size: .6rem">내역 보기</button>
+                            <!-- <button type="button" class="btn btn-outline-secondary btn-sm ml-4"
+                                style="font-size: .6rem">내역 보기</button> -->
                         </div>
                     </div>
                     <div class="row border rounded-bottom border-top-0" style="font-size: .9rem">
@@ -829,7 +829,10 @@ request.setCharacterEncoding("UTF-8");
 	            duePayment[i].innerText = (totalPrice + shipTotal_O - (totalPrice - totalProductPrice)).toLocaleString();
 	        }
 
-            userUseDiscount();
+            if(mileageUse != null){
+                userUseDiscount();
+            }
+            
             totalDiscountChk();
 
             for (var i = 0; i < finalPay.length; i++) {
@@ -881,45 +884,49 @@ request.setCharacterEncoding("UTF-8");
     
     //적리금 체크
     var mileageUse = document.getElementById('mileageUse');
-    mileageUse.addEventListener('change', function(){
-        var mileageUseMax_V = mileageUse.max;
 
-        if(mileageUse.value < mileageUseMax_V){
-            alert("사용가능한 적립금은 \"" + mileageUseMax_V +"\" 원 입니다.");
-			mileageUse.value = mileageUseMax_V;
-        }
+    if(mileageUse != null){
+        mileageUse.addEventListener('change', function(){
+            var mileageUseMax_V = mileageUse.max;
 
-        userUseDiscount();
-        totalDiscountChk();
-    });
+            if(mileageUse.value < mileageUseMax_V){
+                alert("사용가능한 적립금은 \"" + mileageUseMax_V +"\" 원 입니다.");
+                mileageUse.value = mileageUseMax_V;
+            }
 
-     //사용자 마이리지 및 쿠폰 totalUserUseDiscount
-    function userUseDiscount() {
+            userUseDiscount();
+            totalDiscountChk();
+        });
+    
 
-        var mileageUse = Number(document.getElementById('mileageUse').value);
-        var coupon_Input_CountType = document.getElementById('coupon_Input_CountType').value;
-        var coupon_Input_Pay = Number(document.getElementById('coupon_Input_Pay').value);
+        //사용자 마이리지 및 쿠폰 totalUserUseDiscount
+        function userUseDiscount() {
 
-        var s_stockBox = document.getElementsByClassName('s_stockBox');
-	        
-	    var price = document.getElementsByClassName('price');
-	    var totalPrice = 0;
+            var mileageUse = Number(document.getElementById('mileageUse').value);
+            var coupon_Input_CountType = document.getElementById('coupon_Input_CountType').value;
+            var coupon_Input_Pay = Number(document.getElementById('coupon_Input_Pay').value);
 
-	    for (var i = 0; i < price.length; i++) {
-	        totalPrice += (s_stockBox[i].value * price[i].value);
-	    }
+            var s_stockBox = document.getElementsByClassName('s_stockBox');
+                
+            var price = document.getElementsByClassName('price');
+            var totalPrice = 0;
 
-        if( mileageUse != '' && coupon_Input_CountType == '') {
-            document.getElementById('totalUserUseDiscount').innerText = mileageUse.toLocaleString();
-            return mileageUse;
-        }else if(coupon_Input_CountType == 'normal') {
-            document.getElementById('totalUserUseDiscount').innerText = (mileageUse + coupon_Input_Pay).toLocaleString();
-            return (mileageUse + coupon_Input_Pay);
-        }else if(coupon_Input_CountType == 'percent'){
-            document.getElementById('totalUserUseDiscount').innerText = (mileageUse + (totalPrice * coupon_Input_Pay / 100)).toLocaleString();
-            return (mileageUse + (totalPrice * coupon_Input_Pay / 100));
-        }
-        
+            for (var i = 0; i < price.length; i++) {
+                totalPrice += (s_stockBox[i].value * price[i].value);
+            }
+
+            if( mileageUse != '' && coupon_Input_CountType == '') {
+                document.getElementById('totalUserUseDiscount').innerText = mileageUse.toLocaleString();
+                return mileageUse;
+            }else if(coupon_Input_CountType == 'normal') {
+                document.getElementById('totalUserUseDiscount').innerText = (mileageUse + coupon_Input_Pay).toLocaleString();
+                return (mileageUse + coupon_Input_Pay);
+            }else if(coupon_Input_CountType == 'percent'){
+                document.getElementById('totalUserUseDiscount').innerText = (mileageUse + (totalPrice * coupon_Input_Pay / 100)).toLocaleString();
+                return (mileageUse + (totalPrice * coupon_Input_Pay / 100));
+            }
+            
+        };
     };
 
     //총 할인 금액 체크
@@ -944,11 +951,13 @@ request.setCharacterEncoding("UTF-8");
         var totalDiscount = document.getElementsByClassName('totalDiscount');
         var totalDiscountpay = 0;
 
-        if(userUseDiscount() != null) {
+        
+        if(mileageUse != null && userUseDiscount() != null) {
             totalDiscountpay = ((totalPrice - totalProductPrice) + userUseDiscount());
         }else {
-            totalDiscountpay = (totalPrice - totalProductPrice);
+             totalDiscountpay = (totalPrice - totalProductPrice);
         }
+        
 
         for(var i=0; i<totalDiscount.length; i++){
             totalDiscount[i].innerText = totalDiscountpay.toLocaleString();
