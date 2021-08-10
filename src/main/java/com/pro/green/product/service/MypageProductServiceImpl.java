@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.pro.green.product.dao.MypageProductDAO;
 import com.pro.green.product.vo.CartVO;
+import com.pro.green.product.vo.MemberHasCouponVO;
 
 @Service("mypageProductService")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -64,6 +65,21 @@ public class MypageProductServiceImpl implements MypageProductService {
 	// 비회원 장바구니 추가 시 상품 재고 조회
 	public String selectP_stock(String optionId) throws DataAccessException {
 		return mypageProductDAO.selectP_stock(optionId);
+	}
+
+	// 주문서작성 조회
+	public List<Map<String, Object>> productOrderList(String optionId) throws DataAccessException {
+		return mypageProductDAO.productOrderList(optionId);
+	}
+
+	// 유저 보유 쿠폰 정보 가져오기
+	public List<MemberHasCouponVO> memberHasCoupon(String userId) throws DataAccessException {
+		return mypageProductDAO.memberHasCoupon(userId);
+	}
+
+	// 유저 보유 쿠폰 조회
+	public List<Map<String, Object>> hasCouponList(String userId) throws DataAccessException {
+		return mypageProductDAO.hasCouponList(userId);
 	}
 
 }

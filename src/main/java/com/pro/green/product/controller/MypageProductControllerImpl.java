@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +26,7 @@ import com.pro.green.member.vo.MemberVO;
 import com.pro.green.product.service.MypageProductService;
 import com.pro.green.product.service.ProductService;
 import com.pro.green.product.vo.CartVO;
+import com.pro.green.product.vo.MemberHasCouponVO;
 import com.pro.green.product_M.service.ProductService2;
 import com.pro.green.product_M.vo.CartAddVO;
 import com.pro.green.product_M.vo.Criteria;
@@ -38,6 +41,9 @@ public class MypageProductControllerImpl implements MypageProductController {
 
 	@Autowired
 	private CartVO cartVO;
+	
+	@Autowired
+	private MemberHasCouponVO memberHasCouponVO;
 
 	@Autowired
 	private ProductService2 productService;
@@ -390,19 +396,54 @@ public class MypageProductControllerImpl implements MypageProductController {
 		return resEntity;
 	}
 
-	// 주문하기 @RequestParam("choiceProductList") List<Map<String, Object>> choiceProductList
+	// 주문하기
 	@RequestMapping(value = "/product/productOrder.do", method = RequestMethod.POST)
-	public ModelAndView productOrder(@RequestParam(value = "productId[]") List<String> productId,
-			@RequestParam(value = "s_stock[]") List<String> s_stock,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView productOrder(@ModelAttribute CartAddVO product ,HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		ModelAndView mav = new ModelAndView();
 
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO) session.getAttribute("member");
+		
+		List<Map<String, Object>> orderList = new ArrayList<Map<String, Object>>();
+		List<MemberHasCouponVO> memberHasCoupon = new ArrayList<MemberHasCouponVO>();
+		
+		if(user != null) {
+			String userId = user.getId();
+			//유저 보유 쿠폰 정보 가져오기 product.getStock().get(i)
+			memberHasCoupon = mypageProductService.memberHasCoupon(userId);
+			mav.addObject("couponCount", memberHasCoupon.size());
+		}
+		
+		for(int i=0; i<product.getP_optionId().size(); i++) {
+			String optionId = product.getP_optionId().get(i);		
+			orderList.addAll(mypageProductService.productOrderList(optionId));
+			orderList.get(i).put("s_stock", product.getStock().get(i));
+		}
+		
+		mav.addObject("orderList", orderList);
+		mav.addObject("user", user);
 
+		mav.setViewName("orderList");
+		return mav;
+	}
+	
+	// 쿠폰검색 창
+	@RequestMapping(value = "/couponSearch.do", method = RequestMethod.GET)
+	public ModelAndView productSearch(HttpServletRequest request, Locale locale, Model model) {
+		
+		ModelAndView mav = new ModelAndView();
 
-		mav.setViewName("redirect:/orderList.do");
+		HttpSession session = request.getSession();
+		MemberVO user = (MemberVO) session.getAttribute("member");
+		
+		String userId = user.getId();
+		
+		//유저 아이디로 쿠폰 정보 조회
+		List<Map<String, Object>> hasCouponList = mypageProductService.hasCouponList(userId);
+		
+		mav.addObject("hasCouponList", hasCouponList);
+		mav.setViewName("couponSearch");
 		return mav;
 	}
 

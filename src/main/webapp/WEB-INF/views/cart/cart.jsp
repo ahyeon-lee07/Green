@@ -43,7 +43,7 @@ request.setCharacterEncoding("UTF-8");
         <table class="table table-hover m-0 mt-2">
 			<thead class=" border-bottom border-top bg-light">
                 <tr>
-                    <th class="text-center border-bottom-0 align-middle border-top-0 px-1" style="width: 40px">
+                    <th class="text-center border-bottom-0 align-middle border-top-0 px-1" style="width: 28px">
                         <div>
                             <input type='checkbox' name='selectall' value='selectall' onclick='selectAll(this)' />
                         </div>
@@ -455,8 +455,8 @@ function checkSelectAll()  {
             if(checkList[i].checked){
 
                 var choiceProduct = new Map(); 
-                choiceProduct.set("productId",checkList[i].parentElement.parentElement.parentElement.id);
-                choiceProduct.set("s_stock",document.getElementsByClassName('s_stockBox')[i].value);
+                choiceProduct.set("p_optionId",checkList[i].parentElement.parentElement.parentElement.id);
+                choiceProduct.set("stock",document.getElementsByClassName('s_stockBox')[i].value);
                 choiceProductList.push(choiceProduct);
             }
         }
@@ -481,13 +481,19 @@ function checkSelectAll()  {
         for(var i=0; i<params.length; i++){
             var hiddenField = document.createElement("input");
             hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("productId", params[i].get("productId"));
-            hiddenField.setAttribute("s_stock", params[i].get("s_stock"));
+            hiddenField.setAttribute("name", "p_optionId["+i+"]");
+            hiddenField.setAttribute("value", params[i].get("p_optionId"));
 
-            console.log(hiddenField);
+            var hiddenField2 = document.createElement("input");
+            hiddenField2.setAttribute("type", "hidden");
+            hiddenField2.setAttribute("name", "stock[" + i + "]");
+            hiddenField2.setAttribute("value", params[i].get("stock"));
 
-            form.appendChild(hiddenField)
+            form.appendChild(hiddenField);
+            form.appendChild(hiddenField2);
+
         }
+        console.log(form);
         document.body.appendChild(form);
         form.submit();
     }

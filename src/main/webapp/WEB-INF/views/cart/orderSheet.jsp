@@ -28,28 +28,28 @@ request.setCharacterEncoding("UTF-8");
 		</div>
 
 		<!-- 국내 배송상품 주문내역 -->
-        <div class="row mt-1" style="padding: 0 15px">
-            <div class="col">
-                <div class="row">
-                    <div class="col-2 border bg-light text-center">
-                        <div class="col" style="top: 40%;">혜택정보</div>
-                    </div>
-                    <div class="col-10 border border-left-0">
-                        <div class="row text-center p-2 border-bottom">
-                            <div class="col">000님은, [00회원]이십니다</div>
-                        </div>
-                        <div class="row text-center font-weight-bold p-2">
-                            <div class="col">
-                                가용 적립금 : (숫자)원 &nbsp; &nbsp; 쿠폰 : (숫자)개
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+		<c:if test="${user != null }">
+	        <div class="row mt-1 mb-5">
+	            <div class="col"> 
+	                <div class="d-flex flex-row bd-highlight bg-light border">
+	                    <div class="bd-highlight text-center align-self-center font-weight-bold" style="width: 180px;">
+	                        혜택정보
+	                    </div>
+	                    <div class="d-flex flex-column border-left bg-white flex-grow-1 bd-highlight">
+	                        <div class="bd-highlight text-center p-2">
+	                            <span class="font-weight-bold">"${user.name }"</span> 님은, [<span class="font-weight-bold">${user.grade } 회원</span>]이십니다
+	                        </div>
+	                        <div class="bd-highlight border-top text-center  p-2">
+	                            가용 적립금 : (<span class="font-weight-bold">${user.mileage }</span>)원 &nbsp;&nbsp; 쿠폰 : (<span class="font-weight-bold">${couponCount }</span>)개
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+       </c:if>
 
         <!-- 국내 배송상품 주문내역 -->
-        <div class="row mt-5">
+        <div class="row mt-3">
 			<div class="col">
 				<h6 class="font-weight-bold">국내 배송상품 주문내역</h6>
 			</div>
@@ -57,91 +57,121 @@ request.setCharacterEncoding("UTF-8");
         <table class="table table-hover border-top m-0">
             <thead class=" border-bottom-0 bg-light">
                 <tr>
-                    <th class="text-center border-bottom-0 align-middle border-top-0 px-1" style="width: 28px">
-                        <div style="height: 14px;">
-                            <input type='checkbox' name='selectall' value='selectall' onclick='selectAll(this)'/>
+                   <!--  <th class="text-center border-bottom-0 align-middle border-top-0 px-1" style="width: 28px">
+                        <div>
+                            <input type='checkbox' name='selectall' value='selectall' onclick='selectAll(this)' />
                         </div>
-                    </th>
-                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 120px">이미지</th>
+                    </th> -->
+                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 140px">이미지</th>
                     <th class="text-center border-bottom-0 border-top-0 px-2" style="width: auto">상품 정보</th>
-                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 76px">판매가</th>
-                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 116px">수량</th>
+                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 80px">판매가</th>
+                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 80px">수량</th>
                     <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 66px">적립금</th>
-                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 90px">배송 구분</th>
-                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 70px">배송비</th>
-                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 80px">합계</th>
+                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 90px">배송구분</th>
+                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 98px">배송비</th>
+                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 100px">합계</th>
+                    <th class="text-center border-bottom-0 border-top-0 px-2" style="width: 90px">선택</th>
                 </tr>
             </thead>
             <tbody>
-                <tr class="">
-                    <th class="text-center align-middle align-middle px-1">
-                        <div style="height: 14px;">
-                            <input type='checkbox' name='Choice' value='Choice1' onclick='checkSelectAll()'/>
-                        </div>
-                    </th>
-                    <td class="text-center align-middle px-2"><img src="${contextPath }/resources/img/img.webp"
-                            class="img-thumbnail" alt="#"></td>
-                    <td class="align-middle pl-3">
-                        <div class="row font-weight-bold pb-1">
-                        <a href="${contextPath }/HardCaseDetail.do" style="color: black">
-                            컬러칩 케이스</a>
-                        </div>
-                        <div class="row" style="font-size: .8rem;">
-                            [옵션: 2. 옐로우/아이폰6(s)]
-                        </div>
-                    </td>
-                    <td class="text-center align-middle px-2">12,000</td>
-                    <td class="text-center align-middle px-2">
-                        <div class="d-flex flex-column bd-highlight px-2">
-                            <div class="bd-highlight d-flex">
-                                <div class="flex-grow bd-highlight pr-3">
-                               		<input type="number" class="form-control" id="inputnumber" step="1" value="1" min="1" max="99">
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="text-center align-middle px-2" style="font-size: .8rem;">150</td>
-                    <td class="text-center align-middle px-2">기본 배송</td>
-                    <td class="text-center align-middle px-2">2,000원</td>
-                    <td class="text-center align-middle px-2">11,000원</td>
-                </tr>
+            	<c:forEach items="${orderList}" var="cartList" varStatus="indexNum">
+            		<tr id="${cartList.p_optionId }">
+                        <th style="display: none;">
+                            <input type="text" name="optionId[${indexNum.index}]" value="${cartList.s_optionId }" >
+                        </th>
+            			<!-- <th class="text-center align-middle align-middle px-1">
+	                        <div style="height: 14px;">
+	                            <input type='checkbox' name='Choice' value='Choice1' onclick='checkSelectAll()'/>
+	                        </div>
+                    	</th> -->
+                    	
+                    	<c:forEach items="${cartList.product }" var="product">
+	                    	<td class="text-center align-middle px-2">            
+	                    		<img src="${contextPath }/resources/img/${product.p_group }/${product.imgURL }"  class="img-thumbnail" alt="#">
+	                    	</td>
+	                    	<td class="align-middle align-middle px-2 ">
+		                        <div class="font-weight-bold pb-1 bd-highlight">
+		                            <a href="${contextPath}/prodList/prodDetail.do${pageMaker.makeQueryPage(bList.IDX, pageMaker.cri.page) }&productId=${cartList.productId}" style="color: black">
+		                                ${product.productName }
+		                             </a>
+		                        </div>
+		                        <div class="bd-highlight">
+		                            ${cartList.p_option }
+		                        </div>
+		                    </td>
+		                    <td class="text-center align-middle px-1">
+								<c:choose>
+									<c:when test="${product.discountYN == 'Y'}">
+                                        <input type="text" class="discountYN" value="${product.discountYN}" style="display: none;">
+										<div class="bd-highlight text-black-50 discountBox" style="font-size:.9rem;">
+											<fmt:formatNumber value="${product.price}" pattern="##,###" /><span>원</span>	
+                                            <input type="text" class="price" name="price" value="${product.price}" style="display: none;">	
+										</div>
+										<div class="bd-highlight text-danger font-weight-bold">
+											<fmt:formatNumber value="${product.discount}" pattern="##,###" /><span>원</span>	
+                                            <input type="text" class="discount" name="discount" value="${product.discount}" style="display: none;">	
+										</div>
+									</c:when>
+									<c:otherwise>
+                                        <input type="text" class="discountYN" value="${product.discountYN}" style="display: none;">
+										<div class="bd-highlight text-danger font-weight-bold">
+											<fmt:formatNumber value="${product.price}" pattern="##,###" /><span>원</span>	
+                                            <input type="text" class="price" name="price" value="${product.price}" style="display: none;">
+                                            <input type="text" class="discount" name="discount" value="${product.discount}" style="display: none;">
+										</div>
+									</c:otherwise>
+								</c:choose>
+							</td>
+							<td class="text-center align-middle px-2">
+		                        <input type="number" class="form-control s_stockBox" name="s_stock[${indexNum.index}]" data-index="${indexNum.index}" step="1" value="${cartList.s_stock}" min="1" max="${cartList.p_stock}">
+		                    </td>
+		                    <td class="text-center align-middle px-2">
+                                <input type="text" class="form-control inputBoxReadonly" name="productMileage[${indexNum.index}]"  value="${product.productMileage}" style="padding: 0; border: 0; text-align: center;" readonly>
+		                    </td>
+		                    <td class="text-center align-middle px-2" style="font-size: .8rem;">
+		                    	기본 배송
+		                    </td>
+		                    <td class="text-center align-middle px-2">
+		                    	<input type="text" class="form-control inputReadonly shipTotalList" value="" readonly>
+							    <input type="text" class="shipTotal_V_List" name="shipTotal" value="" style="display: none;">
+		                    </td>
+		                    <td class="text-center align-middle px-2 total">
+		                    	
+		                    </td>
+		                    <td class="text-center align-middle px-2">
+		                        <div class="bd-highlight">
+		                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="return cartDelete('${cartList.p_optionId }')"
+		                                style="font-size: 0.7rem; width: 100%;">삭제</button>
+		                        </div>
+                    		</td>
+                    	</c:forEach>
+            		</tr>
+            	</c:forEach>
             </tbody>
         </table>
-
+        
         <div class="row" style="padding: 0 15px">
             <div class="col bg-light border rounded p-2">
                 <div class="d-flex justify-content-between">
                     <div class="bd-highlight">[기본 배송]</div>
-                    <div class="bd-highlight">
-                        상품 구매금액(<span>12,000</span>)+배송비(<span>2,000</span>)-상품 할인금액(<span>3,000</span>)=합계:(<span>11,000</span>)원
+                    <div class="bd-highlight">상품 구매금액(<span class="totalBoxPrice"></span>)+배송비(<span class="totalBoxShip"></span>)-상품 할인금액(<span class="totalBoxDiscount"></span>)=합계:(<span class="duePayment"></span>)원
                     </div>
                 </div>
             </div>
         </div>
-
+        
         <div class="row mt-2">
             <div class="col">
                 <div class="d-flex bd-highlight align-items-center">
-                    <div class="bd-highlight font-weight-bold mr-1 align-items-center">선택 상품을</div>
-                    <div class="bd-highlight flex-grow-1">
-                        <div class="d-flex justify-content-between bd-highlight">
-                            <div class="bd-highlight d-flex flex-row">
-                                <div class="p-1 bd-highlight">
-                                	<a href="${contextPath }/orderList.do">
-                                    <button type="button" class="btn btn-outline-danger">삭제하기</button></a>
-                                </div>
-                            </div>
-                            <div class="bd-highlight d-flex flex-row">
-                                <div class="p-1 bd-highright">
-                                    <button type="button" class="btn btn-outline-secondary">이전 페이지</button>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="bd-highlight d-flex flex-row">
+                    	<div class="p-1 bd-highright">
+                         	<button type="button" class="btn btn-outline-secondary" onclick="goBack();">이전 페이지</button>
+                    	</div>
                     </div>
                 </div>
             </div>
         </div>
-
+        
         <!-- 배송주문 -->
         <div class="d-flex justify-content-between mt-5">
             <div class="bd-highlight">
@@ -159,16 +189,25 @@ request.setCharacterEncoding("UTF-8");
                         <label for="inputTitle" class="bd-highlight col-form-label pl-2" style="width: 100px;">배송지
                             선택</label>
                         <div class="flex-grow-1 bd-highlight p-2 ml-1">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                    id="inlineRadio1" value="option1">
-                                <label class="form-check-label" for="inlineRadio1" checked="checked">회원정보와 동일</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                    id="inlineRadio2" value="option2">
-                                <label class="form-check-label" for="inlineRadio2">새로운 배송지</label>
-                            </div>
+                        	<c:choose>
+                        		<c:when test="${user != null }">
+                        			<div class="form-check form-check-inline">
+		                                <input class="form-check-input" type="radio" name="receiverType"  id="inlineRadio1" value="option1" checked>
+		                                <label class="form-check-label" for="inlineRadio1">회원정보와 동일</label>
+		                            </div>
+		                            <div class="form-check form-check-inline">
+		                                <input class="form-check-input" type="radio" name="receiverType" id="inlineRadio2" value="option2">
+		                                <label class="form-check-label" for="inlineRadio2">새로운 배송지</label>
+		                            </div>
+                        		</c:when>
+                        		<c:otherwise>
+                        			<div class="form-check form-check-inline"> 
+		                                <input class="form-check-input" type="radio" name="receiverType" id="inlineRadio2" value="option2" checked>
+		                                <label class="form-check-label" for="inlineRadio2">새로운 배송지</label>
+		                            </div>
+                        		</c:otherwise>
+                        	</c:choose>
+                            
                         </div>
                     </div>
 
@@ -178,7 +217,7 @@ request.setCharacterEncoding("UTF-8");
                                 <label for="inputUser" class="bd-highlight col-form-label pl-2"
                                     style="width: 120px;"><img src="${contextPath }/resources/img/require.png">받으시는 분</label>
                                 <div class="flex-grow bd-highlight pr-2">
-                                    <input type="email" class="form-control" id="inputUser">
+                                    <input type="email" class="form-control" id="inputUser" value="${user.name }">
                                 </div>
                             </div>
                         </div>
@@ -188,27 +227,30 @@ request.setCharacterEncoding("UTF-8");
 						<div class="col p-0">
 							<div class="d-flex bd-highlight">
 								<label for="inputUser" class="bd-highlight col-form-label pl-2"
-									style="width: 120px;"><img src="${contextPath }/resources/img/require.png">주소</label>
-								<div class="flex-grow-1 bd-highlight flex-column pr-2">
+									style="width: 120px;"><img
+									src="${contextPath }/resources/img/require.png">주소</label>
+								<div class="flex-grow-1 bd-highlight flex-column">
 									<div class="bd-highlight mb-2">
 										<div class="d-flex flex-row bd-highlight">
 											<div class="bd-highlight">
 												<input type="text" class="form-control"
-													id="sample6_postcode" placeholder="우편번호" readonly>
+													id="zipCode" placeholder="우편번호" name="zipCode" value="${user.zipCode }"
+													readonly>
 											</div>
 											<div class="bd-highlight ml-2">
 
 												<button type="button" onclick="sample6_execDaumPostcode()"
-													class="btn btn-secondary btn-sm" style="font-size: .8rem">
-													우편번호 찾기</button>
+													class="btn btn-secondary"
+													style="font-size: .8rem; height: 38px;">우편번호 찾기</button>
 											</div>
 										</div>
 									</div>
 									<div class="bd-highlight mb-2">
 										<div class="d-flex flex-row bd-highlight">
 											<div class="bd-highlight">
-												<input type="text" class="form-control" id="sample6_address"
-													placeholder="주소" style="width: 300px;" readonly>
+												<input type="text" class="form-control" id="addr1"
+													placeholder="주소" style="width: 316px;" name="addr1" value="${user.addr1 }"
+													readonly>
 											</div>
 										</div>
 									</div>
@@ -217,10 +259,12 @@ request.setCharacterEncoding("UTF-8");
 										<div class="d-flex bd-highlight">
 											<div class="d-flex flex-row">
 												<input type="text" class="form-control"
-													id="sample6_detailAddress" placeholder="상세주소">
-												<div class="p-2"></div>
-												<input type="text" class="form-control"
-													id="sample6_extraAddress" placeholder="참고항목" readonly>
+													style="width: 316px;" id="addr2"
+													placeholder="상세주소" name="addr2" value="${user.addr2 }"> 
+													<input type="text"
+													class="form-control" style="display: none;"
+													id="addr3" placeholder="참고항목" name="addr3" value="${user.addr3 }"
+													readonly>
 											</div>
 										</div>
 									</div>
@@ -232,10 +276,10 @@ request.setCharacterEncoding("UTF-8");
                     <div class="row border-bottom py-2">
                         <div class="col p-0">
                             <div class="d-flex bd-highlight">
-                                <label for="inputUser" class="bd-highlight col-form-label pl-2"
+                                <label for="phone" class="bd-highlight col-form-label pl-2"
                                     style="width: 120px;"><img src="${contextPath }/resources/img/require.png">휴대전화</label>
                                 <div class="flex-grow bd-highlight pr-2">
-                                    <input type="email" class="form-control" id="inputUser" placeholder="'-' 없이 입력해주세요.">
+                                    <input type="number" class="form-control" id="phone" placeholder="'-' 없이 입력해주세요." value="${user.phone }">
                                 </div>
                             </div>
                         </div>
@@ -244,23 +288,24 @@ request.setCharacterEncoding("UTF-8");
                     <div class="row border-bottom py-2">
                         <div class="col p-0">
                             <div class="d-flex bd-highlight">
-                                <label for="inputUser" class="bd-highlight col-form-label pl-2"
+                                <label for="email1" class="bd-highlight col-form-label pl-2"
                                     style="width: 120px;">이메일</label>
                                 <div class="flex-grow-1 bd-highlight flex-column pr-2">
                                     <div class="flex-grow-1 bd-highlight pr-2">
                                         <div class="d-flex flex-row">
-                                            <input type="email" class="form-control" id="inputEmail"
-                                                style="width: 150px;">
+                                            <input type="email" class="form-control" id="inputEmail1"
+                                                style="width: 150px;" value="${user.email1 }">
                                             <div class="p-2">
                                                 @
                                             </div>
-                                            <select id="inputState" class="form-control" style="width: 140px;">
-                                                <option value="none" selected>선택</option>
-												<option value="네이버">naver.com</option>
-												<option value="다음">hanmail.net</option>
-												<option value="네이트">nate.com</option>
-												<option value="구글">gmail.com</option>
-                                            </select>
+                                            <select id="inputEmail2" class="form-control"
+												style="width: 140px;" name="email2">
+												<option value="" selected>선택</option>
+												<option value="naver.com">naver.com</option>
+												<option value="hanmail.net">hanmail.net</option>
+												<option value="nate.com">nate.com</option>
+												<option value="gmail.com">gmail.com</option>
+											</select>
                                         </div>
                                     </div>
                                     <div class="bd-highlight mb-1">
@@ -273,19 +318,53 @@ request.setCharacterEncoding("UTF-8");
                             </div>
                         </div>
                     </div>
-
                     <div class="row border-bottom py-2">
                         <div class="col p-0">
                             <div class="d-flex bd-highlight">
-                                <label for="inputUser" class="bd-highlight col-form-label pl-2"
+                                <label for="shipMsg" class="bd-highlight col-form-label pl-2"
                                     style="width: 120px;">배송 메시지</label>
                                 <div class="flex-grow bd-highlight pr-2" style="width: 86%;">
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                    <textarea class="form-control" id="shipMsg" rows="3" name="shipMsg"
                                         placeholder="20자 이내로 입력해주세요."></textarea>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+					<c:if test="${user != null }">
+	                    <!-- 적립금 및 쿠폰 -->
+	                    <div class="d-flex mt-5">
+	                        <div class="bd-highlight">
+	                            <h6 class="font-weight-bold">적립금 및 쿠폰</h6>
+	                        </div>
+	                    </div>
+	                    <div class="row border-bottom border-top d-flex bd-highlight py-2">
+	                        <div class="col p-0">
+	                            <div class="d-flex bd-highlight">
+	                                <label for="mileageUse" class="bd-highlight col-form-label pl-2"
+	                                    style="width: 120px;">적립금</label>
+	                                <div class="flex-grow bd-highlight d-flex flex-column">
+	                                    <div class="bd-highlight mb-1">사용 가능한 적립금: ${user.mileage} </div>
+	                                    <input type="number" class="form-control bd-highlight" id="mileageUse" min="0" max="${user.mileage}" value="0">
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="row border-bottom py-2">
+	                        <div class="col p-0">
+	                            <div class="d-flex bd-highlight">
+	                                <label for="couponUse" class="bd-highlight col-form-label pl-2" style="width: 120px;">쿠폰</label>
+	                                <div class="d-flex flex-row flex-grow bd-highlight" style="width: 80%;">
+	                                    <button id="btn_coupon" type="button" class="btn btn-secondary mr-2" onclick="couponSearch()" >쿠폰검색</button>
+	                                    <input id="coupon_Input_name" name="couponName"  type="text" class="form-control" value="" style="width: 72%;" readonly>
+	                                    <input id="coupon_Input_Num" name="hasCouponNum" type="text" class="form-control" value="" style="display: none; width: 72%;" readonly>
+                                        <input id="coupon_Input_CountType" name="discountType" type="text" class="form-control" value="" style="display: none; width: 72%;" readonly>
+                                        <input id="coupon_Input_Pay" name="couponPay" type="text" class="form-control" value="" style="display: none; width: 72%;" readonly>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+                    </c:if>
 
                     <!-- 약관 동의 리스트 -->
                     <div class="row">
@@ -361,33 +440,43 @@ request.setCharacterEncoding("UTF-8");
                         </div>
                     </div>
                     <div class="row text-center border rounded-top">
-                        <div class="col-4">
+                        <div class="col-3">
                             <div class="row py-2 bg-light border-bottom">
                                 <div class="col">
                                     총 주문 금액
-                                    <button type="button" class="btn btn-outline-secondary btn-sm"
-                                        style="font-size: .6rem">내역 보기</button>
                                 </div>
                             </div>
                             <div class="row py-3">
                                 <div class="col">
-                                    <span class="font-weight-bold" style="font-size: 1.5rem;">12,000 </span>원
+                                    <span class="font-weight-bold totalBoxPrice" style="font-size: 1.5rem;"> </span>원
                                 </div>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-3">
                             <div class="row py-2 bg-light border-bottom">
                                 <div class="col">
-                                    총 할인 + 부가결제 금액
+                                    배송비
                                 </div>
                             </div>
                             <div class="row py-3">
                                 <div class="col">
-                                    -<span class="font-weight-bold" style="font-size: 1.5rem;">1,000 </span>원
+                                    <span class="font-weight-bold totalBoxShip" style="font-size: 1.5rem;"></span>원
                                 </div>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-3">
+                            <div class="row py-2 bg-light border-bottom">
+                                <div class="col">
+                                    총 할인
+                                </div>
+                            </div>
+                            <div class="row py-3">
+                                <div class="col">
+                                    -<span class="font-weight-bold totalDiscount" style="font-size: 1.5rem;">1,000 </span>원
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
                             <div class="row py-2 bg-light border-bottom">
                                 <div class="col">
                                     총 결제 예정 금액
@@ -395,25 +484,30 @@ request.setCharacterEncoding("UTF-8");
                             </div>
                             <div class="row py-3">
                                 <div class="col">
-                                    =<span class="font-weight-bold" style="font-size: 1.5rem;">11,000 </span>원
+                                    =<span class="font-weight-bold finalPay" style="font-size: 1.5rem;">0</span>원
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row border border-top-0" style="font-size: .9rem">
-                        <div class="col-2 bg-light py-2 border-right font-weight-bold">총 할인 금액</div>
-                        <div class="col-10 py-2">3,000원</div>
+                        <div class="col-2 bg-light py-2 border-right font-weight-bold">상품 할인 금액</div>
+                        <div class="col-10 py-2">
+                            <span class="totalBoxDiscount">0</span>원
+                        </div>
                     </div>
                     <div class="row border border-top-0" style="font-size: .9rem">
                         <div class="col-2 bg-light py-2 border-right font-weight-bold">추가 할인 금액</div>
-                        <div class="col-10 py-2">0원
+                        <div class="col-10 py-2">
+                            <span id="totalUserUseDiscount">0</span>원
                             <button type="button" class="btn btn-outline-secondary btn-sm ml-4"
                                 style="font-size: .6rem">내역 보기</button>
                         </div>
                     </div>
                     <div class="row border rounded-bottom border-top-0" style="font-size: .9rem">
-                        <div class="col-2 bg-light py-2 border-right font-weight-bold">총 부가 결제 금액</div>
-                        <div class="col-10 py-2">2,000원</div>
+                        <div class="col-2 bg-light py-2 border-right font-weight-bold">총 할인 금액</div>
+                        <div class="col-10 py-2">
+                            <span class="totalDiscount">0</span>원
+                        </div>
                     </div>
 
                     <!-- 결제 수단 -->
@@ -459,7 +553,7 @@ request.setCharacterEncoding("UTF-8");
                             </div>
                             <div class="row text-danger">
                                 <div class="col">
-                                    <span class="font-weight-bold" style="font-size: 1.8rem;">11,000</span> 원
+                                    <span class="font-weight-bold finalPay" style="font-size: 1.8rem;">0</span> 원
                                 </div>
                             </div>
                             <div class="row mt-3 mb-3">
@@ -550,71 +644,8 @@ request.setCharacterEncoding("UTF-8");
 	</div>
 </main>
 
-<!-- 전체 선택  -->
-<script>
-function checkSelectAll()  {
-	  // 전체 체크박스
-	  const checkboxes 
-	    = document.querySelectorAll('input[name="Choice"]');
-	  // 선택된 체크박스
-	  const checked 
-	    = document.querySelectorAll('input[name="Choice"]:checked');
-	  // select all 체크박스
-	  const selectAll 
-	    = document.querySelector('input[name="selectall"]');
-	  
-	  if(checkboxes.length === checked.length)  {
-	    selectAll.checked = true;
-	  }else {
-	    selectAll.checked = false;
-	  }
-
-	}
-
-	function selectAll(selectAll)  {
-	  const checkboxes 
-	     = document.getElementsByName('Choice');
-	  
-	  checkboxes.forEach((checkbox) => {
-	    checkbox.checked = selectAll.checked
-	  })
-	}
-</script>
-
-<!-- 전체 동의  -->
-<script>
-function checkSelectAll()  {
-	  // 전체 체크박스
-	  const checkboxes 
-	    = document.querySelectorAll('input[name="terms"]');
-	  // 선택된 체크박스
-	  const checked 
-	    = document.querySelectorAll('input[name="terms"]:checked');
-	  // select all 체크박스
-	  const selectAll 
-	    = document.querySelector('input[name="selectall"]');
-	  
-	  if(checkboxes.length === checked.length)  {
-	    selectAll.checked = true;
-	  }else {
-	    selectAll.checked = false;
-	  }
-
-	}
-
-	function selectAll(selectAll)  {
-	  const checkboxes 
-	     = document.getElementsByName('terms');
-	  
-	  checkboxes.forEach((checkbox) => {
-	    checkbox.checked = selectAll.checked
-	  })
-	}
-</script>
-
 <!-- 우편번호 API -->
-<script
-	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 	function sample6_execDaumPostcode() {
 		new daum.Postcode(
@@ -668,4 +699,272 @@ function checkSelectAll()  {
 					}
 				}).open();
 	}
+	
+	//이전 페이지 이동
+	function goBack() {
+		window.history.go(-1);
+	}
+	
+	//로딩시 금액 입력
+	 window.onload = function(){
+	    	
+        var userEmail2 = "${user.email2}";
+            if(userEmail2 != null){
+                document.getElementById('inputEmail2').value = "${user.email2}";
+            }
+
+            var shipTotal_O = 2500;
+            var shipTotal =  shipTotal_O.toLocaleString();
+            
+            var shipTotalList = document.getElementsByClassName('shipTotalList');
+            var shipTotal_V_List = document.getElementsByClassName('shipTotal_V_List');
+
+            var totalBoxShip = document.getElementsByClassName('totalBoxShip');
+
+            for(var i=0; i<shipTotalList.length; i++){
+                shipTotalList[i].value = shipTotal+"원";
+                shipTotal_V_List[i].value = shipTotal;
+            }
+
+            for (var i = 0; i < totalBoxShip.length; i++) {
+                totalBoxShip[i].innerText = shipTotal;
+            }
+            
+            totalChk();
+	        totalBoxChk();
+	    }
+	    
+	  //수량 클릭시 합계 변경
+	    function totalChk() {
+
+	        var s_stockBox = document.getElementsByClassName('s_stockBox');
+	        var totalList = document.getElementsByClassName('total');
+
+	        for(var i=0; i<s_stockBox.length; i++){
+
+	            totalList[i].innerText = (s_stockBox[i].value * discountYNCHk(i)).toLocaleString()+ "원";
+
+	            s_stockBox[i].addEventListener('change', function(){
+
+	                var max_V = event.target.max;
+	                if(event.target.value > max_V){
+					    alert("재고 수량은 \"" + max_V +"\" 개 입니다.");
+					    event.target.value = max_V;
+				    }
+
+	                var Num = event.target.dataset['index'];
+
+	                var price = discountYNCHk(Num);
+
+	                var stock_V = event.target.value;
+	                var total_V = stock_V * price;
+	                var total_V_Text = total_V.toLocaleString();
+
+	                var optionId = event.target.parentNode.parentNode.id;
+
+	                totalList[Num].innerText = total_V_Text + "원";
+	                totalBoxChk();
+	                stockChange(optionId, stock_V);
+	            });
+	        }
+
+	    }
+
+	    //가격 체크 
+	    function discountYNCHk(NUM){
+	        var discountYN = document.getElementsByClassName('discountYN')[NUM].value;
+
+	            if(discountYN == "Y"){
+	                var price = document.getElementsByClassName('discount')[NUM].value;
+	            }else{
+	                var price = document.getElementsByClassName('price')[NUM].value;
+	            }
+
+	            return price;
+	    };
+	    
+	  //장바구니리스트 삭제
+	    function cartDelete(optionId){
+	        if (confirm("해당 상품을 장바구니에서 삭제 하시겠습니까?") == true) {
+	            var optionId = optionId;
+	            
+	            document.getElementById(optionId).remove();
+	            totalBoxChk();
+			} else {
+				return;
+			}
+	    };
+	    
+	  //총 금액 세팅 
+	    function totalBoxChk(){
+	        var s_stockBox = document.getElementsByClassName('s_stockBox');
+	        var totalBoxPrice = document.getElementsByClassName('totalBoxPrice');
+	        var totalBoxDiscount = document.getElementsByClassName('totalBoxDiscount');
+	        var duePayment = document.getElementsByClassName('duePayment');
+            var finalPay = document.getElementsByClassName('finalPay');
+	        var totalProductPrice = 0;
+	        
+	        var price = document.getElementsByClassName('price');
+	        var totalPrice = 0;
+
+	        var shipTotal_O = 2500;
+
+	        for (var i = 0; i < price.length; i++) {
+	            totalPrice += (s_stockBox[i].value * price[i].value);
+	        }
+
+	        for (var i = 0; i < s_stockBox.length; i++) {
+	           totalProductPrice += (s_stockBox[i].value * discountYNCHk(i));
+	        }
+
+	        for (var i = 0; i < totalBoxPrice.length; i++) {
+	            totalBoxPrice[i].innerText = totalPrice.toLocaleString();
+	        }
+
+	        for (var i = 0; i < totalBoxDiscount.length; i++) {
+	            totalBoxDiscount[i].innerText = (totalPrice - totalProductPrice).toLocaleString();
+	        }
+
+	        for (var i = 0; i < duePayment.length; i++) {
+	            duePayment[i].innerText = (totalPrice + shipTotal_O - (totalPrice - totalProductPrice)).toLocaleString();
+	        }
+
+            userUseDiscount();
+            totalDiscountChk();
+
+            for (var i = 0; i < finalPay.length; i++) {
+	            finalPay[i].innerText = (totalPrice + shipTotal_O - totalDiscountChk()).toLocaleString();
+	        }
+	    };
+
+    //배송지 선택
+    function receiverTypeChk() {
+        var receiverType = document.getElementsByName('receiverType');
+        var typeChk;
+
+        for(var i=0; i<receiverType.length; i++){
+
+            receiverType[i].addEventListener('change', function(){
+
+                for(var y=0; y<receiverType.length; y++){
+                    if(receiverType[y].checked == true){
+                        typeChk = receiverType[y].value;
+                    }
+                }
+                
+
+                if(typeChk == 'option1'){
+                    document.getElementById('inputUser').value = "${user.name }";
+                    document.getElementById('zipCode').value = "${user.zipCode }";
+                    document.getElementById('addr1').value = "${user.addr1 }";
+                    document.getElementById('addr2').value = "${user.addr2 }";
+                    document.getElementById('addr3').value = "${user.addr3 }";
+                    document.getElementById('phone').value = "${user.phone }";
+                    document.getElementById('inputEmail1').value = "${user.email1 }";
+                    document.getElementById('inputEmail2').value = "${user.email2 }";
+
+                }else if(typeChk == 'option2'){
+                    document.getElementById('inputUser').value = "";
+                    document.getElementById('zipCode').value = "";
+                    document.getElementById('addr1').value = "";
+                    document.getElementById('addr2').value = "";
+                    document.getElementById('addr3').value = "";
+                    document.getElementById('phone').value = "";
+                    document.getElementById('inputEmail1').value = "";
+                    document.getElementById('inputEmail2').value = "";
+                }
+
+            });
+        }
+    };
+    receiverTypeChk();
+    
+    //적리금 체크
+    var mileageUse = document.getElementById('mileageUse');
+    mileageUse.addEventListener('change', function(){
+        var mileageUseMax_V = mileageUse.max;
+
+        if(mileageUse.value < mileageUseMax_V){
+            alert("사용가능한 적립금은 \"" + mileageUseMax_V +"\" 원 입니다.");
+			mileageUse.value = mileageUseMax_V;
+        }
+
+        userUseDiscount();
+        totalDiscountChk();
+    });
+
+     //사용자 마이리지 및 쿠폰 totalUserUseDiscount
+    function userUseDiscount() {
+
+        var mileageUse = Number(document.getElementById('mileageUse').value);
+        var coupon_Input_CountType = document.getElementById('coupon_Input_CountType').value;
+        var coupon_Input_Pay = Number(document.getElementById('coupon_Input_Pay').value);
+
+        var s_stockBox = document.getElementsByClassName('s_stockBox');
+	        
+	    var price = document.getElementsByClassName('price');
+	    var totalPrice = 0;
+
+	    for (var i = 0; i < price.length; i++) {
+	        totalPrice += (s_stockBox[i].value * price[i].value);
+	    }
+
+        if( mileageUse != '' && coupon_Input_CountType == '') {
+            document.getElementById('totalUserUseDiscount').innerText = mileageUse.toLocaleString();
+            return mileageUse;
+        }else if(coupon_Input_CountType == 'normal') {
+            document.getElementById('totalUserUseDiscount').innerText = (mileageUse + coupon_Input_Pay).toLocaleString();
+            return (mileageUse + coupon_Input_Pay);
+        }else if(coupon_Input_CountType == 'percent'){
+            document.getElementById('totalUserUseDiscount').innerText = (mileageUse + (totalPrice * coupon_Input_Pay / 100)).toLocaleString();
+            return (mileageUse + (totalPrice * coupon_Input_Pay / 100));
+        }
+        
+    };
+
+    //총 할인 금액 체크
+    function totalDiscountChk() {
+
+        var s_stockBox = document.getElementsByClassName('s_stockBox');
+	    var finalPay = document.getElementsByClassName('finalPay');
+
+	    var price = document.getElementsByClassName('price');
+	    var totalPrice = 0;
+        var totalProductPrice = 0;
+        var shipTotal_O = 2500;
+
+	    for (var i = 0; i < price.length; i++) {
+	        totalPrice += (s_stockBox[i].value * price[i].value);
+	    }
+
+        for (var i = 0; i < s_stockBox.length; i++) {
+	         totalProductPrice += (s_stockBox[i].value * discountYNCHk(i));
+	    }
+
+        var totalDiscount = document.getElementsByClassName('totalDiscount');
+        var totalDiscountpay = 0;
+
+        if(userUseDiscount() != null) {
+            totalDiscountpay = ((totalPrice - totalProductPrice) + userUseDiscount());
+        }else {
+            totalDiscountpay = (totalPrice - totalProductPrice);
+        }
+
+        for(var i=0; i<totalDiscount.length; i++){
+            totalDiscount[i].innerText = totalDiscountpay.toLocaleString();
+        }
+
+        for (var i = 0; i < finalPay.length; i++) {
+	        finalPay[i].innerText = (totalPrice + shipTotal_O - totalDiscountpay).toLocaleString();
+	    }
+
+        return totalDiscountpay;
+    }
+    
+
+    //쿠폰 검색
+	function couponSearch(){
+		window.open("${contextPath }/couponSearch.do", "couponSearch", "width=800px, height=500px, left=100, top=50");
+	}
+
 </script>
