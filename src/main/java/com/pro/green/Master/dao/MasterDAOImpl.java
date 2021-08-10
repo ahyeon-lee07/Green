@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.pro.green.Master.vo.CouponVO;
 import com.pro.green.member.vo.MemberVO;
 import com.pro.green.product_M.vo.Criteria;
+import com.pro.green.product_M.vo.ProductVO2;
 
 @Repository("masterDAO")
 public class MasterDAOImpl implements MasterDAO {
@@ -62,6 +63,18 @@ public class MasterDAOImpl implements MasterDAO {
 	// 쿠폰 보유 리스트 조회
 	public List<Map<String, Object>> hasCouponList(String couponId) throws DataAccessException {
 		List<Map<String, Object>> result = sqlSession.selectList("mapper.master.hasCouponList", couponId);
+		return result;
+	}
+
+	// 회원 등급별로 정렬
+	/*
+	 * public List<CouponVO> orderByGrade(Map<String, Object> grade) throws
+	 * DataAccessException { List<CouponVO> result =
+	 * sqlSession.selectList("mapper.member.orderByGrade", grade); return result; }
+	 */
+
+	public List<Map<String, Object>> orderByGrade(Map<String, Object> map) throws DataAccessException {
+		List<Map<String, Object>> result = sqlSession.selectList("mapper.member.orderByGrade", map);
 		return result;
 	}
 

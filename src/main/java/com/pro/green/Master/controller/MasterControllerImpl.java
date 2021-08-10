@@ -27,6 +27,7 @@ import com.pro.green.member.vo.MemberVO;
 import com.pro.green.product_M.service.ProductService2;
 import com.pro.green.product_M.vo.Criteria;
 import com.pro.green.product_M.vo.PageMaker;
+import com.pro.green.product_M.vo.ProductVO2;
 
 @Controller("masterController")
 public class MasterControllerImpl implements MasterController {
@@ -175,14 +176,14 @@ public class MasterControllerImpl implements MasterController {
 
 		List<Map<String, Object>> memberList = masterService.memberList();
 		List<Map<String, Object>> hasCoupon = masterService.hasCouponList(couponId);
-		
-		for(int i=0; i<hasCoupon.size(); i++) {
-			
+
+		for (int i = 0; i < hasCoupon.size(); i++) {
+
 			String userId = hasCoupon.get(i).get("id").toString();
-			for(int j=0; j<memberList.size(); j++) {
-				
+			for (int j = 0; j < memberList.size(); j++) {
+
 				String memberId = memberList.get(j).get("id").toString();
-				if(userId.equals(memberId)) {
+				if (userId.equals(memberId)) {
 					memberList.get(j).put("hasCoupon", "Y");
 				}
 			}
@@ -196,58 +197,104 @@ public class MasterControllerImpl implements MasterController {
 
 		return mav;
 	}
-	
-	//쿠폰 보유 정보 변경
+
+	// 쿠폰 보유 정보 변경
 	@RequestMapping(value = "/couponList/hasCouponYN.do", method = RequestMethod.POST)
 	public ResponseEntity hasCouponYN(@RequestParam(value = "couponId") String couponId,
-									@RequestParam(value = "value") String value,
-									@RequestParam(value = "userId[]") List<String> userId,
+			@RequestParam(value = "value") String value, @RequestParam(value = "userId[]") List<String> userId,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ResponseEntity resEntity = null;
 
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("couponId", couponId);
-		
+
 		int result;
-		
-		for(int i=0; i<userId.size(); i++) {
-			
+
+		for (int i = 0; i < userId.size(); i++) {
+
 			paramMap.put("userId", userId.get(i));
-			
-			if(value.equals("Y")) {
+
+			if (value.equals("Y")) {
 				result = masterService.hasCouponAdd(paramMap);
-			}else {
+			} else {
 				result = masterService.hasCouponDelete(paramMap);
 			}
 		}
-		
+
 		List<Map<String, Object>> memberList = masterService.memberList();
 		List<Map<String, Object>> hasCoupon = masterService.hasCouponList(couponId);
-		
-		for(int i=0; i<hasCoupon.size(); i++) {
-			
+
+		for (int i = 0; i < hasCoupon.size(); i++) {
+
 			String couponid = hasCoupon.get(i).get("id").toString();
-			for(int j=0; j<memberList.size(); j++) {
-				
+			for (int j = 0; j < memberList.size(); j++) {
+
 				String memberid = memberList.get(j).get("id").toString();
-				if(couponid.equals(memberid)) {
+				if (couponid.equals(memberid)) {
 					memberList.get(j).put("hasCoupon", "Y");
 				}
 			}
 		}
-		
+
 		Map<String, Object> list = new HashMap();
 		list.put("memberList", memberList);
 		list.put("hasCoupon", hasCoupon);
-		
+
 		resEntity = new ResponseEntity(list, HttpStatus.OK);
+
+		return resEntity;
+	}
+
+	// 회원 등급별 정렬
+	@RequestMapping(value = "/couponList/orderByGrade.do", method = RequestMethod.POST)
+	public ResponseEntity orderByGrade(@RequestParam(value = "couponId") String couponId,
+			@RequestParam(value = "grade") String grade, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("couponId", couponId);
 		
+		ResponseEntity resEntity = null;
+		
+		Map<String, Object> map = new HashMap<String, Object>();		
+
+		if (grade.equals("new")) {
+			map.put("grade", "where grade='new'");
+		} else if (grade.equals("general")) {
+			map.put("grade", "where grade='general'");
+		} else if (grade.equals("vip")) {
+			map.put("grade", "where grade='vip'");
+		} else if (grade.equals("All")) {
+			map.put("grade", "");
+		}
+		
+		List<Map<String, Object>> memberList = masterService.orderByGrade(map);
+		List<Map<String, Object>> hasCoupon = masterService.hasCouponList(couponId);
+
+		for (int i = 0; i < hasCoupon.size(); i++) {
+
+			String couponid = hasCoupon.get(i).get("id").toString();
+			for (int j = 0; j < memberList.size(); j++) {
+
+				String memberid = memberList.get(j).get("id").toString();
+				if (couponid.equals(memberid)) {
+					memberList.get(j).put("hasCoupon", "Y");
+				}
+			}
+		}
+
+		Map<String, Object> list = new HashMap();
+		list.put("memberList", memberList);
+		list.put("hasCoupon", hasCoupon);
+
+		resEntity = new ResponseEntity(list, HttpStatus.OK);
 		return resEntity;
 	}
 
 	// 쿠폰내용 수정
 	@RequestMapping(value = "/couponList/couponUpdate.do", method = RequestMethod.POST)
-	public ModelAndView couponUpdate(@RequestParam(value = "couponId") String couponId, @ModelAttribute("coupon") CouponVO coupon, HttpServletRequest request) throws Exception {
+	public ModelAndView couponUpdate(@RequestParam(value = "couponId") String couponId,
+			@ModelAttribute("coupon") CouponVO coupon, HttpServletRequest request) throws Exception {
 
 		ModelAndView mav = new ModelAndView();
 		PageMaker pageMaker = new PageMaker();
@@ -263,8 +310,6 @@ public class MasterControllerImpl implements MasterController {
 
 		return mav;
 	}
-	
-	
 
 	// 관리자 세션 체크 (ModelAndView, 세션정보, 접속할 화면 )
 	private ModelAndView sessionChk(ModelAndView mav, MemberVO sessinLogin, String view) throws Exception {
