@@ -51,4 +51,6 @@
 		<result property="orderStatus" column="orderStatus" />
 		<result property="totalMileage" column="totalMileage" />
 	</resultMap>
+
+	
 </mapper>

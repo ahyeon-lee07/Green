@@ -21,6 +21,7 @@ request.setCharacterEncoding("UTF-8");
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb p-0 bg bg-transparent">
 						<li class="breadcrumb-item"><a href="${contextPath }/main.do">홈</a></li>
+						<li class="breadcrumb-item"><a href="${contextPath }/purchaseList.do">구매 내역 조회</a></li>
 						<li class="breadcrumb-item active" aria-current="page">구매 내역 상세</li>
 					</ol>
 				</nav>

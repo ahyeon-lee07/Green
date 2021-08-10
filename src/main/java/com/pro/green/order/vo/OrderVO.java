@@ -19,8 +19,6 @@ public class OrderVO {
 	private String order_email2;
 	private String shipMsg;
 	private Date orderDate;
-	private int s_stock;
-	private String s_option;
 	private String payId;
 	private int milageUse;
 	private int total;
@@ -31,6 +29,8 @@ public class OrderVO {
 	private String shipStatus;
 	private String orderStatus;
 	private int totalMileage;
+	
+	
 	
 	public String getOrderNum() {
 		return orderNum;
@@ -114,20 +114,6 @@ public class OrderVO {
 	}
 	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;	
-	}
-	
-	public int getS_stock() {
-		return s_stock;
-	}
-	public void setS_stoc(int s_stock) {
-		this.s_stock = s_stock;	
-	}
-	
-	public String getS_option() {
-		return s_option;
-	}
-	public void setS_option(String s_option) {
-		this.s_option = s_option;
 	}
 	
 	public String getPayId() {
