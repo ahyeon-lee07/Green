@@ -184,7 +184,7 @@ request.setCharacterEncoding("UTF-8");
 						</div>
 						<div class="text-center d-flex justify-content-end">
 							<a href="#" onclick="productDelete()">
-								<button type="button" class="btn bg-danger text-white">삭제
+								<button type="button" class="btn btn-outline-danger">삭제
 								</button>
 							</a>
 
@@ -201,7 +201,7 @@ request.setCharacterEncoding("UTF-8");
 			<div class="col-5 p-0 pr-2">
 				<div class="d-flex justify-content-between mb-2">
 					<div class="bd-highlight">
-						<h6 class="font-weight-bold ml-2">회원리스트</h6>
+						<h6 class="font-weight-bold ml-2 mt-2 mb-0">회원리스트</h6>
 					</div>
 					<div class="bd-highlight btn-group btn-group-toggle " data-toggle="buttons" onclick="orderByGroup()">
 						<label class="btn btn-outline-secondary" >
@@ -274,10 +274,11 @@ request.setCharacterEncoding("UTF-8");
 
 			</div>
 			<div class="col-6 p-0 pl-2">
-				<div class="row" style="margin-top:2px; margin-bottom:16px;">
-					<div class="col">
-						<h6 class="font-weight-bold ml-2">쿠폰 보유 회원</h6>
+				<div class="d-flex justify-content-between mb-2">
+					<div class="bd-highlight">
+						<h6 class="font-weight-bold ml-2 mt-2 mb-0">쿠폰 보유 회원</h6>
 					</div>
+					<div class="bd-highlight" style="height: 38px"></div>
 				</div>
 				<div class="border-bottom" style="height: 470px; overflow: auto;">
 					<table class="table table-hover m-0">
