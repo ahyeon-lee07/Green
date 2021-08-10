@@ -1,5 +1,8 @@
 package com.pro.green.order.controller;
 
-public class OrderControllerImpl {
+import org.springframework.stereotype.Controller;
+
+@Controller("orderController")
+public class OrderControllerImpl implements OrderController {
 
 }

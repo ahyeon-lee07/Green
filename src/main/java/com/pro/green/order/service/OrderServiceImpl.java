@@ -1,5 +1,8 @@
 package com.pro.green.order.service;
 
-public class OrderServiceImpl {
+import org.springframework.stereotype.Service;
+
+@Service("orderService")
+public class OrderServiceImpl implements OrderService{
 
 }

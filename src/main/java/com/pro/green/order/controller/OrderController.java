@@ -1,5 +1,6 @@
 package com.pro.green.order.controller;
 
-public class OrderController {
+
+public interface OrderController {
 
 }

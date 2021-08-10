@@ -12,5 +12,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.pro.green.Master.vo.CouponVO"  alias="CouponVO" />
 		<typeAlias type="com.pro.green.product.vo.CartVO"  alias="cartVO" />
 		<typeAlias type="com.pro.green.product.vo.MemberHasCouponVO"  alias="memberHasCouponVO" />
+		<typeAlias type="com.pro.green.order.vo.OrderVO"  alias="orderVO" />
 	</typeAliases>
 </configuration>
