@@ -472,7 +472,7 @@ request.setCharacterEncoding("UTF-8");
                             </div>
                             <div class="row py-3">
                                 <div class="col">
-                                    -<span class="font-weight-bold" style="font-size: 1.5rem;">1,000 </span>원
+                                    -<span class="font-weight-bold totalDiscount" style="font-size: 1.5rem;">1,000 </span>원
                                 </div>
                             </div>
                         </div>
@@ -484,7 +484,7 @@ request.setCharacterEncoding("UTF-8");
                             </div>
                             <div class="row py-3">
                                 <div class="col">
-                                    =<span class="font-weight-bold" style="font-size: 1.5rem;">11,000 </span>원
+                                    =<span class="font-weight-bold finalPay" style="font-size: 1.5rem;">0</span>원
                                 </div>
                             </div>
                         </div>
@@ -492,20 +492,22 @@ request.setCharacterEncoding("UTF-8");
                     <div class="row border border-top-0" style="font-size: .9rem">
                         <div class="col-2 bg-light py-2 border-right font-weight-bold">상품 할인 금액</div>
                         <div class="col-10 py-2">
-                            <span class="totalBoxDiscount"></span>원
+                            <span class="totalBoxDiscount">0</span>원
                         </div>
                     </div>
                     <div class="row border border-top-0" style="font-size: .9rem">
                         <div class="col-2 bg-light py-2 border-right font-weight-bold">추가 할인 금액</div>
                         <div class="col-10 py-2">
-                            <span id="totalUserUseDiscount"></span>원
+                            <span id="totalUserUseDiscount">0</span>원
                             <button type="button" class="btn btn-outline-secondary btn-sm ml-4"
                                 style="font-size: .6rem">내역 보기</button>
                         </div>
                     </div>
                     <div class="row border rounded-bottom border-top-0" style="font-size: .9rem">
-                        <div class="col-2 bg-light py-2 border-right font-weight-bold">총 부가 결제 금액</div>
-                        <div class="col-10 py-2">2,000원</div>
+                        <div class="col-2 bg-light py-2 border-right font-weight-bold">총 할인 금액</div>
+                        <div class="col-10 py-2">
+                            <span class="totalDiscount">0</span>원
+                        </div>
                     </div>
 
                     <!-- 결제 수단 -->
@@ -551,7 +553,7 @@ request.setCharacterEncoding("UTF-8");
                             </div>
                             <div class="row text-danger">
                                 <div class="col">
-                                    <span class="font-weight-bold" style="font-size: 1.8rem;">11,000</span> 원
+                                    <span class="font-weight-bold finalPay" style="font-size: 1.8rem;">0</span> 원
                                 </div>
                             </div>
                             <div class="row mt-3 mb-3">
@@ -799,6 +801,7 @@ request.setCharacterEncoding("UTF-8");
 	        var totalBoxPrice = document.getElementsByClassName('totalBoxPrice');
 	        var totalBoxDiscount = document.getElementsByClassName('totalBoxDiscount');
 	        var duePayment = document.getElementsByClassName('duePayment');
+            var finalPay = document.getElementsByClassName('finalPay');
 	        var totalProductPrice = 0;
 	        
 	        var price = document.getElementsByClassName('price');
@@ -827,6 +830,11 @@ request.setCharacterEncoding("UTF-8");
 	        }
 
             userUseDiscount();
+            totalDiscountChk();
+
+            for (var i = 0; i < finalPay.length; i++) {
+	            finalPay[i].innerText = (totalPrice + shipTotal_O - totalDiscountChk()).toLocaleString();
+	        }
 	    };
 
     //배송지 선택
@@ -876,12 +884,13 @@ request.setCharacterEncoding("UTF-8");
     mileageUse.addEventListener('change', function(){
         var mileageUseMax_V = mileageUse.max;
 
-        if(mileageUse.value > mileageUseMax_V){
+        if(mileageUse.value < mileageUseMax_V){
             alert("사용가능한 적립금은 \"" + mileageUseMax_V +"\" 원 입니다.");
 			mileageUse.value = mileageUseMax_V;
         }
 
         userUseDiscount();
+        totalDiscountChk();
     });
 
      //사용자 마이리지 및 쿠폰 totalUserUseDiscount
@@ -902,13 +911,56 @@ request.setCharacterEncoding("UTF-8");
 
         if( mileageUse != '' && coupon_Input_CountType == '') {
             document.getElementById('totalUserUseDiscount').innerText = mileageUse.toLocaleString();
+            return mileageUse;
         }else if(coupon_Input_CountType == 'normal') {
             document.getElementById('totalUserUseDiscount').innerText = (mileageUse + coupon_Input_Pay).toLocaleString();
+            return (mileageUse + coupon_Input_Pay);
         }else if(coupon_Input_CountType == 'percent'){
             document.getElementById('totalUserUseDiscount').innerText = (mileageUse + (totalPrice * coupon_Input_Pay / 100)).toLocaleString();
+            return (mileageUse + (totalPrice * coupon_Input_Pay / 100));
         }
- 
+        
     };
+
+    //총 할인 금액 체크
+    function totalDiscountChk() {
+
+        var s_stockBox = document.getElementsByClassName('s_stockBox');
+	    var finalPay = document.getElementsByClassName('finalPay');
+
+	    var price = document.getElementsByClassName('price');
+	    var totalPrice = 0;
+        var totalProductPrice = 0;
+        var shipTotal_O = 2500;
+
+	    for (var i = 0; i < price.length; i++) {
+	        totalPrice += (s_stockBox[i].value * price[i].value);
+	    }
+
+        for (var i = 0; i < s_stockBox.length; i++) {
+	         totalProductPrice += (s_stockBox[i].value * discountYNCHk(i));
+	    }
+
+        var totalDiscount = document.getElementsByClassName('totalDiscount');
+        var totalDiscountpay = 0;
+
+        if(userUseDiscount() != null) {
+            totalDiscountpay = ((totalPrice - totalProductPrice) + userUseDiscount());
+        }else {
+            totalDiscountpay = (totalPrice - totalProductPrice);
+        }
+
+        for(var i=0; i<totalDiscount.length; i++){
+            totalDiscount[i].innerText = totalDiscountpay.toLocaleString();
+        }
+
+        for (var i = 0; i < finalPay.length; i++) {
+	        finalPay[i].innerText = (totalPrice + shipTotal_O - totalDiscountpay).toLocaleString();
+	    }
+
+        return totalDiscountpay;
+    }
+    
 
     //쿠폰 검색
 	function couponSearch(){

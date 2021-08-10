@@ -81,6 +81,7 @@ request.setCharacterEncoding("UTF-8");
 		opener.document.getElementById("coupon_Input_Pay").value = couponPay;
 
 		opener.parent.userUseDiscount();
+		opener.parent.totalDiscountChk();
 		window.close();
 	}
 
