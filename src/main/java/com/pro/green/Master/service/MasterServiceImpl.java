@@ -13,6 +13,7 @@ import com.pro.green.Master.dao.MasterDAO;
 import com.pro.green.Master.vo.CouponVO;
 import com.pro.green.member.vo.MemberVO;
 import com.pro.green.product_M.vo.Criteria;
+import com.pro.green.product_M.vo.ProductVO2;
 
 @Service("masterService")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -58,6 +59,11 @@ public class MasterServiceImpl implements MasterService {
 	// 쿠폰 보유 리스트 조회
 	public List<Map<String, Object>> hasCouponList(String couponId) throws DataAccessException {
 		return masterDAO.hasCouponList(couponId);
+	}
+
+	// 회원 등급별로 정렬
+	public List<Map<String, Object>> orderByGrade(Map<String, Object> map) throws DataAccessException {
+		return masterDAO.orderByGrade(map);
 	}
 
 	// 쿠폰 내용 수정

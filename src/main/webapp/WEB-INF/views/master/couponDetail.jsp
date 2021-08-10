@@ -199,50 +199,68 @@ request.setCharacterEncoding("UTF-8");
 		<!-- 회원 관련 리스트 -->
 		<div class="row mb-5">
 			<div class="col-5 p-0 pr-2">
-				<div class="row">
-					<div class="col">
-						<h6 class="font-weight-bold">회원리스트</h6>
+				<div class="d-flex justify-content-between mb-2">
+					<div class="bd-highlight">
+						<h6 class="font-weight-bold ml-2">회원리스트</h6>
+					</div>
+					<div class="bd-highlight btn-group btn-group-toggle " data-toggle="buttons" onclick="orderByGroup()">
+						<label class="btn btn-outline-secondary" >
+							<input type="radio" name="options" value="All" checked/>All
+						</label> 
+						<label class="btn btn-outline-secondary"> 
+							<input type="radio" name="options" value="new"/>new
+						</label> 
+						<label class="btn btn-outline-secondary"> 
+							<input type="radio" name="options" value="general"/>general
+						</label> 
+						<label class="btn btn-outline-secondary"> 
+							<input type="radio" name="options" value="vip"/>vip
+						</label>
 					</div>
 				</div>
-				<table class="table table-hover m-0">
-					<thead class=" border-bottom border-top bg-light">
-						<tr>
-							<th
-								class="text-center border-bottom-0 align-middle border-top-0 px-1"
-								style="width: 36px"><input type='checkbox' name='selectall1'
-								value='selectall' onclick='selectAll(this, "terms1")' /></th>
-							<th
-								class="text-center border-bottom-0 align-middle border-top-0 px-1"
-								style="width: auto">이름</th>
-							<th class="text-center border-bottom-0 border-top-0 px-2"
-								style="width: auto">아이디</th>
-							<th class="text-center border-bottom-0 border-top-0 px-2"
-								style="width: auto">등급</th>
+				<div class="border-bottom" style="height: 470px; overflow: auto;">
+					<table class="table table-hover m-0">
+						<thead class=" border-bottom border-top bg-light">
+							<tr>
+								<th
+									class="text-center border-bottom-0 align-middle border-top-0 px-1"
+									style="width: 36px"><input type='checkbox'
+									name='selectall1' value='selectall'
+									onclick='selectAll(this, "terms1")' /></th>
+								<th
+									class="text-center border-bottom-0 align-middle border-top-0 px-1"
+									style="width: 100px">이름</th>
+								<th class="text-center border-bottom-0 border-top-0 px-2"
+									style="width: auto">아이디</th>
+								<th class="text-center border-bottom-0 border-top-0 px-2"
+									style="width: 100px">등급</th>
 
-						</tr>
-					</thead>
-					<tbody class="border-bottom" id="memberList">
-						<c:forEach items="${memberList }" var="list">
-							<c:if test="${list.hasCoupon == null }">
-								<tr id="${list.id }" class="">
-									<td class="text-center align-middle align-middle px-1">
-										<div>
-											<input class="terms1" type='checkbox' name='terms1' value=''
-												onclick='checkSelectAll("selectall1", "terms1")' />
-										</div>
-									</td>	
-									<td class="text-center align-middle align-middle px-1">
-										${list.name }</td>
-									<td class="text-center align-middle align-middle px-1 terms1_userId">
-										${list.id }</td>
-									<td class="text-center align-middle align-middle px-1">
-										${list.grade }</td>
-								</tr>
-							</c:if>
-							
-						</c:forEach>
-					</tbody>
-				</table>
+							</tr>
+						</thead>
+						<tbody class="border-bottom" id="memberList">
+							<c:forEach items="${memberList}" var="list">
+								<c:if test="${list.hasCoupon == null }">
+									<tr id="${list.id }">
+										<td class="text-center align-middle align-middle px-1">
+											<div>
+												<input class="terms1" type='checkbox' name='terms1'
+													onclick='checkSelectAll("selectall1", "terms1")' />
+											</div>
+										</td>
+										<td class="text-center align-middle align-middle px-1">
+											${list.name }</td>
+										<td
+											class="text-center align-middle align-middle px-1 terms1_userId">
+											${list.id }</td>
+										<td class="text-center align-middle align-middle px-1">
+											${list.grade }</td>
+									</tr>
+								</c:if>
+
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
 			</div>
 			<div class="col-1 d-flex align-items-center">
 				<div class="d-flex flex-column">
@@ -256,50 +274,54 @@ request.setCharacterEncoding("UTF-8");
 
 			</div>
 			<div class="col-6 p-0 pl-2">
-				<div class="row">
+				<div class="row" style="margin-top:2px; margin-bottom:16px;">
 					<div class="col">
-						<h6 class="font-weight-bold">쿠폰 보유 회원</h6>
+						<h6 class="font-weight-bold ml-2">쿠폰 보유 회원</h6>
 					</div>
 				</div>
-				<table class="table table-hover m-0">
-					<thead class=" border-bottom border-top bg-light">
-						<tr>
-							<th
-								class="text-center border-bottom-0 align-middle border-top-0 px-1"
-								style="width: 36px"><input type='checkbox' name='selectall2'
-								value='selectall' onclick='selectAll(this, "terms2")' /></th>
-							<th
-								class="text-center border-bottom-0 align-middle border-top-0 px-1"
-								style="width: 100px">이름</th>
-							<th class="text-center border-bottom-0 border-top-0 px-2"
-								style="width: auto">아이디</th>
-							<th class="text-center border-bottom-0 border-top-0 px-2"
-								style="width: 80px">등급</th>
-							<th class="text-center border-bottom-0 border-top-0 px-2"
-								style="width: 156px">사용일</th>
-						</tr>
-					</thead>
-					<tbody class="border-bottom" id="hasCouponList">
-						<c:forEach items="${hasCoupon}" var="list">
-								<tr id="${list.id }" class="">
+				<div class="border-bottom" style="height: 470px; overflow: auto;">
+					<table class="table table-hover m-0">
+						<thead class=" border-bottom border-top bg-light">
+							<tr>
+								<th
+									class="text-center border-bottom-0 align-middle border-top-0 px-1"
+									style="width: 36px"><input type='checkbox'
+									name='selectall2' value='selectall'
+									onclick='selectAll(this, "terms2")' /></th>
+								<th
+									class="text-center border-bottom-0 align-middle border-top-0 px-1"
+									style="width: 100px">이름</th>
+								<th class="text-center border-bottom-0 border-top-0 px-2"
+									style="width: auto">아이디</th>
+								<th class="text-center border-bottom-0 border-top-0 px-2"
+									style="width: 100px">등급</th>
+								<th class="text-center border-bottom-0 border-top-0 px-2"
+									style="width: 150px">사용일</th>
+							</tr>
+						</thead>
+						<tbody class="border-bottom" id="hasCouponList">
+							<c:forEach items="${hasCoupon}" var="list">
+								<tr id="${list.id }">
 									<td class="text-center align-middle align-middle px-1">
 										<div>
-											<input class="terms2" type='checkbox' name='terms2' value=''
+											<input class="terms2" type='checkbox' name='terms2'
 												onclick='checkSelectAll("selectall2", "terms2")' />
 										</div>
 									</td>
 									<td class="text-center align-middle align-middle px-1">
 										${list.name }</td>
-									<td class="text-center align-middle align-middle px-1 terms2_userId">
+									<td
+										class="text-center align-middle align-middle px-1 terms2_userId">
 										${list.id }</td>
 									<td class="text-center align-middle align-middle px-1">
 										${list.grade }</td>
 									<td class="text-center align-middle align-middle px-1"
 										style="font-size: .8rem">${list.couponUseDate }</td>
 								</tr>
-						</c:forEach>
-					</tbody>
-				</table>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -313,7 +335,6 @@ request.setCharacterEncoding("UTF-8");
 		var showYN_V = showYN.value;
 		var Label = document.getElementById('inputUseYNLabel');
 		var V = document.getElementById('useYN_V');
-
 		if (showYN_V != "N") {
 			showYN.value = "N";
 			V.value = "N";
@@ -324,15 +345,13 @@ request.setCharacterEncoding("UTF-8");
 			Label.innerHTML = "활성화";
 		}
 	});
-
+	
 	//할인 금액 타입 체크
 	var inputState = document.getElementById('inputState');
 	inputState.addEventListener('change', function(){
-
 		var Type = inputState.value;
 		
 		document.getElementById('inputCouponPay').value = '';
-
 		if(Type == 'normal'){
 			document.getElementById('inputCouponPay').max = '';
 			document.getElementById('inputCouponPay').nextSibling.nextSibling.innerText = '원';
@@ -342,15 +361,13 @@ request.setCharacterEncoding("UTF-8");
 			document.getElementById('inputCouponPay').nextSibling.nextSibling.innerText = '%';
 		}
 	});
-
+	
 	//날짜 번경에 따른 input값 변경
 	function inputValueChk(VALUE) {
 		var input_N = document.getElementById(VALUE);
 		var input_V = document.getElementById(VALUE+"_V");
-
 		input_N.addEventListener('change', function(){
 			input_V.value = input_N.value;
-
 			if(input_N.value == ''){
 				input_V.value.value ='0000-00-00';
 			}
@@ -358,7 +375,7 @@ request.setCharacterEncoding("UTF-8");
 	}
 	inputValueChk('couponPeriod_start');
 	inputValueChk('couponPeriod_end');
-
+	
 	//날짜 입력값 비우기
 	function btn_resset(){
 		document.getElementById('couponPeriod_start').value = '';
@@ -366,7 +383,6 @@ request.setCharacterEncoding("UTF-8");
 		document.getElementById('couponPeriod_end').value = '';
 		document.getElementById('couponPeriod_end_V').value = '0000-00-00';
 	}
-
 	function productDelete(){
 		if(confirm("정말 삭제 하시겠습니까?") == true){
 			//location.href = "${contextPath }/couponList/couponDelete_M.do${pageMaker.makeQueryPage(bList.IDX, pageMaker.cri.page) }&productId=${ProductVO.productId }";
@@ -381,10 +397,8 @@ request.setCharacterEncoding("UTF-8");
 			
 			var form = document.couponAdd;
 			var Type = inputState.value;
-
 			var couponPeriodStart = document.getElementById('couponPeriod_start');
 			var couponPeriodEnd = document.getElementById('couponPeriod_end');
-
 			if(couponPeriodStart.value == "" && couponPeriodEnd.value == "" || couponPeriodStart.value != "" && couponPeriodEnd.value != ""){
 				
 				if(form.couponName.value == ""){
@@ -432,31 +446,72 @@ request.setCharacterEncoding("UTF-8");
 	        +addZero(date.getSeconds().toString())+".0";
 	    return chgTimestamp;
 	}
-	 
-	// 쿠폰
-	function fn_couponYN(terms) {
+	
+	function orderByGroup() {
 
+		var gradeList = document.getElementsByName('options');
+		var grade;
+
+		for(var i=0; i<gradeList.length; i++){
+			
+			if(gradeList[i].checked == true){
+				grade = gradeList[i].value;
+			}
+		}
+
+		var couponId = "${couponInf.couponId }";
+		
+		$.ajax({
+			type: "POST",
+			async: true,
+			url: "${contextPath}/couponList/orderByGrade.do",
+			dataType: "json",
+			data: {
+				couponId: couponId,
+				grade: grade
+			},
+			success: function (list) {
+				var memberList="";
+				for(var i=0; i< list["memberList"].length; i++){
+					
+					if(list["memberList"][i]["hasCoupon"] == null){
+							memberList += '<tr id="' + list["memberList"][i]['id'] +'" >';
+							memberList += '<td class="text-center align-middle align-middle px-1">';
+							memberList += '<div><input class="terms1" type="checkbox" name="terms1" onclick="checkSelectAll(\'selectall1\', \'terms1\')" /></div>';
+							memberList += '</td>';
+							memberList += '<td class="text-center align-middle align-middle px-1">' + list["memberList"][i]['name'] +'</td>';
+							memberList += '<td class="text-center align-middle align-middle px-1 terms1_userId">' + list["memberList"][i]['id'] +'</td>';
+							memberList += '<td class="text-center align-middle align-middle px-1">' + list["memberList"][i]['grade'] +'</td>';
+							memberList += '</tr>';
+						}
+					document.getElementById('memberList').innerHTML = memberList;
+				}
+			},
+			error: function (data, textStatus) {
+			},
+			complete: function (data, textStatus) {
+			}
+		})
+	}
+	 
+	// 쿠폰 발급&회수
+	function fn_couponYN(terms) {
 			var termsList = document.getElementsByClassName(terms);
 			var userId = document.getElementsByClassName(terms+'_userId');
-
 			var chk_arr=[];
-
 			for(var i=0; i<termsList.length; i++){
 				if(termsList[i].checked){
 					chk_arr.push(userId[i].innerText);
 				}
 			}
-
 			var couponId = "${couponInf.couponId }";
 			
 			var hasCouponYN;
-
 			if(terms == "terms1"){
 				hasCouponYN = "Y";
 			}else if(terms == "terms2"){
 				hasCouponYN = "N";
 			}
-
 			$.ajax({
 				type: "POST",
 				async: true,
@@ -468,9 +523,7 @@ request.setCharacterEncoding("UTF-8");
 					userId: chk_arr
 				},
 				success: function (list) {
-
 					var memberList="";
-
 					for(var i=0; i< list["memberList"].length; i++){
 						
 						if(list["memberList"][i]["hasCoupon"] == null){
@@ -485,12 +538,10 @@ request.setCharacterEncoding("UTF-8");
 						}
 					}
 					document.getElementById('memberList').innerHTML = memberList;
-
 					var hasCouponList = "";
 					for (var i = 0; i < list["hasCoupon"].length; i++) {
 						
 						var useDate = getTimestampToDate(list["hasCoupon"][i]['couponUseDate']);
-
 						hasCouponList +='<tr id="' + list["hasCoupon"][i]['id'] +'" class="">';
 						hasCouponList +='<td class="text-center align-middle align-middle px-1">';
 						hasCouponList +='<div><input class="terms2" type="checkbox" name="terms2" onclick="checkSelectAll(\'selectall2\', \'terms2\')" /></div>';
@@ -498,7 +549,6 @@ request.setCharacterEncoding("UTF-8");
 						hasCouponList +='<td class="text-center align-middle align-middle px-1">' + list["hasCoupon"][i]['name'] +'</td>';
 						hasCouponList +='<td class="text-center align-middle align-middle px-1 terms2_userId">' + list["hasCoupon"][i]['id'] +'</td>';
 						hasCouponList +='<td class="text-center align-middle align-middle px-1">' + list["hasCoupon"][i]['grade'] +'</td>';
-
 						if(list["hasCoupon"][i]['couponUseDate'] != undefined ){
 							hasCouponList += '<td class="text-center align-middle align-middle px-1" style="font-size: .8rem">' + useDate + '</td>';
 						}else{
@@ -508,20 +558,15 @@ request.setCharacterEncoding("UTF-8");
 						hasCouponList +='</tr>';
 					}
 					document.getElementById('hasCouponList').innerHTML = hasCouponList;
-
 					document.getElementsByName('selectall1')[0].checked = false;
 					document.getElementsByName('selectall2')[0].checked = false;
-
 				},
 				error: function (data, textStatus) {
-
 				},
 				complete: function (data, textStatus) {
-
 				}
 			});
 		}
-
 	//전체 선택 "selectall1", "terms1"
 	function checkSelectAll(selectall, terms) {
 		// 전체 체크박스
@@ -533,22 +578,17 @@ request.setCharacterEncoding("UTF-8");
 		// select all 체크박스
 		const selectAll
 			= document.querySelector('input[name='+selectall+']');
-
 		if (checkboxes.length === checked.length) {
 			selectAll.checked = true;
 		} else {
 			selectAll.checked = false;
 		}
-
 	}
-
 	function selectAll(selectAll, terms) {
 		const checkboxes
 			= document.getElementsByName(terms);
-
 		checkboxes.forEach((checkbox) => {
 			checkbox.checked = selectAll.checked
 		})
 	}
-
 </script>

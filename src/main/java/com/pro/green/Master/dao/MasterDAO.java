@@ -13,7 +13,7 @@ public interface MasterDAO {
 
 	public List<Map<String, Object>> selectCouponList(Criteria cri) throws DataAccessException;
 
-	//쿠폰등록
+	// 쿠폰등록
 	public int couponAdd(CouponVO coupon) throws DataAccessException;
 
 	// 리스트 개수
@@ -34,6 +34,10 @@ public interface MasterDAO {
 	// 쿠폰 보유 리스트 조회
 	public List<Map<String, Object>> hasCouponList(String couponId) throws DataAccessException;
 
+	// 회원 등급별로 정렬
+	// public List<CouponVO> orderByGrade(Map<String, Object> grade) throws DataAccessException;
+	public List<Map<String, Object>> orderByGrade(Map<String, Object> map) throws DataAccessException;
+
 	// 쿠폰 내용 수정
 	public int couponUpdate(CouponVO coupon) throws DataAccessException;
 
@@ -42,6 +46,5 @@ public interface MasterDAO {
 
 	// member_has_coupon 테이블 삭제
 	public int hasCouponDelete(Map<String, Object> paramMap) throws DataAccessException;
-
 
 }
