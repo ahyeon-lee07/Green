@@ -62,7 +62,7 @@ public class MypageProductDAOImpl implements MypageProductDAO {
 
 	// 장바구니 리스트 조회
 	public List<Map<String, Object>> cartList(String id) throws DataAccessException {
-		
+
 		List<Map<String, Object>> result = sqlSession.selectList("mapper.mypageProduct.cartList", id);
 
 		for (int i = 0; i < result.size(); i++) {
@@ -121,6 +121,12 @@ public class MypageProductDAOImpl implements MypageProductDAO {
 	// 유저 보유 쿠폰 조회
 	public List<Map<String, Object>> hasCouponList(String userId) throws DataAccessException {
 		List<Map<String, Object>> result = sqlSession.selectList("mapper.mypageProduct.hasCouponList", userId);
+		return result;
+	}
+
+	// 장바구니 개수 조회
+	public int cartCount(String id) throws DataAccessException {
+		int result = sqlSession.selectOne("mapper.mypageProduct.cartCount", id);
 		return result;
 	}
 

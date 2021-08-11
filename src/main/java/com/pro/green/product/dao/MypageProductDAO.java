@@ -46,5 +46,8 @@ public interface MypageProductDAO {
 	// 유저 보유 쿠폰 조회
 	public List<Map<String, Object>> hasCouponList(String userId) throws DataAccessException;
 
+	// 장바구니 개수 조회
+	public int cartCount(String id) throws DataAccessException;
+
 
 }

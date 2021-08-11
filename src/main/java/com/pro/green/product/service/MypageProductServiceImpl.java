@@ -82,4 +82,9 @@ public class MypageProductServiceImpl implements MypageProductService {
 		return mypageProductDAO.hasCouponList(userId);
 	}
 
+	// 장바구니 개수 조회
+	public int cartCount(String id) throws DataAccessException {
+		return mypageProductDAO.cartCount(id);
+	}
+
 }

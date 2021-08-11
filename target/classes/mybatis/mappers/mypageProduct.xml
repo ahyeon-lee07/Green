@@ -130,6 +130,18 @@
 	   ]]>  
 	</select>
 	
+	<!-- 카트 개수 조회 -->
+	<select id="cartCount" parameterType="String" resultType="int">
+		<![CDATA[
+	   SELECT 
+			COUNT(*)
+		FROM 
+			cart
+		WHERE
+			id = #{id} AND cartType = 'cart';
+	   ]]>  
+	</select>
+	
 	<!-- 상품 조회 -->
 	<select id="selectProduct" resultType="hashmap" parameterType="String">
     <![CDATA[

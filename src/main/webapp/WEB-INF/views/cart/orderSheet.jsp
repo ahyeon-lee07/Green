@@ -72,7 +72,7 @@ request.setCharacterEncoding("UTF-8");
             	<c:forEach items="${orderList}" var="cartList" varStatus="indexNum">
             		<tr id="${cartList.p_optionId }">
                         <th style="display: none;">
-                            <input type="text" name="optionId[${indexNum.index}]" value="${cartList.s_optionId }" >
+                            <input type="text" class="optionId" name="optionId[${indexNum.index}]" value="${cartList.p_optionId }" >
                         </th>
                     	<c:forEach items="${cartList.product }" var="product">
 	                    	<td class="text-center align-middle px-2">            
@@ -112,7 +112,7 @@ request.setCharacterEncoding("UTF-8");
 								</c:choose>
 							</td>
 							<td class="text-center align-middle px-2">
-		                        <input type="number" class="form-control s_stockBox" name="s_stock[${indexNum.index}]" data-index="${indexNum.index}" step="1" value="${cartList.s_stock}" min="1" max="${cartList.p_stock}">
+		                        <input type="number" class="form-control s_stockBox s_stock" name="s_stock[${indexNum.index}]" data-index="${indexNum.index}" step="1" value="${cartList.s_stock}" min="1" max="${cartList.p_stock}">
 		                    </td>
 		                    <td class="text-center align-middle px-2">
                                 <input type="text" class="form-control inputBoxReadonly" name="productMileage[${indexNum.index}]"  value="${product.productMileage}" style="padding: 0; border: 0; text-align: center;" readonly>
@@ -265,10 +265,10 @@ request.setCharacterEncoding("UTF-8");
                     <div class="row border-bottom py-2">
                         <div class="col p-0">
                             <div class="d-flex bd-highlight">
-                                <label for="phone" class="bd-highlight col-form-label pl-2"
+                                <label for="phoneNumber" class="bd-highlight col-form-label pl-2"
                                     style="width: 120px;"><img src="${contextPath }/resources/img/require.png">휴대전화</label>
                                 <div class="flex-grow bd-highlight pr-2">
-                                    <input type="number" class="form-control" id="phone" placeholder="'-' 없이 입력해주세요." value="${user.phone }">
+                                    <input type="number" class="form-control" id="phoneNumber" placeholder="'-' 없이 입력해주세요." value="${user.phone }">
                                 </div>
                             </div>
                         </div>
@@ -690,7 +690,8 @@ request.setCharacterEncoding("UTF-8");
 	function goBack() {
 		window.history.go(-1);
 	}
-	
+
+	var shipTotal_O = 100;
 	//로딩시 금액 입력
 	 window.onload = function(){
 	    	
@@ -699,7 +700,6 @@ request.setCharacterEncoding("UTF-8");
                 document.getElementById('inputEmail2').value = "${user.email2}";
             }
 
-            var shipTotal_O = 2500;
             var shipTotal =  shipTotal_O.toLocaleString();
             
             var shipTotalList = document.getElementsByClassName('shipTotalList');
@@ -792,8 +792,6 @@ request.setCharacterEncoding("UTF-8");
 	        
 	        var price = document.getElementsByClassName('price');
 	        var totalPrice = 0;
-
-	        var shipTotal_O = 2500;
 
 	        for (var i = 0; i < price.length; i++) {
 	            totalPrice += (s_stockBox[i].value * price[i].value);
@@ -926,7 +924,7 @@ request.setCharacterEncoding("UTF-8");
 	    var price = document.getElementsByClassName('price');
 	    var totalPrice = 0;
         var totalProductPrice = 0;
-        var shipTotal_O = 2500;
+        
 
 	    for (var i = 0; i < price.length; i++) {
 	        totalPrice += (s_stockBox[i].value * price[i].value);
@@ -983,10 +981,24 @@ request.setCharacterEncoding("UTF-8");
         var email = document.getElementById('inputEmail1').value+"@"+document.getElementById('inputEmail2').value;
         var userName = document.getElementById('inputUser').value;
         
-        var phone = document.getElementById('phone').value.substr(0,3)+"-"+document.getElementById('phone').value.substr(3,4)+"-"+document.getElementById('phone').value.substr(7,4);
+        var phone = document.getElementById('phoneNumber').value.substr(0,3)+"-"+document.getElementById('phoneNumber').value.substr(3,4)+"-"+document.getElementById('phoneNumber').value.substr(7,4);
 
         var addr = document.getElementById('addr1').value+" "+document.getElementById('addr2').value; 
         var zipCode = document.getElementById('zipCode').value;
+        var shipMsg = document.getElementById('shipMsg').value;
+
+        var optionList = [];
+
+        for(var i=0; i<document.getElementsByClassName('optionId').length; i++){
+            var s_option = {
+                'optionId' : document.getElementsByClassName('optionId')[i].value,
+                's_stock' : document.getElementsByClassName('s_stock')[i].value,
+            };
+            optionList.push(s_option);
+        }
+
+        console.log(optionList);
+        
 
         var IMP = window.IMP; // 생략 가능
         IMP.init("imp64568643"); // 예: imp00000000
@@ -994,7 +1006,7 @@ request.setCharacterEncoding("UTF-8");
         IMP.request_pay({
             pg : 'html5_inicis', //ActiveX 결제창은 inicis를 사용
             pay_method : payType, //card(신용카드), trans(실시간계좌이체), vbank(가상계좌), phone(휴대폰소액결제)
-            merchant_uid : 'merchant_' + new Date().getTime(), //상점에서 관리하시는 고유 주문번호를 전달
+            merchant_uid : 'O_' + new Date().getTime(), //상점에서 관리하시는 고유 주문번호를 전달
             name : productName,
             amount : amount,
             buyer_email : email,
@@ -1006,16 +1018,34 @@ request.setCharacterEncoding("UTF-8");
             if ( rsp.success ) {
                 //[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
                 jQuery.ajax({
-                    url: "/payments/complete", //cross-domain error가 발생하지 않도록 주의해주세요
+                    url: "${contextPath}/verifyIamport/"+ rsp.imp_uid , //cross-domain error가 발생하지 않도록 주의해주세요
                     type: 'POST',
                     dataType: 'json',
                     data: {
-                        imp_uid : rsp.imp_uid
+                        imp_uid : rsp.imp_uid,
+                        pay_method : payType,
+                        merchant_uid: rsp.merchant_uid,
+                        name : productName,
+                        amount : amount,
+                        buyer_email : email,
+                        buyer_name : userName,
+                        buyer_tel : phone,
+                        buyer_addr : addr,
+                        buyer_postcode : zipCode,
+                        shipMsg: shipMsg,
+                        optionList : optionList
                         //기타 필요한 데이터가 있으면 추가 전달
                     }
                 }).done(function(data) {
-                    //[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
-                    if ( everythings_fine ) {
+                    //[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우 everythings_fine
+                    console.log(data);
+                    console.log(data.response.status);
+                    if(rsp.paid_amount == data.response.amount){
+                        alert("결제 및 결제검증완료");
+                    } else {
+                        alert("결제 실패");
+                    }
+                    if ( data.status ) {
                         var msg = '결제가 완료되었습니다.';
                         msg += '\n고유ID : ' + rsp.imp_uid;
                         msg += '\n상점 거래ID : ' + rsp.merchant_uid;

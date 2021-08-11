@@ -41,7 +41,7 @@ public class MypageProductControllerImpl implements MypageProductController {
 
 	@Autowired
 	private CartVO cartVO;
-	
+
 	@Autowired
 	private MemberHasCouponVO memberHasCouponVO;
 
@@ -176,12 +176,21 @@ public class MypageProductControllerImpl implements MypageProductController {
 		pageMaker.setCri(cri);
 
 		if (user != null) {
+			
+			int cartCount = mypageProductService.cartCount(user.getId());
 
-			cartList = mypageProductService.cartList(user.getId());
+			if(cartCount > 0) {
+				cartList = mypageProductService.cartList(user.getId());
 
-			pageMaker.setTotalCount(cartList.size());
+				pageMaker.setTotalCount(cartList.size());
 
-			mav.addObject("cartCount", cartList.size());
+				mav.addObject("cartCount", cartList.size());
+			}else {
+				pageMaker.setTotalCount(0);
+
+				mav.addObject("cartCount", 0);
+			}
+			
 
 		} else if (user == null && nonmemberCart != null) {
 
@@ -398,53 +407,56 @@ public class MypageProductControllerImpl implements MypageProductController {
 
 	// 주문하기
 	@RequestMapping(value = "/product/productOrder.do", method = RequestMethod.POST)
-	public ModelAndView productOrder(@ModelAttribute CartAddVO product ,HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView productOrder(@ModelAttribute CartAddVO product, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 
 		ModelAndView mav = new ModelAndView();
 
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO) session.getAttribute("member");
-		
+
 		List<Map<String, Object>> orderList = new ArrayList<Map<String, Object>>();
 		List<MemberHasCouponVO> memberHasCoupon = new ArrayList<MemberHasCouponVO>();
-		
-		if(user != null) {
+
+		if (user != null) {
 			String userId = user.getId();
-			//유저 보유 쿠폰 정보 가져오기 product.getStock().get(i)
+			// 유저 보유 쿠폰 정보 가져오기 product.getStock().get(i)
 			memberHasCoupon = mypageProductService.memberHasCoupon(userId);
 			mav.addObject("couponCount", memberHasCoupon.size());
 		}
-		
-		for(int i=0; i<product.getP_optionId().size(); i++) {
-			String optionId = product.getP_optionId().get(i);		
+
+		for (int i = 0; i < product.getP_optionId().size(); i++) {
+			String optionId = product.getP_optionId().get(i);
 			orderList.addAll(mypageProductService.productOrderList(optionId));
 			orderList.get(i).put("s_stock", product.getStock().get(i));
 		}
-		
+
 		mav.addObject("orderList", orderList);
 		mav.addObject("user", user);
 
 		mav.setViewName("orderList");
 		return mav;
 	}
-	
+
 	// 쿠폰검색 창
 	@RequestMapping(value = "/couponSearch.do", method = RequestMethod.GET)
 	public ModelAndView productSearch(HttpServletRequest request, Locale locale, Model model) {
-		
+
 		ModelAndView mav = new ModelAndView();
 
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO) session.getAttribute("member");
-		
+
 		String userId = user.getId();
-		
-		//유저 아이디로 쿠폰 정보 조회
+
+		// 유저 아이디로 쿠폰 정보 조회
 		List<Map<String, Object>> hasCouponList = mypageProductService.hasCouponList(userId);
-		
+
 		mav.addObject("hasCouponList", hasCouponList);
 		mav.setViewName("couponSearch");
 		return mav;
 	}
+
+
 
 }
