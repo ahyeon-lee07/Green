@@ -6,6 +6,35 @@
 <mapper namespace="mapper.order">
 
 	<resultMap id="orderResult" type="orderVO">
+		<result property="orderNum" column="orderNum" />
+		<result property="id" column="id" />
+		<result property="recipient" column="recipient" />
+		<result property="order_zipCode" column="order_zipCode" />
+		<result property="order_addr1" column="order_addr1" />
+		<result property="order_addr2" column="order_addr2" />
+		<result property="order_addr3" column="order_addr3" />
+		<result property="order_phone" column="order_phone" />
+		<result property="order_email1" column="order_email1" />
+		<result property="order_email2" column="order_email2" />
+		<result property="shipMsg" column="shipMsg" />
+		<result property="orderDate" column="orderDate" />		
+		<result property="payId" column="payId" />
+		<result property="mileageUse" column="mileageUse" />
+		<result property="total" column="total" />
+		<result property="shipTotal" column="shipTotal" />
+		<result property="priceTotal" column="priceTotal" />
+		<result property="discountTotal" column="discountTotal" />
+		<result property="duePayment" column="duePayment" />
+		<result property="shipStatus" column="shipStatus" />
+		<result property="orderStatus" column="orderStatus" />
+		<result property="totalMileage" column="totalMileage" />
+		
+		<result property="num" column="num" />
+		<result property="productId" column="productId" />
+		<result property="s_optionId" column="s_optionId" />
+		<result property="s_stock" column="s_stock" />
+		
+		<!-- 
 		<result property="productId" column="productId" />
 		<result property="p_group" column="p_group" />
 		<result property="productName" column="productName" />
@@ -25,31 +54,7 @@
 		<result property="imgId" column="imgId" />
 		<result property="imgType" column="imgType" />
 		<result property="imgURL" column="imgURL" />
-
-		<result property="orderNum" column="orderNum" />
-		<result property="id" column="id" />
-		<result property="recipient" column="recipient" />
-		<result property="order_zipCode" column="order_zipCode" />
-		<result property="order_addr1" column="order_addr1" />
-		<result property="order_addr2" column="order_addr2" />
-		<result property="order_addr3" column="order_addr3" />
-		<result property="order_phone" column="order_phone" />
-		<result property="order_email1" column="order_email1" />
-		<result property="order_email2" column="order_email2" />
-		<result property="shipMsg" column="shipMsg" />
-		<result property="orderDate" column="orderDate" />
-		<result property="s_stock" column="s_stock" />
-		<result property="s_option" column="s_option" />
-		<result property="payId" column="payId" />
-		<result property="milageUse" column="milageUse" />
-		<result property="total" column="total" />
-		<result property="shipTotal" column="shipTotal" />
-		<result property="priceTotal" column="priceTotal" />
-		<result property="discountTotal" column="discountTotal" />
-		<result property="duePayment" column="duePayment" />
-		<result property="shipStatus" column="shipStatus" />
-		<result property="orderStatus" column="orderStatus" />
-		<result property="totalMileage" column="totalMileage" />
+		-->
 	</resultMap>
 
 	

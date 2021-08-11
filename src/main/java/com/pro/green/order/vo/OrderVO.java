@@ -20,7 +20,7 @@ public class OrderVO {
 	private String shipMsg;
 	private Date orderDate;
 	private String payId;
-	private int milageUse;
+	private int mileageUse;
 	private int total;
 	private int shipTotal;
 	private int priceTotal;
@@ -30,6 +30,10 @@ public class OrderVO {
 	private String orderStatus;
 	private int totalMileage;
 	
+	private int num;
+	private String productId;
+	private String s_optionId;
+	private String s_stock;
 	
 	
 	public String getOrderNum() {
@@ -123,11 +127,11 @@ public class OrderVO {
 		this.payId = payId;
 	}
 	
-	public int getMilageUse() {
-		return milageUse;
+	public int getMileageUse() {
+		return mileageUse;
 	}
 	public void setMilageUse(int milageUse) {
-		this.milageUse = milageUse;
+		this.mileageUse = milageUse;
 	}
 	
 	public int getTotal() {
@@ -186,4 +190,31 @@ public class OrderVO {
 		this.totalMileage = totalMileage;
 	}
 	
+	public int getNum() {
+		return num;
+	}
+	public void setNum(int num) {
+		this.num = num;
+	}
+	
+	public String getS_optionId() {
+		return s_optionId;
+	}
+	public void setS_optionId(String s_optionId) {
+		this.s_optionId = s_optionId;
+	}
+	
+	public String getS_stock() {
+		return s_stock;
+	}
+	public void setS_stock(String s_stock) {
+		this.s_stock = s_stock;
+	}
+	
+	public String getProductId() {
+		return productId;
+	}
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
 }
