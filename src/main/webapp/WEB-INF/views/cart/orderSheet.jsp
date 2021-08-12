@@ -1018,20 +1018,12 @@ request.setCharacterEncoding("UTF-8");
             if ( rsp.success ) {
                 //[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
                 jQuery.ajax({
-                    url: "${contextPath}/verifyIamport/"+ rsp.imp_uid , //cross-domain error가 발생하지 않도록 주의해주세요
+                    url: "${contextPath}/verifyIamport" , //cross-domain error가 발생하지 않도록 주의해주세요 "${contextPath}/verifyIamport/"+ rsp.imp_uid
                     type: 'POST',
                     dataType: 'json',
                     data: {
-                        imp_uid : rsp.imp_uid,
-                        pay_method : payType,
-                        merchant_uid: rsp.merchant_uid,
-                        name : productName,
+                        impUid : rsp.imp_uid,
                         amount : amount,
-                        buyer_email : email,
-                        buyer_name : userName,
-                        buyer_tel : phone,
-                        buyer_addr : addr,
-                        buyer_postcode : zipCode,
                         shipMsg: shipMsg,
                         optionList : optionList
                         //기타 필요한 데이터가 있으면 추가 전달
