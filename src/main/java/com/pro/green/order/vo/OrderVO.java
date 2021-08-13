@@ -9,6 +9,7 @@ public class OrderVO {
 	
 	private String orderNum;
 	private String id;
+	private String impUid;
 	private String recipient;
 	private String order_zipCode;
 	private String order_addr1;
@@ -19,16 +20,18 @@ public class OrderVO {
 	private String order_email2;
 	private String shipMsg;
 	private Date orderDate;
-	private String payId;
+	private String payMethod;
 	private int mileageUse;
+	private String useCouponId;
 	private int total;
 	private int shipTotal;
 	private int priceTotal;
 	private int discountTotal;
 	private int duePayment;
-	private String shipStatus;
+	private String status;
 	private String orderStatus;
 	private int totalMileage;
+	
 	
 	private int num;
 	private String productId;
@@ -48,6 +51,13 @@ public class OrderVO {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public String getImpUid() {
+		return impUid;
+	}
+	public void setImpUid(String impUid) {
+		this.impUid = impUid;
 	}
 	
 	public String getRecipient() {
@@ -113,18 +123,18 @@ public class OrderVO {
 		this.shipMsg = shipMsg;	
 	}
 	
-	public Date getOrderDate() {
-		return orderDate;
+	public String getUseCouponId() {
+		return useCouponId;
 	}
-	public void setOrderDate(Date orderDate) {
-		this.orderDate = orderDate;	
+	public void setUseCouponId(String useCouponId) {
+		this.useCouponId = useCouponId;	
 	}
 	
-	public String getPayId() {
-		return payId;
+	public String getPayMethod() {
+		return payMethod;
 	}
-	public void setPayId(String payId) {
-		this.payId = payId;
+	public void setPayMethod(String payMethod) {
+		this.payMethod = payMethod;
 	}
 	
 	public int getMileageUse() {
@@ -132,6 +142,13 @@ public class OrderVO {
 	}
 	public void setMilageUse(int milageUse) {
 		this.mileageUse = milageUse;
+	}
+	
+	public Date getOrderDate() {
+		return orderDate;
+	}
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;	
 	}
 	
 	public int getTotal() {
@@ -169,11 +186,11 @@ public class OrderVO {
 		this.duePayment = duePayment;
 	}
 	
-	public String getShipStatus() {
-		return shipStatus;
+	public String getSatus() {
+		return status;
 	}
-	public void setShipStatus(String shipStatus) {
-		this.shipStatus = shipStatus;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 	public String getOrderStatus() {

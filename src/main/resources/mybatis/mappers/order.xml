@@ -7,6 +7,7 @@
 
 	<resultMap id="orderResult" type="orderVO">
 		<result property="orderNum" column="orderNum" />
+		<result property="impUid" column="impUid" />
 		<result property="id" column="id" />
 		<result property="recipient" column="recipient" />
 		<result property="order_zipCode" column="order_zipCode" />
@@ -17,45 +18,26 @@
 		<result property="order_email1" column="order_email1" />
 		<result property="order_email2" column="order_email2" />
 		<result property="shipMsg" column="shipMsg" />
-		<result property="orderDate" column="orderDate" />		
-		<result property="payId" column="payId" />
+		<result property="orderDate" column="orderDate" />
+		<result property="payMethod" column="payMethod" />
+
 		<result property="mileageUse" column="mileageUse" />
+		<result property="useCouponId" column="useCouponId" />
 		<result property="total" column="total" />
 		<result property="shipTotal" column="shipTotal" />
 		<result property="priceTotal" column="priceTotal" />
 		<result property="discountTotal" column="discountTotal" />
 		<result property="duePayment" column="duePayment" />
 		<result property="shipStatus" column="shipStatus" />
-		<result property="orderStatus" column="orderStatus" />
+		<result property="status" column="status" />
 		<result property="totalMileage" column="totalMileage" />
-		
+
 		<result property="num" column="num" />
 		<result property="productId" column="productId" />
 		<result property="s_optionId" column="s_optionId" />
 		<result property="s_stock" column="s_stock" />
-		
-		<!-- 
-		<result property="productId" column="productId" />
-		<result property="p_group" column="p_group" />
-		<result property="productName" column="productName" />
-		<result property="price" column="price" />
-		<result property="discount" column="discount" />
-		<result property="productMileage" column="productMileage" />
-		<result property="salesSum" column="salesSum" />
-		<result property="discountYN" column="discountYN" />
-		<result property="productDate" column="productDate" />
-		<result property="showYN" column="showYN" />
-	
 
-		<result property="product_optionId" column="product_optionId" />
-		<result property="option" column="option" />
-		<result property="stock" column="stock" />
-
-		<result property="imgId" column="imgId" />
-		<result property="imgType" column="imgType" />
-		<result property="imgURL" column="imgURL" />
-		-->
 	</resultMap>
 
-	
+
 </mapper>
