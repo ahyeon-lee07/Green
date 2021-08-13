@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 
+import com.pro.green.common.vo.OrderSheet;
 import com.pro.green.product.vo.CartVO;
 import com.pro.green.product.vo.MemberHasCouponVO;
 
@@ -48,6 +49,12 @@ public interface MypageProductDAO {
 
 	// 장바구니 개수 조회
 	public int cartCount(String id) throws DataAccessException;
+
+	// 디비 기준으로 총 가격 가져오기
+	public int dbPrice(OrderSheet orderSheet) throws DataAccessException;
+
+	// 주문서 작성
+	public int insertOrder(Map<String, Object> insertBox) throws DataAccessException;
 
 
 }

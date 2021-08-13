@@ -1,5 +1,6 @@
 package com.pro.green.common.controller;
 
+import java.io.Console;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -26,10 +27,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pro.green.IamportRestHttpClientJava.IamportClient;
+import com.pro.green.IamportRestHttpClientJava.request.CancelData;
 import com.pro.green.IamportRestHttpClientJava.response.IamportResponse;
 import com.pro.green.IamportRestHttpClientJava.response.Payment;
+import com.pro.green.common.vo.Order;
 import com.pro.green.common.vo.OrderSheet;
 import com.pro.green.member.vo.MemberVO;
+import com.pro.green.product.service.MypageProductService;
 import com.pro.green.product.vo.MemberHasCouponVO;
 import com.pro.green.product_M.vo.CartAddVO;
 import com.siot.IamportRestClient.exception.IamportResponseException;
@@ -40,6 +44,12 @@ public class PaymentsController {
 
 	@Autowired
 	private OrderSheet orderSheet;
+	
+	@Autowired
+	private Order order;
+	
+	@Autowired
+	private MypageProductService mypageProductService;
 
 	private IamportClient client;
 	
@@ -85,7 +95,7 @@ public class PaymentsController {
 	*/
 	
 	@RequestMapping(value = "/verifyIamport", method = RequestMethod.POST)
-	public ResponseEntity productOrder(@ModelAttribute OrderSheet orderSheet, 
+	public ResponseEntity productOrder(@ModelAttribute OrderSheet orderSheet,
 			@RequestParam(value= "impUid") String imp_uid,
 			HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -99,20 +109,60 @@ public class PaymentsController {
 		
 		IamportResponse<Payment> paymentByimpuid = client.paymentByImpUid(imp_uid);
 		
-		BigDecimal order = paymentByimpuid.getResponse().getAmount();
-		BigDecimal amountToBePaid  = orderSheet.getAmount();
-				
-		Map<String, Object> result = new HashMap<String, Object>();
+		int dbPrice = mypageProductService.dbPrice(orderSheet);
+		//배송비
+		int shipTotal_O = 100;
 		
+		dbPrice = dbPrice + shipTotal_O;
+
+		BigDecimal order = paymentByimpuid.getResponse().getAmount();
+		BigDecimal amountToBePaid  = new BigDecimal(dbPrice);
+
+		Map<String, Object> result = new HashMap<String, Object>();
+	
 		if(order.equals(amountToBePaid)) {
+			Map<String, Object> insertBox = new HashMap<String, Object>();
+
+			Order orderBox = new Order();
+			orderBox.setOrderNum(paymentByimpuid.getResponse().getMerchantUid());
+			orderBox.setId(user.getId());
+			orderBox.setImpUid(paymentByimpuid.getResponse().getImpUid());
+			orderBox.setRecipient(paymentByimpuid.getResponse().getBuyerName());
+			orderBox.setOrder_zipCode(paymentByimpuid.getResponse().getBuyerPostcode());
+			orderBox.setOrder_addr1(orderSheet.getOrder_addr1());
+			orderBox.setOrder_addr2(orderSheet.getOrder_addr2());
+			orderBox.setOrder_addr3(orderSheet.getOrder_addr3());
+			orderBox.SetSplitPhone(paymentByimpuid.getResponse().getBuyerTel());
+			orderBox.SetSplitEmail(paymentByimpuid.getResponse().getBuyerEmail());
+			orderBox.setShipMsg(orderSheet.getShipMsg());
+			orderBox.setMileageUse(orderSheet.getMileageUse());
+			orderBox.setUseCouponId(orderSheet.getUseCouponId());
+			orderBox.setPayMethod(paymentByimpuid.getResponse().getPayMethod());
+			orderBox.setDuePayment((paymentByimpuid.getResponse().getAmount()).intValue());
+			orderBox.setStatus(paymentByimpuid.getResponse().getStatus());
+			orderBox.setTotalMileage(orderSheet.getTotalMileage());
+			
+			insertBox.put("orderBox", orderBox);
+			insertBox.put("orderSheet", orderSheet);
+			
+			//주문서 작성
+			int insertOrder = mypageProductService.insertOrder(insertBox);
+			
+			CancelData cancel1 = new CancelData(imp_uid, true);
+			IamportResponse<Payment> cancelpayment2 = client.cancelPayment(cancel1);
+			
 			result.put( "status", "success");
 			result.put( "message", "일반 결제 성공");
 			result.put("paymentByimpuid", paymentByimpuid);
 			resEntity = new ResponseEntity(result, HttpStatus.OK);
 		}else {
+			//취소 처리
+			CancelData cancel1 = new CancelData(imp_uid, true);
+			IamportResponse<Payment> cancelpayment2 = client.cancelPayment(cancel1);
+			
 			result.put( "status", "forgery");
 			result.put( "message", "위조된 결제시도");
-			resEntity = new ResponseEntity(result, HttpStatus.INTERNAL_SERVER_ERROR);
+			resEntity = new ResponseEntity(result, HttpStatus.OK);
 		}
 
 		

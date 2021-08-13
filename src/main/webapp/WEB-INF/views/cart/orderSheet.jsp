@@ -115,7 +115,7 @@ request.setCharacterEncoding("UTF-8");
 		                        <input type="number" class="form-control s_stockBox s_stock" name="s_stock[${indexNum.index}]" data-index="${indexNum.index}" step="1" value="${cartList.s_stock}" min="1" max="${cartList.p_stock}">
 		                    </td>
 		                    <td class="text-center align-middle px-2">
-                                <input type="text" class="form-control inputBoxReadonly" name="productMileage[${indexNum.index}]"  value="${product.productMileage}" style="padding: 0; border: 0; text-align: center;" readonly>
+                                <input type="text" class="form-control productMileage inputBoxReadonly" name="productMileage[${indexNum.index}]"  value="${product.productMileage}" style="padding: 0; border: 0; text-align: center;" readonly>
 		                    </td>
 		                    <td class="text-center align-middle px-2" style="font-size: .8rem;">
 		                    	기본 배송
@@ -691,6 +691,7 @@ request.setCharacterEncoding("UTF-8");
 		window.history.go(-1);
 	}
 
+    //배송비
 	var shipTotal_O = 100;
 	//로딩시 금액 입력
 	 window.onload = function(){
@@ -875,7 +876,7 @@ request.setCharacterEncoding("UTF-8");
         mileageUse.addEventListener('change', function(){
             var mileageUseMax_V = mileageUse.max;
 
-            if(mileageUse.value < mileageUseMax_V){
+            if(mileageUse.value > mileageUseMax_V){
                 alert("사용가능한 적립금은 \"" + mileageUseMax_V +"\" 원 입니다.");
                 mileageUse.value = mileageUseMax_V;
             }
@@ -997,8 +998,18 @@ request.setCharacterEncoding("UTF-8");
             optionList.push(s_option);
         }
 
-        console.log(optionList);
-        
+        var productMileageList = document.getElementsByClassName('productMileage');
+        var totalMileage = 0;
+
+        for(var i=0; i<productMileageList.length; i++){
+            totalMileage += Number(productMileageList[i].value);
+        }
+
+        mileageUse = document.getElementById('mileageUse').value;
+        useCouponId = document.getElementById('coupon_Input_Num').value;
+        order_addr1 = document.getElementById('addr1').value;
+        order_addr2 = document.getElementById('addr2').value;
+        order_addr3 = document.getElementById('addr3').value;
 
         var IMP = window.IMP; // 생략 가능
         IMP.init("imp64568643"); // 예: imp00000000
@@ -1023,32 +1034,25 @@ request.setCharacterEncoding("UTF-8");
                     dataType: 'json',
                     data: {
                         impUid : rsp.imp_uid,
+                        merchant_uid : rsp.merchant_uid,
                         amount : amount,
                         shipMsg: shipMsg,
-                        optionList : optionList
+                        optionList : optionList,
+                        mileageUse: mileageUse,
+                        useCouponId: useCouponId,
+                        totalMileage : totalMileage,
+                        order_addr1 : order_addr1,
+                        order_addr2 : order_addr2,
+                        order_addr3 : order_addr3
                         //기타 필요한 데이터가 있으면 추가 전달
                     }
                 }).done(function(data) {
                     //[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우 everythings_fine
                     console.log(data);
-                    console.log(data.response.status);
-                    if(rsp.paid_amount == data.response.amount){
-                        alert("결제 및 결제검증완료");
-                    } else {
-                        alert("결제 실패");
-                    }
-                    if ( data.status ) {
-                        var msg = '결제가 완료되었습니다.';
-                        msg += '\n고유ID : ' + rsp.imp_uid;
-                        msg += '\n상점 거래ID : ' + rsp.merchant_uid;
-                        msg += '\n결제 금액 : ' + rsp.paid_amount;
-                        msg += '카드 승인번호 : ' + rsp.apply_num;
-                        
-                        alert(msg);
-                    } else {
-                        //[3] 아직 제대로 결제가 되지 않았습니다.
-                        //[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
-                    }
+                    console.log(data.status);
+                    console.log(data.message);
+        
+                    
                 });
             } else {
                 var msg = '결제에 실패하였습니다.';
