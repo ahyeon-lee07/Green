@@ -18,7 +18,7 @@ public class MypageProductDAOImpl implements MypageProductDAO {
 
 	@Autowired
 	private SqlSession sqlSession;
-	
+
 	@Autowired
 	private OrderSheet orderSheet;
 
@@ -138,41 +138,36 @@ public class MypageProductDAOImpl implements MypageProductDAO {
 	// 디비 기준으로 총 가격 가져오기
 	public int dbPrice(OrderSheet orderSheet) throws DataAccessException {
 		int result = 0;
-		for(int i=0; i<orderSheet.getOptionList().size(); i++ ) {
+		for (int i = 0; i < orderSheet.getOptionList().size(); i++) {
 			String optionId = (String) orderSheet.getOptionList().get(i).get("optionId");
 			Object s_stock = orderSheet.getOptionList().get(i).get("s_stock");
-			
+
 			int optionPrice = sqlSession.selectOne("mapper.mypageProduct.optionPrice", optionId);
- 			
+
 			result += (optionPrice * Integer.valueOf((String) s_stock));
 		}
-		
+
 		return result;
 	}
-	
-//	orderNum,
-//    productId,
-//    s_optionId,
-//    s_stock
-    
-	// 주문서 작성
-		public int insertOrder(Map<String, Object> insertBox) throws DataAccessException{
-			int result = 0;
-			
-			result = sqlSession.insert("mapper.mypageProduct.insertOrderBox", insertBox.get("orderBox"));
-			
-			OrderSheet orderSheet = (OrderSheet) insertBox.get("orderSheet");
-			Map<String, Object> option = new HashMap<String, Object>();
-			
-			option.put("orderNum", orderSheet.getMerchant_uid());
-			for(int i=0; i<orderSheet.getOptionList().size(); i++) {
-				option.put("s_optionId", orderSheet.getOptionList().get(i).get("optionId"));
-				option.put("s_stock", orderSheet.getOptionList().get(i).get("s_stock"));
-				
-				result = sqlSession.insert("mapper.mypageProduct.insertOrderSheet", option);
-			}
 
-			return result;
+	// 주문서 작성
+	public int insertOrder(Map<String, Object> insertBox) throws DataAccessException {
+		int result = 0;
+
+		result = sqlSession.insert("mapper.mypageProduct.insertOrderBox", insertBox.get("orderBox"));
+
+		OrderSheet orderSheet = (OrderSheet) insertBox.get("orderSheet");
+		Map<String, Object> option = new HashMap<String, Object>();
+
+		option.put("orderNum", orderSheet.getMerchant_uid());
+		for (int i = 0; i < orderSheet.getOptionList().size(); i++) {
+			option.put("s_optionId", orderSheet.getOptionList().get(i).get("optionId"));
+			option.put("s_stock", orderSheet.getOptionList().get(i).get("s_stock"));
+
+			result = sqlSession.insert("mapper.mypageProduct.insertOrderSheet", option);
 		}
+
+		return result;
+	}
 
 }
