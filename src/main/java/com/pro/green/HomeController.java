@@ -209,10 +209,10 @@ public class HomeController {
 	}
 
 	// 구매 내역 조회
-	@RequestMapping(value = "/purchaseList.do", method = RequestMethod.GET)
-	public String purchaseList(Locale locale, Model model) {
-		return "purchaseList";
-	}
+//	@RequestMapping(value = "/purchaseList.do", method = RequestMethod.GET)
+//	public String purchaseList(Locale locale, Model model) {
+//		return "purchaseList";
+//	}
 	
 	// 구매 내역 상세
 	@RequestMapping(value = "/purchaseDetails.do", method = RequestMethod.GET)

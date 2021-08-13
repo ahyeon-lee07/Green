@@ -6,38 +6,55 @@
 <mapper namespace="mapper.order">
 
 	<resultMap id="orderResult" type="orderVO">
-		<result property="orderNum" column="orderNum" />
-		<result property="impUid" column="impUid" />
-		<result property="id" column="id" />
-		<result property="recipient" column="recipient" />
-		<result property="order_zipCode" column="order_zipCode" />
-		<result property="order_addr1" column="order_addr1" />
-		<result property="order_addr2" column="order_addr2" />
-		<result property="order_addr3" column="order_addr3" />
-		<result property="order_phone" column="order_phone" />
-		<result property="order_email1" column="order_email1" />
-		<result property="order_email2" column="order_email2" />
-		<result property="shipMsg" column="shipMsg" />
-		<result property="orderDate" column="orderDate" />
-		<result property="payMethod" column="payMethod" />
+		<!-- order -->
+		<result property="orderNum" column="orderNum" /> <!-- 주문번호 -->
+		<result property="id" column="id" /> <!-- 회원 아이디 -->
+		<result property="impUid" column="impUid" /> <!-- ? -->
+		<result property="recipient" column="recipient" /> <!-- 수령인 -->
+		<result property="order_zipCode" column="order_zipCode" /> <!-- 주문_우편번호 -->
+		<result property="order_addr1" column="order_addr1" /> <!-- 주문_기본 주소 -->
+		<result property="order_addr2" column="order_addr2" /> <!-- 주문_상세 주소 -->
+		<result property="order_addr3" column="order_addr3" /> <!-- 주문_참조 주소 -->
+		<result property="order_phone" column="order_phone" /> <!-- 주문_전화번호 -->
+		<result property="order_email1" column="order_email1" /> <!-- 주문_이메일 계정 -->
+		<result property="order_email2" column="order_email2" /> <!-- 주문_이메일 서버 -->
+		<result property="shipMsg" column="shipMsg" /> <!-- 배송 메모 -->
+		<result property="orderDate" column="orderDate" /> <!-- 주문서 작성일 -->
+		<result property="mileageUse" column="mileageUse" /> <!-- 사용한 마일리지 -->
+		<result property="useCouponId" column="useCouponId" /> <!-- 사용한 쿠폰 아이디 -->
+		<result property="payMethod" column="payMethod" /> <!-- ? -->
+		<result property="total" column="total" /> <!-- 주문 합계 -->
+		<result property="shipTotal" column="shipTotal" /> <!-- 총 배송비 -->
+		<result property="priceTotal" column="priceTotal" /> <!-- 총 상품 금액 -->
+		<result property="discountTotal" column="discountTotal" /> <!-- 총 할인 금액 -->
+		<result property="duePayment" column="duePayment" /> <!-- 결제 예정금액 -->
+		<result property="shipStatus" column="shipStatus" /> <!-- 배송 상태 -->
+		<result property="status" column="status" /> <!-- 주문처리 상태 -->
+		<result property="totalMileage" column="totalMileage" /> <!-- 적립 예정 마일리지 -->
 
-		<result property="mileageUse" column="mileageUse" />
-		<result property="useCouponId" column="useCouponId" />
-		<result property="total" column="total" />
-		<result property="shipTotal" column="shipTotal" />
-		<result property="priceTotal" column="priceTotal" />
-		<result property="discountTotal" column="discountTotal" />
-		<result property="duePayment" column="duePayment" />
-		<result property="shipStatus" column="shipStatus" />
-		<result property="status" column="status" />
-		<result property="totalMileage" column="totalMileage" />
-
-		<result property="num" column="num" />
-		<result property="productId" column="productId" />
-		<result property="s_optionId" column="s_optionId" />
-		<result property="s_stock" column="s_stock" />
+		<!-- order_has_product -->
+		<result property="num" column="num" /> <!-- 번호 -->
+		<result property="productId" column="productId" /> <!-- 상품 아이디 -->
+		<result property="s_optionId" column="s_optionId" /> <!-- 선택 옵션 아이디 -->
+		<result property="s_stock" column="s_stock" /> <!-- 선택 수량 -->
 
 	</resultMap>
-
+	
+	<!-- 상품 목록 조회 -->
+	<!-- id="태그의 식별자" resultType="sql 명령어의 리턴타입(레코드의 자료형)" 샵{변수} => 입력매개변수 -->
+	<select id="selectAllOrdersList" resultMap="orderResult" parameterType="String">
+    <![CDATA[
+		SELECT 
+			o.*, op.* 
+		FROM 
+			green.order o
+		INNER JOIN 
+			order_has_product op ON o.orderNum = op.orderNum
+		WHERE 
+			o.id = #{userId}
+		ORDER BY 
+			o.orderDate DESC;
+	]]>
+	</select>
 
 </mapper>

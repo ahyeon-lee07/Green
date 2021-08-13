@@ -1,5 +1,8 @@
 package com.pro.green.order.vo;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.sql.Date;
 
 import org.springframework.stereotype.Component;
@@ -7,38 +10,39 @@ import org.springframework.stereotype.Component;
 @Component("orderVO")
 public class OrderVO {
 	
-	private String orderNum;
-	private String id;
-	private String impUid;
-	private String recipient;
-	private String order_zipCode;
-	private String order_addr1;
-	private String order_addr2;
-	private String order_addr3;
-	private String order_phone;
-	private String order_email1;
-	private String order_email2;
-	private String shipMsg;
-	private Date orderDate;
-	private String payMethod;
-	private int mileageUse;
-	private String useCouponId;
-	private int total;
-	private int shipTotal;
-	private int priceTotal;
-	private int discountTotal;
-	private int duePayment;
-	private String status;
-	private String orderStatus;
-	private int totalMileage;
+	// order
+	private String orderNum; // 주문번호
+	private String id; // 회원 아이디
+	private String impUid; // ?
+	private String recipient; // 수령인
+	private String order_zipCode; // 주문_우편번호
+	private String order_addr1; // 주문_기본 주소
+	private String order_addr2; // 주문_상세 주소
+	private String order_addr3; // 주문_참조 주소
+	private String order_phone; // 주문_전화번호
+	private String order_email1; // 주문_이메일 계정
+	private String order_email2; // 주문_이메일 서버
+	private String shipMsg; // 배송 메모
+	private Date orderDate; // 주문서 작성일
+	private int mileageUse; // 사용한 마일리지
+	private String useCouponId; // 사용한 쿠폰 아이디
+	private String payMethod; // ?
+	private int total; // 주문 합계
+	private int shipTotal; // 총 배송비
+	private int priceTotal; // 총 상품 금액
+	private int discountTotal; // 총 할인 금액
+	private int duePayment; // 결제 예정금액
+	private String shipStatus; // 배송 상태
+	private String status; // 주문처리 상태
+	private int totalMileage; // 적립 예정 마일리지
 	
+	// order_has_product
+	private int num; // 번호
+	private String productId; // 상품 아이디
+	private String s_optionId; // 선택 옵션 아이디
+	private String s_stock; // 선택 수량
 	
-	private int num;
-	private String productId;
-	private String s_optionId;
-	private String s_stock;
-	
-	
+	// order
 	public String getOrderNum() {
 		return orderNum;
 	}
@@ -122,6 +126,20 @@ public class OrderVO {
 	public void setShipMsg(String shipMsg) {
 		this.shipMsg = shipMsg;	
 	}
+
+	public Date getOrderDate() {
+		return orderDate;
+	}
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;	
+	}
+	
+	public int getMileageUse() {
+		return mileageUse;
+	}
+	public void setMilageUse(int milageUse) {
+		this.mileageUse = milageUse;
+	}
 	
 	public String getUseCouponId() {
 		return useCouponId;
@@ -135,20 +153,6 @@ public class OrderVO {
 	}
 	public void setPayMethod(String payMethod) {
 		this.payMethod = payMethod;
-	}
-	
-	public int getMileageUse() {
-		return mileageUse;
-	}
-	public void setMilageUse(int milageUse) {
-		this.mileageUse = milageUse;
-	}
-	
-	public Date getOrderDate() {
-		return orderDate;
-	}
-	public void setOrderDate(Date orderDate) {
-		this.orderDate = orderDate;	
 	}
 	
 	public int getTotal() {
@@ -186,18 +190,18 @@ public class OrderVO {
 		this.duePayment = duePayment;
 	}
 	
+	public String getShipStatus() {
+		return shipStatus;
+	}
+	public void setShipStatus(String shipStatus) {
+		this.shipStatus = shipStatus;
+	}
+	
 	public String getSatus() {
 		return status;
 	}
 	public void setStatus(String status) {
 		this.status = status;
-	}
-	
-	public String getOrderStatus() {
-		return orderStatus;
-	}
-	public void setOrderStatus(String orderStatus) {
-		this.orderStatus = orderStatus;
 	}
 	
 	public int getTotalMileage() {
@@ -207,11 +211,19 @@ public class OrderVO {
 		this.totalMileage = totalMileage;
 	}
 	
+	// order_has_product
 	public int getNum() {
 		return num;
 	}
 	public void setNum(int num) {
 		this.num = num;
+	}
+	
+	public String getProductId() {
+		return productId;
+	}
+	public void setProductId(String productId) {
+		this.productId = productId;
 	}
 	
 	public String getS_optionId() {
@@ -227,11 +239,5 @@ public class OrderVO {
 	public void setS_stock(String s_stock) {
 		this.s_stock = s_stock;
 	}
-	
-	public String getProductId() {
-		return productId;
-	}
-	public void setProductId(String productId) {
-		this.productId = productId;
-	}
+
 }

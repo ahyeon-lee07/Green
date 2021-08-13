@@ -21,8 +21,7 @@ request.setCharacterEncoding("UTF-8");
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb p-0 bg bg-transparent">
 						<li class="breadcrumb-item"><a href="${contextPath }/main.do">홈</a></li>
-						<li class="breadcrumb-item active" aria-current="page">구매내역
-							조회</li>
+						<li class="breadcrumb-item active" aria-current="page">구매내역 조회</li>
 					</ol>
 				</nav>
 			</div>
@@ -44,17 +43,16 @@ request.setCharacterEncoding("UTF-8");
 					</div>
 					<div class="bd-highlight btn-group btn-group-toggle mb-2"
 						data-toggle="buttons" onclick="listFilter()">
-						<label class="btn btn-outline-secondary active"> <input
-							type="radio" name="options" value="today" checked> 오늘
-						</label> <label class="btn btn-outline-secondary"> <input
-							type="radio" name="options" value="week"> 일주일
-						</label> <label class="btn btn-outline-secondary"> <input
-							type="radio" name="options" value="one-month"> 1개월
-						</label> <label class="btn btn-outline-secondary"> <input
-							type="radio" name="options" value="three-month"> 3개월
-						</label> <label class="btn btn-outline-secondary"> <input
-							type="radio" name="options" value="six-month"> 6개월
-						</label>
+						<label class="btn btn-outline-secondary active">
+						<input type="radio" name="options" value="today" checked> 오늘</label>
+						<label class="btn btn-outline-secondary">
+						<input type="radio" name="options" value="week"> 일주일</label>
+						<label class="btn btn-outline-secondary">
+						<input type="radio" name="options" value="one-month"> 1개월</label>
+						<label class="btn btn-outline-secondary">
+						<input type="radio" name="options" value="three-month"> 3개월</label>
+						<label class="btn btn-outline-secondary">
+						<input type="radio" name="options" value="six-month"> 6개월</label>
 					</div>
 				</div>
 			</div>
@@ -69,11 +67,11 @@ request.setCharacterEncoding("UTF-8");
 					<th class="text-center border-bottom-0 border-top-0 px-2"
 						style="width: 140px">이미지</th>
 					<th class="text-center border-bottom-0 border-top-0 px-2"
-						style="width: auto">상태 정보</th>
+						style="width: auto">상품 정보</th>
 					<th class="text-center border-bottom-0 border-top-0 px-2"
 						style="width: 70px">수량</th>
 					<th class="text-center border-bottom-0 border-top-0 px-2"
-						style="width: 110px">구매금액</th>
+						style="width: 110px">결제금액</th>
 					<th class="text-center border-bottom-0 border-top-0 px-2"
 						style="width: 150px">주문처리 상태</th>
 					<th class="text-center border-bottom-0 border-top-0 px-2"
@@ -81,19 +79,19 @@ request.setCharacterEncoding("UTF-8");
 				</tr>
 			</thead>
 			<tbody class="border-bottom">
-				<tr id="${list.couponId }" class="">
-					<td class="text-center align-middle align-middle px-1"><a
-						href="${contextPath }/purchaseDetails.do">O-2021072220001</a></td>
-					<td class="text-center align-middle px-2"><img
-						src="${contextPath}/resources/img/${list.p_group }/${list.imgURL }"
-						class="img-thumbnail" alt="상품"></td>
-					<td class="text-center align-middle align-middle px-1"><a
-						href="${contextPath }/purchaseDetails.do">귤곰 케이스 외 2중</a></td>
+			<c:forEach var="listOrder" items="${listOrder}">
+				<tr id="${listOrder.orderNum }" class="">
+					<td class="text-center align-middle align-middle px-1">
+						<a href="${contextPath}/purchaseDetails.do?orderNum=${listOrder.orderNum}">${listOrder.orderNum}</a></td>
+					<td class="text-center align-middle px-2">
+					<img src="${contextPath}/resources/img/${list.p_group }/${list.imgURL }"
+						class="img-thumbnail" alt="이미지"></td>
+					<td class="text-center align-middle align-middle px-1">
+					<a href="${contextPath }/purchaseDetails.do">[하드] 콩이 레드 외 1종</a></td>
 					<td class="text-center align-middle align-middle px-1"
-						style="font-size: .8rem;">1</td>
+						style="font-size: .8rem;">2</td>
 					<td class="text-center align-middle align-middle px-1"
-						style="font-size: .8rem;">10,000원</td>
-
+						style="font-size: .8rem;">22,500원</td>
 					<td class="text-center align-middle align-middle px-1"
 						style="font-size: .8rem;">배송 준비중</td>
 					<td class="text-center align-middle px-2">
@@ -112,6 +110,7 @@ request.setCharacterEncoding("UTF-8");
 					</td>
 				</tr>
 			</tbody>
+			</c:forEach>
 		</table>
 	</div>
 </main>
