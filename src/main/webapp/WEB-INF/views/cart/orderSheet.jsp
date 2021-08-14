@@ -346,7 +346,7 @@ request.setCharacterEncoding("UTF-8");
 	                                <div class="d-flex flex-row flex-grow bd-highlight" style="width: 80%;">
 	                                    <button id="btn_coupon" type="button" class="btn btn-secondary mr-2" onclick="couponSearch()" >쿠폰검색</button>
 	                                    <input id="coupon_Input_name" name="couponName"  type="text" class="form-control" value="" style="width: 72%;" readonly>
-	                                    <input id="coupon_Input_Num" name="hasCouponNum" type="text" class="form-control" value="" style="display: none; width: 72%;" readonly>
+	                                    <input id="coupon_Input_Id" name="hasCouponNum" type="text" class="form-control" value="" style="display: none; width: 72%;" readonly>
                                         <input id="coupon_Input_CountType" name="discountType" type="text" class="form-control" value="" style="display: none; width: 72%;" readonly>
                                         <input id="coupon_Input_Pay" name="couponPay" type="text" class="form-control" value="" style="display: none; width: 72%;" readonly>
 	                                </div>
@@ -876,7 +876,7 @@ request.setCharacterEncoding("UTF-8");
         mileageUse.addEventListener('change', function(){
             var mileageUseMax_V = mileageUse.max;
 
-            if(mileageUse.value > mileageUseMax_V){
+            if(Number(mileageUse.value) > Number(mileageUseMax_V)){
                 alert("사용가능한 적립금은 \"" + mileageUseMax_V +"\" 원 입니다.");
                 mileageUse.value = mileageUseMax_V;
             }
@@ -898,8 +898,8 @@ request.setCharacterEncoding("UTF-8");
             var price = document.getElementsByClassName('price');
             var totalPrice = 0;
 
-            for (var i = 0; i < price.length; i++) {
-                totalPrice += (s_stockBox[i].value * price[i].value);
+            for (var i = 0; i < s_stockBox.length; i++) {
+                totalPrice += (s_stockBox[i].value * discountYNCHk(i));
             }
 
             if( mileageUse != '' && coupon_Input_CountType == '') {
@@ -1005,8 +1005,10 @@ request.setCharacterEncoding("UTF-8");
             totalMileage += Number(productMileageList[i].value);
         }
 
-        mileageUse = document.getElementById('mileageUse').value;
-        useCouponId = document.getElementById('coupon_Input_Num').value;
+        
+        var mileageUse = (document.getElementById('mileageUse') != null) ? document.getElementById('mileageUse').value : 0;
+        var useCouponId = (document.getElementById('coupon_Input_Id') != null && document.getElementById('coupon_Input_Id').value != '') ? document.getElementById('coupon_Input_Id').value : null;
+
         order_addr1 = document.getElementById('addr1').value;
         order_addr2 = document.getElementById('addr2').value;
         order_addr3 = document.getElementById('addr3').value;
@@ -1051,6 +1053,18 @@ request.setCharacterEncoding("UTF-8");
                     console.log(data);
                     console.log(data.status);
                     console.log(data.message);
+
+                    switch (data.status){
+                        case "success":
+                            alert("성공");
+                        break;
+
+                        case "forgery":
+                            alert("위조된 결제시도");
+                            break;
+
+                    }
+
         
                     
                 });

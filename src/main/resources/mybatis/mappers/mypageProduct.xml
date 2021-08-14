@@ -203,15 +203,15 @@
 			member_has_coupon AS A
 		LEFT JOIN coupon AS B ON A.couponId = B.couponId
 		WHERE
-			A.id = #{userId};
+			A.id = #{userId} AND curdate() BETWEEN B.couponPeriod_start AND B.couponPeriod_end;
     ]]>
 	</select>
 	
 	<!-- 디비 기준으로 총 가격 가져오기  -->
-	<select id="optionPrice" resultType="int" parameterType="String">
+	<select id="optionPrice" resultType="productVO" parameterType="String">
     <![CDATA[
 		SELECT
-			B.price
+			*
 		FROM
 			product_option AS A
 		LEFT JOIN

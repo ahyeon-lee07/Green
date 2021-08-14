@@ -1,5 +1,6 @@
 package com.pro.green.product.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.pro.green.common.vo.OrderSheet;
 import com.pro.green.product.vo.CartVO;
 import com.pro.green.product.vo.MemberHasCouponVO;
+import com.pro.green.product_M.vo.ProductVO2;
 
 @Repository("mypageProductDAO")
 public class MypageProductDAOImpl implements MypageProductDAO {
@@ -138,12 +140,22 @@ public class MypageProductDAOImpl implements MypageProductDAO {
 	// 디비 기준으로 총 가격 가져오기
 	public int dbPrice(OrderSheet orderSheet) throws DataAccessException {
 		int result = 0;
+		ProductVO2 productList = null;
+		
 		for (int i = 0; i < orderSheet.getOptionList().size(); i++) {
 			String optionId = (String) orderSheet.getOptionList().get(i).get("optionId");
 			Object s_stock = orderSheet.getOptionList().get(i).get("s_stock");
 
-			int optionPrice = sqlSession.selectOne("mapper.mypageProduct.optionPrice", optionId);
+			productList = sqlSession.selectOne("mapper.mypageProduct.optionPrice", optionId);
 
+			int optionPrice = 0;
+			
+			if(productList.getDiscountYN().equals("Y")) {
+				optionPrice = productList.getDiscount();
+			}else {
+				optionPrice = productList.getPrice();
+			}
+			
 			result += (optionPrice * Integer.valueOf((String) s_stock));
 		}
 

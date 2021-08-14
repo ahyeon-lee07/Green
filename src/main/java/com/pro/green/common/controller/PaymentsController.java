@@ -30,12 +30,15 @@ import com.pro.green.IamportRestHttpClientJava.IamportClient;
 import com.pro.green.IamportRestHttpClientJava.request.CancelData;
 import com.pro.green.IamportRestHttpClientJava.response.IamportResponse;
 import com.pro.green.IamportRestHttpClientJava.response.Payment;
+import com.pro.green.Master.service.MasterService;
+import com.pro.green.Master.vo.CouponVO;
 import com.pro.green.common.vo.Order;
 import com.pro.green.common.vo.OrderSheet;
 import com.pro.green.member.vo.MemberVO;
 import com.pro.green.product.service.MypageProductService;
 import com.pro.green.product.vo.MemberHasCouponVO;
 import com.pro.green.product_M.vo.CartAddVO;
+import com.pro.green.product_M.vo.ProductVO2;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 
 
@@ -49,7 +52,16 @@ public class PaymentsController {
 	private Order order;
 	
 	@Autowired
+	private ProductVO2 productVO2;
+	
+	@Autowired
+	private CouponVO couponVO;
+	
+	@Autowired
 	private MypageProductService mypageProductService;
+	
+	@Autowired
+	private MasterService masterService;
 
 	private IamportClient client;
 	
@@ -110,10 +122,27 @@ public class PaymentsController {
 		IamportResponse<Payment> paymentByimpuid = client.paymentByImpUid(imp_uid);
 		
 		int dbPrice = mypageProductService.dbPrice(orderSheet);
+		
 		//배송비
 		int shipTotal_O = 100;
+		int userMileage = orderSheet.getMileageUse();
+		int userCoupon = 0;
 		
-		dbPrice = dbPrice + shipTotal_O;
+		if(orderSheet.getUseCouponId() != "") {
+			String couponId = orderSheet.getUseCouponId();
+			
+			//쿠폰 정보 조회
+			CouponVO couponInf = masterService.selectCoupon(couponId);
+			System.out.println(couponInf.getDiscountType());
+			if(couponInf.getDiscountType().equals("normal")) {
+				userCoupon = couponInf.getCouponPay();
+			}else if (couponInf.getDiscountType().equals("percent")) {
+				int couponPay = couponInf.getCouponPay();
+				userCoupon = dbPrice * couponPay / 100;
+			}
+		}
+		
+		dbPrice = dbPrice + shipTotal_O - userMileage - userCoupon;
 
 		BigDecimal order = paymentByimpuid.getResponse().getAmount();
 		BigDecimal amountToBePaid  = new BigDecimal(dbPrice);

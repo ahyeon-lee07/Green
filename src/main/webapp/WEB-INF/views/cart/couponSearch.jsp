@@ -28,7 +28,7 @@ request.setCharacterEncoding("UTF-8");
 			<tbody class="border-bottom" id="productList">
 				<c:forEach items="${hasCouponList }" var="hasCouponList">
 					<tr id="${hasCouponList.hasCouponNum }">
-						<td class="text-center align-middle align-middle px-2" style="font-size: .8rem">
+						<td id=${hasCouponList.hasCouponNum }_couponId class="text-center align-middle align-middle px-2" style="font-size: .8rem">
 							${hasCouponList.couponId }
 						</td>
 						<td id=${hasCouponList.hasCouponNum }_couponName class="text-center align-middle px-2">
@@ -71,11 +71,12 @@ request.setCharacterEncoding("UTF-8");
 <script>
 
 	function choiceCoupon(num){
+		var couponId = document.getElementById(num + "_couponId").innerText;
 		var couponName = document.getElementById(num + "_couponName").innerText;
 		var couponPay = document.getElementById(num + "_couponPay").childNodes[1].innerText;
 		var discountType = document.getElementById(num + "_couponPay").dataset.discounttype;
 
-		opener.document.getElementById("coupon_Input_Num").value = num;
+		opener.document.getElementById("coupon_Input_Id").value = couponId;
 		opener.document.getElementById("coupon_Input_name").value = couponName;
 		opener.document.getElementById("coupon_Input_CountType").value = discountType;
 		opener.document.getElementById("coupon_Input_Pay").value = couponPay;
