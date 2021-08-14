@@ -203,7 +203,7 @@
 			member_has_coupon AS A
 		LEFT JOIN coupon AS B ON A.couponId = B.couponId
 		WHERE
-			A.id = #{userId} AND curdate() BETWEEN B.couponPeriod_start AND B.couponPeriod_end;
+			A.id = #{userId} AND curdate() BETWEEN B.couponPeriod_start AND B.couponPeriod_end AND A.couponYN = 'N';
     ]]>
 	</select>
 	
@@ -288,6 +288,42 @@
 			        #{s_optionId},
 			        #{s_stock}
 			    )
+    ]]>
+	</insert>
+	
+	<!-- 상품 수량 감소  -->
+	<insert id="optionDecrease" parameterType="hashmap">
+    <![CDATA[
+		UPDATE
+			product_option
+		SET
+			p_stock = p_stock-${s_stock}
+		WHERE
+			p_optionId = #{s_optionId};
+    ]]>
+	</insert>
+	
+	<!-- 마이리지 수량 감소  -->
+	<insert id="mileageDecrease" parameterType="hashmap">
+    <![CDATA[
+		UPDATE
+			member
+		SET
+			mileage = mileage-${useMileage}
+		WHERE
+			id = #{userId};
+    ]]>
+	</insert>
+	
+	<!-- 쿠폰사용  -->
+	<insert id="useCoupon" parameterType="hashmap">
+    <![CDATA[
+		UPDATE
+			member_has_coupon
+		SET
+			couponYN = 'Y', couponUseDate =  now()
+		WHERE
+			id = #{userId} AND couponId = #{couponId};
     ]]>
 	</insert>
 	

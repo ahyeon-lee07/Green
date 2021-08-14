@@ -420,7 +420,7 @@ public class MypageProductControllerImpl implements MypageProductController {
 
 		if (user != null) {
 			String userId = user.getId();
-			// 유저 보유 쿠폰 정보 가져오기 product.getStock().get(i)
+			// 유저 보유 쿠폰 정보 가져오기
 			memberHasCoupon = mypageProductService.memberHasCoupon(userId);
 			mav.addObject("couponCount", memberHasCoupon.size());
 		}

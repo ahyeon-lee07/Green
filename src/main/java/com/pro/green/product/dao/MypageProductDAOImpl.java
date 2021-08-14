@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.pro.green.common.vo.Order;
 import com.pro.green.common.vo.OrderSheet;
 import com.pro.green.product.vo.CartVO;
 import com.pro.green.product.vo.MemberHasCouponVO;
@@ -23,6 +24,9 @@ public class MypageProductDAOImpl implements MypageProductDAO {
 
 	@Autowired
 	private OrderSheet orderSheet;
+	
+	@Autowired
+	private Order order;
 
 	// 관심상품 리스트
 	@Override
@@ -177,7 +181,31 @@ public class MypageProductDAOImpl implements MypageProductDAO {
 			option.put("s_stock", orderSheet.getOptionList().get(i).get("s_stock"));
 
 			result = sqlSession.insert("mapper.mypageProduct.insertOrderSheet", option);
+			
+			sqlSession.update("mapper.mypageProduct.optionDecrease", option);
 		}
+
+		//마일리지 사용
+		if(orderSheet.getMileageUse() > 0) {
+			Order order = (Order) insertBox.get("orderBox");
+			Map<String, Object> userMileage = new HashMap<String, Object>();
+			userMileage.put("useMileage", orderSheet.getMileageUse());
+			userMileage.put("userId", order.getId());
+			
+			sqlSession.update("mapper.mypageProduct.mileageDecrease", userMileage);
+		}
+		
+		//쿠폰 사용
+		if(orderSheet.getUseCouponId() != "") {
+			Order order = (Order) insertBox.get("orderBox");
+			String couponId = orderSheet.getUseCouponId();
+			Map<String, Object> userCoupon = new HashMap<String, Object>();
+			userCoupon.put("couponId", couponId);
+			userCoupon.put("userId", order.getId());
+			
+			sqlSession.update("mapper.mypageProduct.useCoupon", userCoupon);
+		}
+		
 
 		return result;
 	}

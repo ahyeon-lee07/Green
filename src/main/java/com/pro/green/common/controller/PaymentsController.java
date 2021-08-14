@@ -70,42 +70,6 @@ public class PaymentsController {
 		this.client = new IamportClient("3587947840482236","f9804b6fba39003e31390c989c52a9b26e2c7d50f75f37890848d2391b059526372f3c84301e9295");
 	}
 	
-	// 결제정보 받기
-	//@RequestMapping(value = "/payments/complete.do", method = RequestMethod.POST)
-	/*
-	@ResponseBody
-	@RequestMapping(value="/verifyIamport/{imp_uid}")
-	public IamportResponse<Payment> paymentByImpUid(
-			Model model,
-			HttpServletRequest request, HttpServletResponse response,
-			@ModelAttribute OrderSheet orderSheet
-			, Locale locale
-			, HttpSession session
-			, @PathVariable(value= "imp_uid") String imp_uid) throws Exception
-	{	
-		
-			String token = client.getToken();
-			System.out.println("token : " + token);
-			
-			IamportResponse<Payment> paymentByimpuid = client.paymentByImpUid(imp_uid);
-			System.out.println(paymentByimpuid.getResponse().getImpUid());
-			
-			BigDecimal order = paymentByimpuid.getResponse().getAmount();
-			BigDecimal amountToBePaid  = orderSheet.getAmount();
-			
-			System.out.println(paymentByimpuid.getMessage());
-			
-			
-			if(order == amountToBePaid) {
-				
-			}else {
-				
-			}
-			
-			return paymentByimpuid;
-	}
-	*/
-	
 	@RequestMapping(value = "/verifyIamport", method = RequestMethod.POST)
 	public ResponseEntity productOrder(@ModelAttribute OrderSheet orderSheet,
 			@RequestParam(value= "impUid") String imp_uid,
