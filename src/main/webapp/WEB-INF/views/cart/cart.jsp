@@ -463,6 +463,7 @@ function checkSelectAll()  {
 
         if(choiceProductList.length == 0){
             alert("한개 이상은 상품을 선택해야 합니다.");
+            return false;
         }
 
         post_to_url("${contextPath}/product/productOrder.do", choiceProductList);

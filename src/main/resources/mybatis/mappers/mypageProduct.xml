@@ -130,6 +130,18 @@
 	   ]]>  
 	</select>
 	
+	<!-- 카트 개수 조회 -->
+	<select id="cartCount" parameterType="String" resultType="int">
+		<![CDATA[
+	   SELECT 
+			COUNT(*)
+		FROM 
+			cart
+		WHERE
+			id = #{id} AND cartType = 'cart';
+	   ]]>  
+	</select>
+	
 	<!-- 상품 조회 -->
 	<select id="selectProduct" resultType="hashmap" parameterType="String">
     <![CDATA[
@@ -191,10 +203,93 @@
 			member_has_coupon AS A
 		LEFT JOIN coupon AS B ON A.couponId = B.couponId
 		WHERE
-			A.id = #{userId};
+			A.id = #{userId} AND curdate() BETWEEN B.couponPeriod_start AND B.couponPeriod_end;
     ]]>
 	</select>
 	
+	<!-- 디비 기준으로 총 가격 가져오기  -->
+	<select id="optionPrice" resultType="productVO" parameterType="String">
+    <![CDATA[
+		SELECT
+			*
+		FROM
+			product_option AS A
+		LEFT JOIN
+			product AS B ON A.productId = B.productId
+		WHERE
+			p_optionId = #{optionPrice};
+    ]]>
+	</select>
+	
+	<!-- 주문서 등록  -->
+	<insert id="insertOrderBox" parameterType="hashmap">
+    <![CDATA[
+		INSERT INTO
+			green.order
+		    (
+				orderNum,
+		        id,
+		        impUid,
+		        recipient,
+		        order_zipCode,
+		        order_addr1,
+		        order_addr2,
+		        order_addr3,
+		        order_phone,
+		        order_email1,
+		        order_email2,
+		        shipMsg,
+		        mileageUse,
+		        useCouponId,
+		        payMethod,
+		        duePayment,
+		        green.order.status,
+		        totalMileage
+		    )
+		VALUES
+			(
+				#{orderNum},
+		        #{id},
+		        #{impUid},
+		        #{recipient},
+		        #{order_zipCode},
+		        #{order_addr1},
+		        #{order_addr2},
+		        #{order_addr3},
+		        #{order_phone},
+		        #{order_email1},
+		        #{order_email2},
+		        #{shipMsg},
+		        #{mileageUse},
+		        #{useCouponId},
+		        #{payMethod},
+		        #{duePayment},
+		        #{status},
+		        #{totalMileage}
+		    );
+    ]]>
+	</insert>
+	
+	<!-- 주문서 상품 등록  -->
+	<insert id="insertOrderSheet" parameterType="hashmap">
+    <![CDATA[
+		INSERT INTO
+				order_has_product
+			    (
+					orderNum,
+			        productId,
+			        s_optionId,
+			        s_stock
+			    )
+			VALUES 
+				(
+					#{orderNum},
+			        (SELECT productId FROM product_option WHERE p_optionId = #{s_optionId} ),
+			        #{s_optionId},
+			        #{s_stock}
+			    )
+    ]]>
+	</insert>
 	
 	<!-- /조회==========================================================================================  -->
 	
