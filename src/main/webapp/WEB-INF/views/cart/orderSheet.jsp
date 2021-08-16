@@ -1077,10 +1077,13 @@ request.setCharacterEncoding("UTF-8");
                     console.log(data);
                     console.log(data.status);
                     console.log(data.message);
+                    console.log(data.paymentByimpuid.response.merchantUid);
+
+                    var merchantUid = data.paymentByimpuid.response.merchantUid;
 
                     switch (data.status){
                         case "success":
-                            alert("성공");
+                            location.href ="${contextPath }/purchaseDetails.do?orderNum="+merchantUid;
                         break;
 
                         case "forgery":

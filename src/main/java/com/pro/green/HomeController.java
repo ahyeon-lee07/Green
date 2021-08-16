@@ -213,12 +213,6 @@ public class HomeController {
 //	public String purchaseList(Locale locale, Model model) {
 //		return "purchaseList";
 //	}
-	
-	// 备概 郴开 惑技
-	@RequestMapping(value = "/purchaseDetails.do", method = RequestMethod.GET)
-	public String purchaseDetails(Locale locale, Model model) {
-		return "purchaseDetails";
-	}
 
 	// 府轰
 	@RequestMapping(value = "/review.do", method = RequestMethod.GET)
