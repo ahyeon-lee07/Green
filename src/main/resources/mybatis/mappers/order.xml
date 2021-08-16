@@ -9,7 +9,7 @@
 		<!-- order -->
 		<result property="orderNum" column="orderNum" /> <!-- 주문번호 -->
 		<result property="id" column="id" /> <!-- 회원 아이디 -->
-		<result property="impUid" column="impUid" /> <!-- ? -->
+		<result property="impUid" column="impUid" /> <!-- 결제시스템 -->
 		<result property="recipient" column="recipient" /> <!-- 수령인 -->
 		<result property="order_zipCode" column="order_zipCode" /> <!-- 주문_우편번호 -->
 		<result property="order_addr1" column="order_addr1" /> <!-- 주문_기본 주소 -->
@@ -22,14 +22,10 @@
 		<result property="orderDate" column="orderDate" /> <!-- 주문서 작성일 -->
 		<result property="mileageUse" column="mileageUse" /> <!-- 사용한 마일리지 -->
 		<result property="useCouponId" column="useCouponId" /> <!-- 사용한 쿠폰 아이디 -->
-		<result property="payMethod" column="payMethod" /> <!-- ? -->
-		<result property="total" column="total" /> <!-- 주문 합계 -->
-		<result property="shipTotal" column="shipTotal" /> <!-- 총 배송비 -->
-		<result property="priceTotal" column="priceTotal" /> <!-- 총 상품 금액 -->
-		<result property="discountTotal" column="discountTotal" /> <!-- 총 할인 금액 -->
-		<result property="duePayment" column="duePayment" /> <!-- 결제 예정금액 -->
+		<result property="payMethod" column="payMethod" /> <!-- 결제방법 -->
+		<result property="duePayment" column="duePayment" /> <!-- 결제 금액 -->
 		<result property="shipStatus" column="shipStatus" /> <!-- 배송 상태 -->
-		<result property="status" column="status" /> <!-- 주문처리 상태 -->
+		<result property="orderStatus" column="orderStatus" /> <!-- 주문처리 상태 -->
 		<result property="totalMileage" column="totalMileage" /> <!-- 적립 예정 마일리지 -->
 
 		<!-- order_has_product -->
@@ -39,22 +35,94 @@
 		<result property="s_stock" column="s_stock" /> <!-- 선택 수량 -->
 
 	</resultMap>
-	
-	<!-- 상품 목록 조회 -->
-	<!-- id="태그의 식별자" resultType="sql 명령어의 리턴타입(레코드의 자료형)" 샵{변수} => 입력매개변수 -->
-	<select id="selectAllOrdersList" resultMap="orderResult" parameterType="String">
+
+	<!-- 구매내역 조회 -->
+
+	<!-- 주문테이블 조회 -->
+	<select id="selectOrder" resultMap="orderResult"
+		parameterType="String">
     <![CDATA[
-		SELECT 
-			o.*, op.* 
-		FROM 
-			green.order o
-		INNER JOIN 
-			order_has_product op ON o.orderNum = op.orderNum
-		WHERE 
-			o.id = #{userId}
-		ORDER BY 
-			o.orderDate DESC;
-	]]>
+        SELECT 
+        	* 
+        FROM
+        	green.order
+        WHERE 
+        	id=#{id}
+    ]]>
 	</select>
 
+	<!-- 주문 상품 정보 조회 -->
+	<select id="orderHasProduct" resultType="hashmap"
+		parameterType="String">
+    <![CDATA[
+        SELECT
+			*
+		FROM
+			order_has_product
+		WHERE
+			orderNum = #{orderNum}
+    ]]>
+	</select>
+
+	<!-- 상품 메인 이미지 조회 -->
+	<select id="selectProductImg" resultType="String"
+		parameterType="String">
+    <![CDATA[
+        SELECT
+			imgURL
+		FROM
+			green.image
+		WHERE
+			productId = #{productId} AND imgType = 'product_M'
+    ]]>
+	</select>
+
+
+	<!-- 상품 그룹 조회 -->
+	<select id="selectProductGroup" resultType="String"
+		parameterType="String">
+    <![CDATA[
+        SELECT
+			p_group
+		FROM
+			green.product
+		WHERE
+			productId = #{productId}
+    ]]>
+	</select>
+
+	<!-- 상품 이름 조회 -->
+	<select id="selectProductName" resultType="String"
+		parameterType="String">
+    <![CDATA[
+        SELECT
+			productName
+		FROM
+			green.product
+		WHERE
+			productId = #{productId}
+    ]]>
+
+
+
+	</select>
+		
+	<!-- 구매내역 상세페이지 -->
+	<select id="selectOrderDetail" resultMap="orderResult"
+		parameterType="String">
+    <![CDATA[    		
+    	SELECT 
+    		o.*, op.productId, op.s_optionId, op.s_stock
+		FROM
+    		green.order o
+        INNER JOIN
+   		 	green.order_has_product op 
+   		ON 
+   			o.orderNum = op.orderNum
+		WHERE
+    		o.orderNum = #{orderNum}
+    ]]>
+	</select>
+	
+	
 </mapper>

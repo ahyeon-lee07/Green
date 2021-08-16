@@ -1,64 +1,72 @@
 package com.pro.green.order.controller;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.pro.green.product_M.vo.Criteria;
+import com.pro.green.member.vo.MemberVO;
 import com.pro.green.order.service.OrderService;
 import com.pro.green.order.vo.OrderVO;
-import com.pro.green.member.vo.MemberVO;
 
 @Controller("orderController")
 public class OrderControllerImpl implements OrderController {
 	@Autowired
-	private OrderService orderService;
-	@Autowired
 	private OrderVO orderVO;
 	@Autowired
-	private MemberVO memberVO;
-	
-	// 구매내역 조회 목록
-	@Override
-	@RequestMapping(value = "/purchaseList.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView listOrder(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String viewName = (String) request.getAttribute("viewName");
-		
-		HttpSession session = request.getSession();
+	private OrderService orderService;
 
-		MemberVO member = new MemberVO();
-		MemberVO sessinLogin = (MemberVO) session.getAttribute("member");
+	// 구매내역 조회
+	@Override
+	@RequestMapping(value = "/myPage/purchaseList.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView OrderList(HttpServletRequest request, HttpServletResponse response, Criteria cri)
+			throws Exception {
+		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession();
+		MemberVO user = (MemberVO) session.getAttribute("member");
 		
-		String userId = sessinLogin.getId();
-		
-		List<OrderVO> listOrder = orderService.listOrder(userId);
-		
-		ModelAndView mav = new ModelAndView(viewName);
-		mav.addObject("listOrder", listOrder);
+		List<Map<String, Object>> selectOrderList = new ArrayList<Map<String,Object>>();
+
+		selectOrderList = orderService.selectOrderList(user.getId());
+
+		mav.addObject("stockSum", selectOrderList);
+		mav.addObject("selectOrderList", selectOrderList);		
+		mav.setViewName("purchaseList");
+
 		return mav;
 	}
 
+	// 구매내역 상세조회
+
+	@Override
+	@RequestMapping(value = "/myPage/purchaseDetails.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView OrderDetail(@RequestParam("orderNum") String orderNum, HttpServletRequest request,
+			HttpServletResponse response, Criteria cri) throws Exception {
+
+		ModelAndView mav = new ModelAndView();
+		
+		List<OrderVO> selectOrderDetail = new ArrayList<OrderVO>();
+		
+		selectOrderDetail = orderService.selectOrderDetail(orderNum);
+		
+		mav.addObject("selectOrderDetail", selectOrderDetail);		
+		mav.setViewName("purchaseDetails");
+		
+		return mav;
+
+	}
+	
 }
