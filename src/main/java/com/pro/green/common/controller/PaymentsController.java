@@ -88,7 +88,7 @@ public class PaymentsController {
 		int dbPrice = mypageProductService.dbPrice(orderSheet);
 		
 		//배송비
-		int shipTotal_O = 100;
+		int shipTotal_O = 2500;
 		int userMileage = orderSheet.getMileageUse();
 		int userCoupon = 0;
 		
@@ -141,8 +141,8 @@ public class PaymentsController {
 			//주문서 작성
 			int insertOrder = mypageProductService.insertOrder(insertBox);
 			
-			CancelData cancel1 = new CancelData(imp_uid, true);
-			IamportResponse<Payment> cancelpayment2 = client.cancelPayment(cancel1);
+//			CancelData cancel1 = new CancelData(imp_uid, true);
+//			IamportResponse<Payment> cancelpayment2 = client.cancelPayment(cancel1);
 			
 			result.put( "status", "success");
 			result.put( "message", "일반 결제 성공");
