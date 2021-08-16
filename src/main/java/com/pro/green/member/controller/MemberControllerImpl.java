@@ -205,7 +205,7 @@ public class MemberControllerImpl implements MemberController {
 		if (result == 0) {
 			mav.addObject("joinMas", "회원 가입에 실패 했습니다. 다시 시도해 주세요.");
 		} else {
-			mav.addObject("joinMas", "가입해 주셨어 감사합니다.");
+			mav.addObject("joinMas", "회원 가입을 축하드립니다.");
 		}
 		mav.setViewName("redirect:/main.do");
 		return mav;

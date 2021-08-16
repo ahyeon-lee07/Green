@@ -34,6 +34,8 @@
     ]]>
 	</select>
 	
+	
+	
 	<!-- 메인화면 공지사항 조회 -->
 	<select id="mainSeletNotice" resultType="articleVO2" parameterType="hashmap">
     <![CDATA[
@@ -43,6 +45,20 @@
 			notice
 		ORDER BY
 			noticeDate DESC
+    ]]>
+	</select>
+	
+	<!-- 관리자답글 체크 -->
+	<select id="masterChk" resultType="Integer" parameterType="Integer">
+    <![CDATA[
+		SELECT 
+			COUNT(*) 
+		FROM 
+			green.comment AS C
+		INNER JOIN
+			member AS M ON C.id = M.id
+		WHERE
+			C.QnANum=#{num} AND M.masterYN = 'M'
     ]]>
 	</select>
 	

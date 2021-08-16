@@ -26,7 +26,16 @@ public class BoardDAOImpl2 implements BoardDAO2 {
 		if (selectOption.get("type").equals("qna") || selectOption.get("type").equals("review")) {
 			for (int i = 0; i < result.size(); i++) {
 				String productId = result.get(i).getProductId();
-
+				
+				int num = result.get(i).getNum();
+				
+				if (selectOption.get("type").equals("qna")) {
+					int masterCount = sqlSession.selectOne("mapper.board2.masterChk", num);
+					if(masterCount > 0) {
+						result.get(i).setMasterYN("Y");
+					}
+				}
+				
 				if (productId != null) {
 					images = sqlSession.selectList("mapper.board2.selectImge", productId);
 
@@ -51,7 +60,6 @@ public class BoardDAOImpl2 implements BoardDAO2 {
 		if (selectOption.get("type").equals("qna") || selectOption.get("type").equals("review")) {
 			for (int i = 0; i < result.size(); i++) {
 				String productId = result.get(i).getProductId();
-
 				if (productId != null) {
 					images = sqlSession.selectList("mapper.board2.selectImge", productId);
 
@@ -63,6 +71,7 @@ public class BoardDAOImpl2 implements BoardDAO2 {
 				}
 			}
 		}
+		
 		return result;
 	}
 

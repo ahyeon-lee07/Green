@@ -90,6 +90,9 @@ request.setCharacterEncoding("UTF-8");
 						</c:choose>
 						
 						<td class="text-left align-middle px-2 font-weight-bold">
+							<c:if test="${list.masterYN == 'Y'}">
+								<img src="${contextPath }/resources/img/chat-dots.svg"> 
+							</c:if>
 							${list.title }
 						</td>
 						<c:if test="${pageTitle == 'QnA'}">

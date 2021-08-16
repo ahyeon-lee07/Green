@@ -185,16 +185,16 @@ request.setCharacterEncoding("UTF-8");
 				<c:choose>
 					<c:when test="${community.id == member.id}">
 						<a href="#" onclick="communityDelete()">
-							<button type="button" class="btn bg-danger text-white" >삭제 </button>
+							<button type="button" class="btn btn-outline-danger" >삭제 </button>
 						</a>
-						<button type="submit" class="btn btn-success ml-3" onclick="return checkEdit()">수정</button>
+						<button type="submit" class="btn btn-outline-success ml-3" onclick="return checkEdit()">수정</button>
 						<c:if test="${pageTitle == 'QnA' }">
-							<button type="button" class="btn btn-secondary ml-3" onclick="return commentEdit()">댓글</button>
+							<button type="button" class="btn btn-primary ml-3" onclick="return commentEdit()">댓글</button>
 						</c:if>
 					</c:when>
 					<c:when test="${member.masterYN == 'M'}">
 						<c:if test="${pageTitle == 'QnA' }">
-							<button type="button" class="btn btn-secondary ml-3" onclick="return commentEdit()">댓글</button>
+							<button type="button" class="btn btn-primary ml-3" onclick="return commentEdit()">댓글</button>
 						</c:if>
 					</c:when>
 				</c:choose>
@@ -234,7 +234,7 @@ request.setCharacterEncoding("UTF-8");
 			str += '</div></div>';
 			str += '<div class="d-flex bd-highlight">';
 			str += '<button type="button" class="btn btn-primary ml-3" onclick="commentAdd()">등록</button>';
-			str += '<button type="button" class="btn btn-secondary ml-3" onclick="commentClose()">닫기</button>';
+			str += '<button type="button" class="btn btn-outline-danger ml-3" onclick="commentClose()">닫기</button>';
 			str += '</div></div>';
 			str += '<div class="border-bottom d-flex bd-highlight py-2">';
 			str += '<label for="commentContent" class="bd-highlight col-form-label pl-2" style="width: 100px;">내용</label>';

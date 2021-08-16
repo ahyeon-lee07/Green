@@ -25,8 +25,17 @@ public class ArticleVO2 {
 	private String imgType;
 	private String imgURL;
 	private String productName;
+	private String masterYN;
 	
 	
+	
+	
+	public String getMasterYN() {
+		return masterYN;
+	}
+	public void setMasterYN(String masterYN) {
+		this.masterYN = masterYN;
+	}
 	public Date getCreateDate() {
 		return createDate;
 	}
