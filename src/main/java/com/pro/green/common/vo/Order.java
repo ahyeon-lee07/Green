@@ -28,7 +28,7 @@ public class Order {
 	private String payMethod;
 	private int duePayment;
 	private String shipStatus;
-	private String status;
+	private String orderStatus;
 	private int totalMileage;
 	
 	public void SetSplitPhone(String phone) {
@@ -151,11 +151,11 @@ public class Order {
 	public void setShipStatus(String shipStatus) {
 		this.shipStatus = shipStatus;
 	}
-	public String getStatus() {
-		return status;
+	public String getOrderStatus() {
+		return orderStatus;
 	}
-	public void setStatus(String status) {
-		this.status = status;
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
 	}
 	public int getTotalMileage() {
 		return totalMileage;

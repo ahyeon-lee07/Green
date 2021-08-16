@@ -243,7 +243,7 @@
 		        useCouponId,
 		        payMethod,
 		        duePayment,
-		        green.order.status,
+		        green.order.orderStatus,
 		        totalMileage
 		    )
 		VALUES
@@ -264,7 +264,7 @@
 		        #{useCouponId},
 		        #{payMethod},
 		        #{duePayment},
-		        #{status},
+		        #{orderStatus},
 		        #{totalMileage}
 		    );
     ]]>

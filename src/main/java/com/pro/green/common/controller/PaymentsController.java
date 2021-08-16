@@ -132,7 +132,7 @@ public class PaymentsController {
 			orderBox.setUseCouponId(orderSheet.getUseCouponId());
 			orderBox.setPayMethod(paymentByimpuid.getResponse().getPayMethod());
 			orderBox.setDuePayment((paymentByimpuid.getResponse().getAmount()).intValue());
-			orderBox.setStatus(paymentByimpuid.getResponse().getStatus());
+			orderBox.setOrderStatus(paymentByimpuid.getResponse().getStatus());
 			orderBox.setTotalMileage(orderSheet.getTotalMileage());
 			
 			insertBox.put("orderBox", orderBox);

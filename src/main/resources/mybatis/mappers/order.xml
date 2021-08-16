@@ -108,7 +108,7 @@
 	</select>
 		
 	<!-- 구매내역 상세페이지 -->
-	<select id="selectOrderDetail" resultMap="orderResult"
+<!-- 	<select id="selectOrderDetail" resultMap="orderResult"
 		parameterType="String">
     <![CDATA[    		
     	SELECT 
@@ -123,6 +123,8 @@
     		o.orderNum = #{orderNum}
     ]]>
 	</select>
-	
+	 -->
+	<!-- 상품 옵션 아이디로 상세조회 -->
+
 	
 </mapper>
