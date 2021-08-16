@@ -101,10 +101,10 @@ request.setCharacterEncoding("UTF-8");
 							style="font-size: .8rem;">
 							<c:set var="orderStatus" value="${order.order.orderStatus}" />
 							<c:choose>
-								<c:when test="${orderStatus eq 1}">입금전</c:when>
-								<c:when test="${orderStatus eq 2}">배송준비중</c:when>
-								<c:when test="${orderStatus eq 3}">배송중</c:when>
-								<c:when test="${orderStatus eq 4}">배송완료</c:when>
+								<c:when test="${orderStatus eq 'ready'}">입금전</c:when>
+								<c:when test="${orderStatus eq 'paid'}">배송준비중</c:when>
+								<c:when test="${orderStatus eq 'cancelled'}">결제취소</c:when>
+								<c:when test="${orderStatus eq 'failed'}">결제실패</c:when>
 							</c:choose></td>
 						<td class="text-center align-middle px-2">
 							<div class="d-flex justify-content-cente">
