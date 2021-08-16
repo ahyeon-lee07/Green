@@ -173,7 +173,7 @@ request.setCharacterEncoding("UTF-8");
         </div>
         <div class="row mb-4">
             <div class="col-12">
-                <form action="#">
+                <form action="#" name="orderForm">
                     <div class="row border-bottom border-top d-flex bd-highlight py-2">
                         <label for="inputTitle" class="bd-highlight col-form-label pl-2" style="width: 100px;">배송지
                             선택</label>
@@ -206,7 +206,7 @@ request.setCharacterEncoding("UTF-8");
                                 <label for="inputUser" class="bd-highlight col-form-label pl-2"
                                     style="width: 120px;"><img src="${contextPath }/resources/img/require.png">받으시는 분</label>
                                 <div class="flex-grow bd-highlight pr-2">
-                                    <input type="email" class="form-control" id="inputUser" value="${user.name }">
+                                    <input type="email" class="form-control" id="inputUser" name="name" value="${user.name }">
                                 </div>
                             </div>
                         </div>
@@ -268,7 +268,7 @@ request.setCharacterEncoding("UTF-8");
                                 <label for="phoneNumber" class="bd-highlight col-form-label pl-2"
                                     style="width: 120px;"><img src="${contextPath }/resources/img/require.png">휴대전화</label>
                                 <div class="flex-grow bd-highlight pr-2">
-                                    <input type="number" class="form-control" id="phoneNumber" placeholder="'-' 없이 입력해주세요." value="${user.phone }">
+                                    <input id="phone" type="text" class="form-control" id="phoneNumber" name="userphone" maxlength='11' placeholder="'-' 없이 입력해주세요." value="${user.phone }">
                                 </div>
                             </div>
                         </div>
@@ -383,7 +383,7 @@ request.setCharacterEncoding("UTF-8");
                                     </div>
                                     <div class="p-2 bd-highlight">
                                         <div class="form-check">
-                                            <input type='checkbox' 
+                                            <input id="chk1" type='checkbox' 
        												name='terms' 
        												value='terms1' 
        												onclick='checkSelectAll()'/>
@@ -408,7 +408,7 @@ request.setCharacterEncoding("UTF-8");
                                     </div>
                                     <div class="p-2 bd-highlight">
                                         <div class="form-check">
-                                            <input type='checkbox' 
+                                            <input id="chk2"  type='checkbox' 
        												name='terms' 
        												value='terms2' 
        												onclick='checkSelectAll()'/>
@@ -542,7 +542,7 @@ request.setCharacterEncoding("UTF-8");
                             </div>
                             <div class="row mt-3 mb-3">
                                 <div class="col">
-                                    <button type="button" class="btn btn-success btn-block" onclick="btn_pay()">결제하기</button>
+                                    <button type="button" class="btn btn-success btn-block" onclick="return checkOrder()">결제하기</button>
                                 </div>
                             </div>
                         </div>
@@ -670,17 +670,17 @@ request.setCharacterEncoding("UTF-8");
 								extraAddr = ' (' + extraAddr + ')';
 							}
 							// 조합된 참고항목을 해당 필드에 넣는다.
-							document.getElementById("sample6_extraAddress").value = extraAddr;
+							document.getElementById("addr3").value = extraAddr;
 
 						} else {
-							document.getElementById("sample6_extraAddress").value = '';
+							document.getElementById("addr3").value = '';
 						}
 
 						// 우편번호와 주소 정보를 해당 필드에 넣는다.
-						document.getElementById('sample6_postcode').value = data.zonecode;
-						document.getElementById("sample6_address").value = addr;
+						document.getElementById('zipCode').value = data.zonecode;
+						document.getElementById("addr1").value = addr;
 						// 커서를 상세주소 필드로 이동한다.
-						document.getElementById("sample6_detailAddress")
+						document.getElementById("addr2")
 								.focus();
 					}
 				}).open();
@@ -691,8 +691,32 @@ request.setCharacterEncoding("UTF-8");
 		window.history.go(-1);
 	}
 
+    //전체 동의 
+    function checkSelectAll() {
+	    // 전체 체크박스
+	    const checkboxes = document.querySelectorAll('input[name="terms"]');
+		// 선택된 체크박스
+	    const checked = document.querySelectorAll('input[name="terms"]:checked');
+	    // select all 체크박스
+	    const selectAll = document.querySelector('input[name="selectall"]');
+
+	    if (checkboxes.length === checked.length) {
+		    selectAll.checked = true;
+	    } else {
+		    selectAll.checked = false;
+		    }
+
+	}
+    function selectAll(selectAll) {
+	    const checkboxes = document.getElementsByName('terms');
+
+	    checkboxes.forEach((checkbox) => {
+		    checkbox.checked = selectAll.checked
+	    })
+	}
+
     //배송비
-	var shipTotal_O = 100;
+	var shipTotal_O = 2500;
 	//로딩시 금액 입력
 	 window.onload = function(){
 	    	
@@ -982,7 +1006,7 @@ request.setCharacterEncoding("UTF-8");
         var email = document.getElementById('inputEmail1').value+"@"+document.getElementById('inputEmail2').value;
         var userName = document.getElementById('inputUser').value;
         
-        var phone = document.getElementById('phoneNumber').value.substr(0,3)+"-"+document.getElementById('phoneNumber').value.substr(3,4)+"-"+document.getElementById('phoneNumber').value.substr(7,4);
+        var phone = document.getElementById('phone').value.substr(0,3)+"-"+document.getElementById('phone').value.substr(3,4)+"-"+document.getElementById('phone').value.substr(7,4);
 
         var addr = document.getElementById('addr1').value+" "+document.getElementById('addr2').value; 
         var zipCode = document.getElementById('zipCode').value;
@@ -1053,10 +1077,13 @@ request.setCharacterEncoding("UTF-8");
                     console.log(data);
                     console.log(data.status);
                     console.log(data.message);
+                    console.log(data.paymentByimpuid.response.merchantUid);
+
+                    var merchantUid = data.paymentByimpuid.response.merchantUid;
 
                     switch (data.status){
                         case "success":
-                            alert("성공");
+                            location.href ="${contextPath }/purchaseDetails.do?orderNum="+merchantUid;
                         break;
 
                         case "forgery":
@@ -1076,4 +1103,41 @@ request.setCharacterEncoding("UTF-8");
             }
         });
     }
+
+    //유효성 검사
+    function checkOrder() {
+	    var form = document.orderForm;
+							
+	    //영문 한글 공백 허용
+	    var nameExp = document.getElementById('inputUser').value.search(/^[ㄱ-ㅎ|가-힣|a-z|A-Z|]*$/);
+
+	    if (form.name.value == "") {
+		    alert("이름을 입력해주세요!");
+		    form.name.focus();
+		    return false;
+	    } else if (nameExp) {
+		    alert("이름에 숫자는 입력 할수 없습니다.");
+		    form.name.focus();
+		    return false;
+	    } else if (form.addr1.value == "" || form.addr2.value == "" || form.addr3.value == "") {
+		    alert("주소을 입력해주세요!");
+		    form.addr1.focus();
+		    return false;
+	    } else if (form.userphone.value == "") {
+		    alert("휴대전화를 입력해주세요!");
+		    form.userphone.focus();
+		    return false;
+	    } else if (document.getElementById("chk1").checked != true) {
+		    alert("이용약관에 동의해 주세요!");
+		    document.getElementById("chk1").focus();
+		    return false;
+		} else if (document.getElementById("chk2").checked != true) {
+		    alert("개인정보 수집 및 이용 동의에 동의해 주세요!");
+		    document.getElementById("chk2").focus();
+		    return false;
+        }else{
+            btn_pay();
+        }
+    }
+			
 </script>
