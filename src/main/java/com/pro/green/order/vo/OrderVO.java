@@ -13,7 +13,7 @@ public class OrderVO {
 	// order
 	private String orderNum; // 주문번호
 	private String id; // 회원 아이디
-	private String impUid; // ?
+	private String impUid; // 결제시스템
 	private String recipient; // 수령인
 	private String order_zipCode; // 주문_우편번호
 	private String order_addr1; // 주문_기본 주소
@@ -26,14 +26,10 @@ public class OrderVO {
 	private Date orderDate; // 주문서 작성일
 	private int mileageUse; // 사용한 마일리지
 	private String useCouponId; // 사용한 쿠폰 아이디
-	private String payMethod; // ?
-	private int total; // 주문 합계
-	private int shipTotal; // 총 배송비
-	private int priceTotal; // 총 상품 금액
-	private int discountTotal; // 총 할인 금액
+	private String payMethod; // 결제방법
 	private int duePayment; // 결제 예정금액
 	private String shipStatus; // 배송 상태
-	private String status; // 주문처리 상태
+	private String orderStatus; // 주문처리 상태
 	private int totalMileage; // 적립 예정 마일리지
 	
 	// order_has_product
@@ -155,34 +151,6 @@ public class OrderVO {
 		this.payMethod = payMethod;
 	}
 	
-	public int getTotal() {
-		return total;
-	}
-	public void setTotal(int total) {
-		this.total = total;
-	}
-	
-	public int getShipTotal() {
-		return shipTotal;
-	}
-	public void setShipTotal(int shipTotal) {
-		this.shipTotal = shipTotal;
-	}
-	
-	public int getPriceTotal() {
-		return priceTotal;
-	}
-	public void setPriceTotal(int priceTotal) {
-		this.priceTotal = priceTotal;
-	}
-	
-	public int getDiscountTotal() {
-		return discountTotal;
-	}
-	public void setDiscountTotal(int discountTotal) {
-		this.discountTotal = discountTotal;
-	}
-	
 	public int getDuePayment() {
 		return duePayment;
 	}
@@ -197,11 +165,11 @@ public class OrderVO {
 		this.shipStatus = shipStatus;
 	}
 	
-	public String getSatus() {
-		return status;
+	public String getOrderStatus() {
+		return orderStatus;
 	}
-	public void setStatus(String status) {
-		this.status = status;
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
 	}
 	
 	public int getTotalMileage() {
