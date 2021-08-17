@@ -43,6 +43,9 @@ public interface ProductService {
 	//회원일 경우 관심상품 조회
 	public ProductVO2 viewMemberProdDetail(Map<String, Object> selectOption) throws DataAccessException;
 
+	//상품 검색
+	public List<ProductVO2> productSearch(Map<String, Object> searchOption) throws DataAccessException;
+
 
 
 	

@@ -25,24 +25,30 @@ public class ProductDAOImpl implements ProductDAO {
 		List<ProductVO2> productsList = sqlSession.selectList("mapper.product.selectAllProductsList", p_group);
 		return productsList;
 	}
-	
+
 	// 회원일 경우 관심상품 조회
-	public ProductVO2 viewMemberProdDetail(Map<String, Object> selectOption) throws DataAccessException{
+	public ProductVO2 viewMemberProdDetail(Map<String, Object> selectOption) throws DataAccessException {
 		String productId = (String) selectOption.get("productId");
 		ProductVO2 prodDetail = sqlSession.selectOne("mapper.product.selectProduct", productId);
-		
-		List<Map<String, Object>> wishList = sqlSession.selectList("mapper.mypageProduct.wishList", selectOption);
-		
-		for(int i=0; i<wishList.size(); i++) {
 
-			if(wishList.get(i).get("productId").equals(productId)) {
+		List<Map<String, Object>> wishList = sqlSession.selectList("mapper.mypageProduct.wishList", selectOption);
+
+		for (int i = 0; i < wishList.size(); i++) {
+
+			if (wishList.get(i).get("productId").equals(productId)) {
 				prodDetail.setCartType("wish");
 			}
 		}
-		
+
 		return prodDetail;
 	}
-	
+
+	// 상품 검색
+	public List<ProductVO2> productSearch(Map<String, Object> searchOption) throws DataAccessException {
+		List<ProductVO2> productsList = sqlSession.selectList("mapper.product.productSearch", searchOption);
+		return productsList;
+	}
+
 	// 상품 상세페이지
 	// 상품명&가격
 	@Override

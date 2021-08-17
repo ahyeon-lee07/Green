@@ -25,11 +25,17 @@
 		<result property="imgURL" column="imgURL" />
 	</resultMap>
 
+<<<<<<< HEAD
 
 	<!-- 상품 목록 조회 -->
 
 	<select id="selectAllProductsList" resultMap="productResult"
 		parameterType="String">
+=======
+ 
+ 	<!-- 상품 목록 조회 -->
+ 	<select id="selectAllProductsList" resultMap="productResult" parameterType="String">
+>>>>>>> refs/heads/chan
     <![CDATA[
 		select p.*, i.* from product p 
 		inner join image i on p.productId=i.productId 
@@ -37,7 +43,25 @@
 		order by productDate DESC
     ]]>
 	</select>
+<<<<<<< HEAD
 
+=======
+	
+	<!-- 상품 검색 -->
+ 	<select id="productSearch" resultMap="productResult" parameterType="java.util.HashMap">
+    <![CDATA[
+		SELECT
+			p.*, i.* from product p 
+		INNER JOIN
+			image i ON p.productId = i.productId 
+		WHERE
+			p.p_group = #{p_group} AND imgType = "product_M" AND p.productName LIKE CONCAT('%', #{keyWord}, '%')
+		ORDER BY 
+			productDate DESC;
+    ]]>
+	</select>
+	
+>>>>>>> refs/heads/chan
 	<!-- 상품 목록 조회 -->
 
 	<select id="prodArray" resultMap="productResult"

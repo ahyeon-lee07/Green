@@ -56,7 +56,7 @@ request.setCharacterEncoding("UTF-8");
 				<div class="p-0 bd-highlight">
 					<ul class="list-group">
 						<c:forEach items="${eventList}" var="eventList">
-							<a href="${contextPath}/communityDerail/derailPage.do${pageMaker.makeQueryPage(bList.IDX, pageMaker.cri.page) }&communityNum=${eventList.num }&communityType=event"> 
+							<a href="${contextPath}/communityDetail/detailPage.do${pageMaker.makeQueryPage(bList.IDX, pageMaker.cri.page) }&communityNum=${eventList.num }&communityType=event"> 
 								<li class="list-group-item list-group-item-action p-0 pb-1 border-0 eventOver">
 									${eventList.title } 
 								</li>
@@ -77,7 +77,7 @@ request.setCharacterEncoding("UTF-8");
 				<div class="p-0 bd-highlight">
 					<ul class="list-group">
 						<c:forEach items="${noticeList}" var="noticeList">
-							<a href="${contextPath}/communityDerail/derailPage.do${pageMaker.makeQueryPage(bList.IDX, pageMaker.cri.page) }&communityNum=${noticeList.num }&communityType=notice"> 
+							<a href="${contextPath}/communityDetail/detailPage.do${pageMaker.makeQueryPage(bList.IDX, pageMaker.cri.page) }&communityNum=${noticeList.num }&communityType=notice"> 
 								<li class="list-group-item list-group-item-action p-0 pb-1 border-0 noticeOver">
 									${noticeList.title } 
 								</li>

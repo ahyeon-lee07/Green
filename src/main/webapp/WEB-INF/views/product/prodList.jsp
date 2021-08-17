@@ -50,7 +50,7 @@
 												<button type="submit" class="btn btn-secondary btn-sm col-2" onclick="return search()">검색</button>
 											</div>
 										</div>
-										<input type="text" name="searchOptions" value="${options }" style="display:none">
+										<input type="text" name="p_group" value="${p_group}" style="display:none">
 									</form>
 								</div>
 							</div>
