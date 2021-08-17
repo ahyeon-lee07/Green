@@ -24,7 +24,7 @@ public class OrderDAOImpl implements OrderDAO {
 	public List<Map<String, Object>> selectOrderList(String id) throws DataAccessException {
 		List<Map<String, Object>> selectOrderList = new ArrayList<Map<String, Object>>();
 
-		List<OrderVO> orderList = sqlSession.selectList("mapper.order.selectOrder", id);
+		List<OrderVO> orderList = sqlSession.selectList("mapper.order.selectOrderList", id);
 
 		for (int i = 0; i < orderList.size(); i++) {
 			List<Map<String, Object>> hasProduct = new ArrayList<Map<String, Object>>();
@@ -61,24 +61,41 @@ public class OrderDAOImpl implements OrderDAO {
 	public Map<String, Object> selectOrderDetail(String orderNum) throws DataAccessException {
 
 		Map<String, Object> selectOrderDetail = new HashMap<String, Object>();
-	
 
-//		List<OrderVO> orderInfo = sqlSession.selectList("mapper.order.selectOrderInf", orderNum);
-//		
-//		
-//		List<Object> prod  = new ArrayList<Object>();
-//		
-//		for (int i = 0; i < orderInfo.size(); i++) {
-//			String optId = (String) orderInfo.get(i).getS_optionId();
-//			Object prodInf = sqlSession.selectOne("mapper.product.selectProdInf", optId);
-//			prod.add(prodInf);
-//		}
-//		
-//		selectOrderDetail.put("orderInfo", orderInfo.get(0));
-//		selectOrderDetail.put("prod", prod);
+		List<OrderVO> orderInfo = sqlSession.selectList("mapper.order.selectOrderInf", orderNum);
+
+		List<Map<String, Object>> prod = new ArrayList<Map<String, Object>>();
+
+		for (int i = 0; i < orderInfo.size(); i++) {
+			String optId = (String) orderInfo.get(i).getS_optionId();
+			Map<String, Object> prodInf = sqlSession.selectOne("mapper.product.selectProdInf", optId);
+			prod.add(prodInf);
+		}
+
+		selectOrderDetail.put("orderInfo", orderInfo);
+		selectOrderDetail.put("prod", prod);
 
 		return selectOrderDetail;
 	}
 
+	// 주문서 조회
+	public OrderVO selectOrder(String orderNum) throws DataAccessException {
+
+		OrderVO selectOrder = sqlSession.selectOne("mapper.order.selectOrder", orderNum);
+		return selectOrder;
+	}
+
+	// 주문서 옵션 리스트 조회
+	public List<Map<String, Object>> optionList(String orderNum) throws DataAccessException {
+		List<Map<String, Object>> optionList = sqlSession.selectList("mapper.order.optionList", orderNum);
+		return optionList;
+	}
+
+	// 쿠폰 할인 금액 정보
+	public Map<String, Object> useCoupon(String useCouponId) throws DataAccessException {
+		List < Map < String, Object >> useCouponList = sqlSession.selectList("mapper.order.useCoupon", useCouponId);
+		Map<String, Object> useCoupon = useCouponList.get(0);
+		return useCoupon;
+	}
 
 }

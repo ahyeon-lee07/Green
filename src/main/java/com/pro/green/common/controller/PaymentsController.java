@@ -97,7 +97,7 @@ public class PaymentsController {
 			
 			//쿠폰 정보 조회
 			CouponVO couponInf = masterService.selectCoupon(couponId);
-			System.out.println(couponInf.getDiscountType());
+			
 			if(couponInf.getDiscountType().equals("normal")) {
 				userCoupon = couponInf.getCouponPay();
 			}else if (couponInf.getDiscountType().equals("percent")) {
