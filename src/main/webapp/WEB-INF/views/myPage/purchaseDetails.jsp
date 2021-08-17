@@ -29,7 +29,7 @@ request.setCharacterEncoding("UTF-8");
 				</nav>
 			</div>
 		</div>
-
+ 		${orderDetail.prod}
 		<div class="row mt-1" style="padding: 0 15px">
 			<div class="col">
 				<div class="row">
@@ -43,10 +43,10 @@ request.setCharacterEncoding("UTF-8");
 					</div>
 					<div class="col-10 border border-left-0">
 						<div class="row text-center font-weight-bold p-2 border-bottom">
-							<div class="col">${selectOrderDetail.orderNum}</div>
+							<div class="col">${orderDetail.orderInfo.orderNum}</div>
 						</div>
 						<div class="row text-center p-2">
-							<div class="col">${selectOrderDetail.orderDate}</div>
+							<div class="col">${orderDetail.orderInfo.orderDate}</div>
 						</div>
 					</div>
 				</div>
@@ -76,24 +76,24 @@ request.setCharacterEncoding("UTF-8");
 				</tr>
 			</thead>
 			<tbody class="border-bottom">
-				<c:forEach var="order" items="${selectOrderDetail}">
+				<c:forEach var="orderDetail" items="${orderDetail}">
 					<tr>
 						<td class="text-center align-middle px-5">
-							<%-- <img
-							src="${contextPath}/resources/img/${order.p_group}/${order.productImg}"
-							class="img-thumbnail" alt="상품"> --%>
 							<img
-							src=""
+							src="${contextPath}/resources/img/${orderDetail.prod.p_group}/${orderDetail.prod.imgURL}"
 							class="img-thumbnail" alt="상품">
+							<!-- <img
+							src=""
+							class="img-thumbnail" alt="상품"> -->
 						</td>
 						<td class="align-middle flex-column">
-							<div class="font-weight-bold pb-1 bd-highlight">애기 귤곰</div>
+							<div class="font-weight-bold pb-1 bd-highlight">${orderDetail.prod.productName}</div>
 							<!-- 상품 옵션 -->
-							<div class="bd-highlight">갤럭시</div>
+							<div class="bd-highlight">${orderDetail.prod.p_option}</div>
 						</td>
-						<td class="text-center align-middle px-2">${order.s_stock}</td>
-						<td class="text-center align-middle px-2">10,000원</td>
-						<td class="text-center align-middle px-2">100</td>
+						<td class="text-center align-middle px-2">${orderDetail.orderInfo.s_stock}</td>
+						<td class="text-center align-middle px-2">${orderDetail.prod.price}원</td>
+						<td class="text-center align-middle px-2">${orderDetail.prod.productMileage}</td>
 						<td class="text-center align-middle px-2"><a class=""
 							href="${contextPath }/addNewReview.do">
 								<button type="button" class="btn btn-outline-success btn-sm">리뷰</button>

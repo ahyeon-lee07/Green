@@ -11,6 +11,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.pro.green.order.vo.OrderVO;
+import com.pro.green.product_M.vo.ProductVO2;
 
 @Repository("orderDAO")
 public class OrderDAOImpl implements OrderDAO {
@@ -25,7 +26,6 @@ public class OrderDAOImpl implements OrderDAO {
 
 		List<OrderVO> orderList = sqlSession.selectList("mapper.order.selectOrder", id);
 
-
 		for (int i = 0; i < orderList.size(); i++) {
 			List<Map<String, Object>> hasProduct = new ArrayList<Map<String, Object>>();
 
@@ -34,13 +34,12 @@ public class OrderDAOImpl implements OrderDAO {
 			String orderNum = orderList.get(i).getOrderNum();
 
 			hasProduct = sqlSession.selectList("mapper.order.orderHasProduct", orderNum);
-			
+
 			int totalCnt = 0;
-			for (int k=0; k<hasProduct.size(); k++) {
-				totalCnt += (Integer)hasProduct.get(k).get("s_stock");
+			for (int k = 0; k < hasProduct.size(); k++) {
+				totalCnt += (Integer) hasProduct.get(k).get("s_stock");
 			}
 			String productId = (String) hasProduct.get(0).get("productId");
-
 
 			orderInf.put("orderHasProduct", hasProduct.get(0));
 			orderInf.put("order", orderList.get(i));
@@ -56,14 +55,30 @@ public class OrderDAOImpl implements OrderDAO {
 
 		return selectOrderList;
 	}
-	
+
 	// 구매내역 상세조회
 	@Override
-	public List<OrderVO> selectOrderDetail(String orderNum) throws DataAccessException {
-		
-		List<OrderVO> selectOrderDetail = sqlSession.selectList("mapper.order.selectOrderDetail", orderNum);
+	public Map<String, Object> selectOrderDetail(String orderNum) throws DataAccessException {
+
+		Map<String, Object> selectOrderDetail = new HashMap<String, Object>();
+	
+
+//		List<OrderVO> orderInfo = sqlSession.selectList("mapper.order.selectOrderInf", orderNum);
+//		
+//		
+//		List<Object> prod  = new ArrayList<Object>();
+//		
+//		for (int i = 0; i < orderInfo.size(); i++) {
+//			String optId = (String) orderInfo.get(i).getS_optionId();
+//			Object prodInf = sqlSession.selectOne("mapper.product.selectProdInf", optId);
+//			prod.add(prodInf);
+//		}
+//		
+//		selectOrderDetail.put("orderInfo", orderInfo.get(0));
+//		selectOrderDetail.put("prod", prod);
+
 		return selectOrderDetail;
-		
 	}
+
 
 }

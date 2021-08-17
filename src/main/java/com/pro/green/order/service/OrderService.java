@@ -13,6 +13,6 @@ public interface OrderService {
 	public List<Map<String, Object>> selectOrderList(String id) throws DataAccessException;
 	
 	// 구매내역 상세조회
-	public List<OrderVO> selectOrderDetail(String orderNum) throws DataAccessException;
+	public Map<String, Object> selectOrderDetail(String orderNum) throws DataAccessException;
 
 }

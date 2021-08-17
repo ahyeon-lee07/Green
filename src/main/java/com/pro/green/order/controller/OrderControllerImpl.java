@@ -1,6 +1,7 @@
 package com.pro.green.order.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -21,11 +22,16 @@ import com.pro.green.product_M.vo.Criteria;
 import com.pro.green.member.vo.MemberVO;
 import com.pro.green.order.service.OrderService;
 import com.pro.green.order.vo.OrderVO;
+import com.pro.green.order.vo.OrderVO2;
 
 @Controller("orderController")
 public class OrderControllerImpl implements OrderController {
 	@Autowired
 	private OrderVO orderVO;
+	
+	@Autowired
+	private OrderVO2 orderVO2;
+	
 	@Autowired
 	private OrderService orderService;
 
@@ -50,7 +56,6 @@ public class OrderControllerImpl implements OrderController {
 	}
 
 	// 구매내역 상세조회
-
 	@Override
 	@RequestMapping(value = "/myPage/purchaseDetails.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView OrderDetail(@RequestParam("orderNum") String orderNum, HttpServletRequest request,
@@ -58,11 +63,11 @@ public class OrderControllerImpl implements OrderController {
 
 		ModelAndView mav = new ModelAndView();
 		
-		List<OrderVO> selectOrderDetail = new ArrayList<OrderVO>();
+		Map<String, Object> selectOrderDetail = new HashMap<String, Object>();
 		
 		selectOrderDetail = orderService.selectOrderDetail(orderNum);
 		
-		mav.addObject("selectOrderDetail", selectOrderDetail);		
+		mav.addObject("orderDetail", selectOrderDetail);		
 		mav.setViewName("purchaseDetails");
 		
 		return mav;

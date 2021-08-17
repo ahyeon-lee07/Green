@@ -25,8 +25,8 @@ public class OrderServiceImpl implements OrderService {
 
 	// 구매내역 상세조회
 	@Override
-	public List<OrderVO> selectOrderDetail(String orderNum) throws DataAccessException {
-		List<OrderVO> selectOrderDetail = orderDAO.selectOrderDetail(orderNum);
+	public Map<String, Object> selectOrderDetail(String orderNum) throws DataAccessException {
+		Map<String, Object> selectOrderDetail = orderDAO.selectOrderDetail(orderNum);
 		return selectOrderDetail;
 	}
 
