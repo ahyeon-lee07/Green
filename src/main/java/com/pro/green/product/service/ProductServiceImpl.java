@@ -80,4 +80,9 @@ public class ProductServiceImpl implements ProductService {
 		return productDAO.RecommendProductList(productId);
 	}
 
+	// 상품 검색
+	public List<ProductVO2> productSearch(Map<String, Object> searchOption) throws DataAccessException {
+		return productDAO.productSearch(searchOption);
+	}
+
 }

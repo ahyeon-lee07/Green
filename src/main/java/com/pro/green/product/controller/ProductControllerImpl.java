@@ -124,6 +124,81 @@ public class ProductControllerImpl implements ProductController {
 
 	}
 
+	//상품 검색
+	@RequestMapping(value = "/prodList/search.do", method = RequestMethod.GET)
+	public ModelAndView productSearch(@RequestParam(value = "p_group") String p_group,
+			@RequestParam(value = "keyWord") String keyWord,
+			HttpServletRequest request,
+			HttpServletResponse response, Criteria cri) throws Exception {
+		ModelAndView mav = new ModelAndView();
+
+		HttpSession session = request.getSession();
+		MemberVO user = (MemberVO) session.getAttribute("member");
+		List<Map<String, Object>> wishList = new ArrayList<Map<String, Object>>();
+		
+		Map<String, Object> searchOption = new HashMap<String, Object>();
+		searchOption.put("p_group", p_group);
+		searchOption.put("keyWord", keyWord);
+		
+		List<ProductVO2> productsList = productService.productSearch(searchOption);
+
+		if (user != null) {
+			String userId = user.getId();
+
+			Map<String, Object> selectOption = new HashMap<String, Object>();
+			selectOption.put("userId", userId);
+			selectOption.put("type", "wish");
+			wishList = mypageProductService.wishList(selectOption);
+
+			for (int i = 0; i < productsList.size(); i++) {
+				String ProductId = productsList.get(i).getProductId();
+
+				for (int j = 0; j < wishList.size(); j++) {
+					String wish = (String) wishList.get(j).get("productId");
+
+					if (ProductId.equals(wish)) {
+						productsList.get(i).setCartType("wish");
+					}
+
+				}
+			}
+
+		} else {
+			mav.addObject("wishList", "N");
+		}
+
+		if (p_group.equals("hard")) {
+			mav.addObject("pageTitle", "하드케이스");
+		} else if (p_group.equals("gel")) {
+			mav.addObject("pageTitle", "젤케이스");
+		} else if (p_group.equals("card")) {
+			mav.addObject("pageTitle", "카드케이스");
+		} else if (p_group.equals("airPods")) {
+			mav.addObject("pageTitle", "에어팟케이스");
+		} else if (p_group.equals("buds")) {
+			mav.addObject("pageTitle", "버즈케이스");
+		} else if (p_group.equals("keyRing")) {
+			mav.addObject("pageTitle", "키링");
+		} else if (p_group.equals("smart")) {
+			mav.addObject("pageTitle", "스마트톡");
+		} else {
+			mav.addObject("pageTitle", "상품");
+		}
+
+		PageMaker pageMaker = new PageMaker();
+
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(productsList.size());
+
+		mav.setViewName("prodList");
+		mav.addObject("pageMaker", pageMaker);
+		mav.addObject("p_group", p_group);
+
+		mav.addObject("productsList", productsList);
+		return mav;
+
+	}
+	
 	// 상품 정렬
 	@RequestMapping(value = "/productList/array.do", method = RequestMethod.POST)
 	public ResponseEntity prodArray(@RequestParam(value = "p_group") String p_group,
