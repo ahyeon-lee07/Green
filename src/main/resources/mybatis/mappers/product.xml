@@ -23,12 +23,8 @@
 		<result property="imgId" column="imgId" />
 		<result property="imgType" column="imgType" />
 		<result property="imgURL" column="imgURL" />
-	</resultMap>
-<<<<<<< HEAD
- 
-=======
-	
->>>>>>> branch 'main' of https://github.com/ahyeon-lee07/Green.git
+	</resultMap> 
+
  	<!-- 상품 목록 조회 -->
  	<select id="selectAllProductsList" resultMap="productResult" parameterType="String">
     <![CDATA[
@@ -39,10 +35,6 @@
     ]]>
 	</select>
 
-<<<<<<< HEAD
-	
-=======
->>>>>>> branch 'main' of https://github.com/ahyeon-lee07/Green.git
 	<!-- 상품 검색 -->
  	<select id="productSearch" resultMap="productResult" parameterType="java.util.HashMap">
     <![CDATA[
