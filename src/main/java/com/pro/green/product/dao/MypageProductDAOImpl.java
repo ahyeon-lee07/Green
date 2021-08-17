@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.pro.green.common.vo.Order;
 import com.pro.green.common.vo.OrderSheet;
+import com.pro.green.order.vo.OrderVO;
 import com.pro.green.product.vo.CartVO;
 import com.pro.green.product.vo.MemberHasCouponVO;
 import com.pro.green.product_M.vo.ProductVO2;
@@ -161,6 +162,30 @@ public class MypageProductDAOImpl implements MypageProductDAO {
 			}
 			
 			result += (optionPrice * Integer.valueOf((String) s_stock));
+		}
+
+		return result;
+	}
+	
+	public int dbPrice(List<Map<String, Object>> optionList) throws DataAccessException{
+		int result = 0;
+		ProductVO2 productList = null;
+		
+		for (int i = 0; i < optionList.size(); i++) {
+			String optionId = (String) optionList.get(i).get("s_optionId");
+			int s_stock = (Integer) optionList.get(i).get("s_stock");
+
+			productList = sqlSession.selectOne("mapper.mypageProduct.optionPrice", optionId);
+
+			int optionPrice = 0;
+			
+			if(productList.getDiscountYN().equals("Y")) {
+				optionPrice = productList.getDiscount();
+			}else {
+				optionPrice = productList.getPrice();
+			}
+			
+			result += (optionPrice * s_stock);
 		}
 
 		return result;

@@ -1083,7 +1083,7 @@ request.setCharacterEncoding("UTF-8");
 
                     switch (data.status){
                         case "success":
-                            location.href ="${contextPath }/purchaseDetails.do?orderNum="+merchantUid;
+                            location.href ="${contextPath }/myPage/purchaseDetails.do?orderNum="+merchantUid;
                         break;
 
                         case "forgery":

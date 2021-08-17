@@ -39,7 +39,7 @@
 	<!-- 구매내역 조회 -->
 
 	<!-- 주문테이블 조회 -->
-	<select id="selectOrder" resultMap="orderResult"
+	<select id="selectOrderList" resultMap="orderResult"
 		parameterType="String">
     <![CDATA[
         SELECT 
@@ -108,8 +108,7 @@
 	</select>
 		
 	<!-- 구매내역 상세페이지 -->
-	<select id="selectOrderInf" resultMap="orderResult"
-		parameterType="String">
+	<select id="selectOrderInf" resultMap="orderResult" parameterType="String">
     <![CDATA[    		
     	SELECT 
     		o.*, op.productId, op.s_optionId, op.s_stock
@@ -124,6 +123,50 @@
     ]]>
 	</select>
 	
+	<!-- 주문서 조회  -->
+	<select id="selectOrder" resultMap="orderResult" parameterType="String">
+    <![CDATA[
+        SELECT 
+        	* 
+        FROM
+        	green.order
+        WHERE 
+        	orderNum = #{orderNum}
+    ]]>
+	</select>
+	
+	<!-- 주문서 옵션 리스트 조회  -->
+	<select id="optionList" resultType="hashmap" parameterType="String">
+    <![CDATA[
+       SELECT
+			A.*,
+		    B.*,
+		    C.*,
+		    D.*
+		FROM
+			order_has_product AS A
+		INNER JOIN
+			product AS B ON A.productId = B.productId
+		INNER JOIN
+			image AS C ON B.productId = C.productId
+		INNER JOIN
+			product_option AS D ON A.s_optionId = D.p_optionId
+		WHERE
+			orderNum = #{orderNum} AND imgType = 'product_M'
+    ]]>
+	</select>
+	
+	<!-- 주문서 옵션 리스트 조회  -->
+	<select id="useCoupon" resultType="hashmap" parameterType="String">
+    <![CDATA[
+      SELECT 
+      	* 
+      FROM 
+      	green.coupon
+      WHERE
+      	couponId = #{useCouponId};
+    ]]>
+	</select>
 	
 	
 	

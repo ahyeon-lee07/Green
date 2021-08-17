@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.pro.green.common.vo.OrderSheet;
+import com.pro.green.order.vo.OrderVO;
 import com.pro.green.product.dao.MypageProductDAO;
 import com.pro.green.product.vo.CartVO;
 import com.pro.green.product.vo.MemberHasCouponVO;
@@ -92,7 +93,9 @@ public class MypageProductServiceImpl implements MypageProductService {
 	public int dbPrice(OrderSheet orderSheet) throws DataAccessException {
 		return mypageProductDAO.dbPrice(orderSheet);
 	}
-
+	public int dbPrice(List<Map<String, Object>> optionList) throws DataAccessException{
+		return mypageProductDAO.dbPrice(optionList);
+	}
 	// 주문서 작성
 	public int insertOrder(Map<String, Object> insertBox) throws DataAccessException {
 		return mypageProductDAO.insertOrder(insertBox);

@@ -23,13 +23,12 @@ request.setCharacterEncoding("UTF-8");
 						<li class="breadcrumb-item"><a href="${contextPath }/main.do">홈</a></li>
 						<li class="breadcrumb-item"><a
 							href="${contextPath }/myPage/purchaseList.do">구매 내역 조회</a></li>
-						<li class="breadcrumb-item active" aria-current="page">구매 내역
-							상세</li>
+						<li class="breadcrumb-item active" aria-current="page">구매 내역 상세</li>
 					</ol>
 				</nav>
 			</div>
 		</div>
- 		${orderDetail.prod}
+ 		
 		<div class="row mt-1" style="padding: 0 15px">
 			<div class="col">
 				<div class="row">
@@ -43,10 +42,10 @@ request.setCharacterEncoding("UTF-8");
 					</div>
 					<div class="col-10 border border-left-0">
 						<div class="row text-center font-weight-bold p-2 border-bottom">
-							<div class="col">${orderDetail.orderInfo.orderNum}</div>
+							<div class="col">${order.orderNum}</div>
 						</div>
 						<div class="row text-center p-2">
-							<div class="col">${orderDetail.orderInfo.orderDate}</div>
+							<div class="col">${order.orderDate}</div>
 						</div>
 					</div>
 				</div>
@@ -76,24 +75,40 @@ request.setCharacterEncoding("UTF-8");
 				</tr>
 			</thead>
 			<tbody class="border-bottom">
-				<c:forEach var="orderDetail" items="${orderDetail}">
+				<c:forEach var="orderDetail" items="${optionList}">
 					<tr>
 						<td class="text-center align-middle px-5">
 							<img
-							src="${contextPath}/resources/img/${orderDetail.prod.p_group}/${orderDetail.prod.imgURL}"
+							src="${contextPath}/resources/img/${orderDetail.p_group}/${orderDetail.imgURL}"
 							class="img-thumbnail" alt="상품">
 							<!-- <img
 							src=""
 							class="img-thumbnail" alt="상품"> -->
 						</td>
 						<td class="align-middle flex-column">
-							<div class="font-weight-bold pb-1 bd-highlight">${orderDetail.prod.productName}</div>
+							<div class="font-weight-bold pb-1 bd-highlight">${orderDetail.productName}</div>
 							<!-- 상품 옵션 -->
-							<div class="bd-highlight">${orderDetail.prod.p_option}</div>
+							<div class="bd-highlight">${orderDetail.p_option}</div>
 						</td>
-						<td class="text-center align-middle px-2">${orderDetail.orderInfo.s_stock}</td>
-						<td class="text-center align-middle px-2">${orderDetail.prod.price}원</td>
-						<td class="text-center align-middle px-2">${orderDetail.prod.productMileage}</td>
+						<td class="text-center align-middle px-2">${orderDetail.s_stock}</td>
+						
+						<td class="text-center align-middle px-2">
+							<c:choose>
+								<c:when test="${orderDetail.discountYN =='Y'}">
+									<div class="discountBox">
+										<fmt:formatNumber value="${orderDetail.price }" pattern="#,###" /><span>원</span>
+										<span class="discountBox text-danger"> <fmt:formatNumber
+												value="${orderDetail.discount }" pattern="#,###" /><span>원</span>
+										</span>
+									</div>
+								</c:when>
+								<c:otherwise>
+									<fmt:formatNumber value="${orderDetail.price }" pattern="#,###" /><span>원</span>
+								</c:otherwise>
+							</c:choose>
+						</td>
+						
+						<td class="text-center align-middle px-2">${orderDetail.productMileage}</td>
 						<td class="text-center align-middle px-2"><a class=""
 							href="${contextPath }/addNewReview.do">
 								<button type="button" class="btn btn-outline-success btn-sm">리뷰</button>
@@ -127,16 +142,16 @@ request.setCharacterEncoding("UTF-8");
 					</div>
 					<div class="col-10 border border-left-0">
 						<div class="row text-center p-2 border-bottom">
-							<div class="col">사용자</div>
+							<div class="col">${order.recipient}</div>
 						</div>
 						<div class="row text-center p-2 border-bottom">
-							<div class="col">010-1234-5678</div>
+							<div class="col">${order.order_phone}</div>
 						</div>
 						<div class="row text-center p-2 border-bottom">
-							<div class="col">대전 서구 대덕대로 182</div>
+							<div class="col">${order.order_addr1}${order.order_addr2}</div>
 						</div>
 						<div class="row text-center p-2">
-							<div class="col">문 앞에 놓아주세요.</div>
+							<div class="col">${order.shipMsg}</div>
 						</div>
 					</div>
 				</div>
@@ -157,7 +172,7 @@ request.setCharacterEncoding("UTF-8");
 						</div>
 						<div class="row text-center font-weight-bold p-4">
 							<div class="col">
-								<span class="totalBoxPrice"></span> 20,000 원
+								<span class="totalBoxPrice"></span>원
 							</div>
 						</div>
 					</div>
@@ -167,7 +182,7 @@ request.setCharacterEncoding("UTF-8");
 						</div>
 						<div class="row text-center font-weight-bold p-4">
 							<div class="col">
-								+ <span class="totalBoxShip"></span> 2,500 원
+								+ <span class="totalBoxShip"></span>원
 							</div>
 						</div>
 					</div>
@@ -177,7 +192,7 @@ request.setCharacterEncoding("UTF-8");
 						</div>
 						<div class="row text-center font-weight-bold p-4">
 							<div class="col">
-								- <span class="totalBoxDiscount"></span> 0 원
+								- <span class="totalBoxDiscount"></span> 원
 							</div>
 						</div>
 					</div>
@@ -187,7 +202,7 @@ request.setCharacterEncoding("UTF-8");
 						</div>
 						<div class="row text-center font-weight-bold p-4">
 							<div class="col">
-								= <span class="duePayment"></span> 22,500 원
+								= <span class="duePayment"></span> 원
 							</div>
 						</div>
 					</div>
@@ -205,18 +220,18 @@ request.setCharacterEncoding("UTF-8");
 				<tr>
 					<th class="text-center border-bottom-0 border-top-0 px-2"
 						style="width: auto">결제 수단</th>
-					<th class="text-center border-bottom-0 border-top-0 px-2"
-						style="width: auto">쿠폰 및 적립금 사용</th>
+					<!-- <th class="text-center border-bottom-0 border-top-0 px-2"
+						style="width: auto">쿠폰 및 적립금 사용</th> -->
 					<th class="text-center border-bottom-0 border-top-0 px-2"
 						style="width: auto">구매 적립금</th>
 				</tr>
-			</thead>
+			</thead> 		
 			<tbody class="border-bottom">
 				<tr>
 					<td class="text-center align-middle px-2">
-						신한(1234-****-****-****) 일시불</td>
-					<td class="text-center align-middle px-2"></td>
-					<td class="text-center align-middle px-2">200</td>
+						${cardName} (${cardNumber}) 일시불</td>
+					<!-- <td class="text-center align-middle px-2"></td> -->
+					<td class="text-center align-middle px-2">${order.totalMileage}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -234,3 +249,28 @@ request.setCharacterEncoding("UTF-8");
 		</div>
 	</div>
 </main>
+<script>
+	//로딩시 금액 입력
+	window.onload = function(){
+
+		var dbPrice = (${dbPrice} != null) ? ${dbPrice} : 0;
+		var shipTotal_O = (${shipTotal_O} != null) ? ${shipTotal_O} : 0;
+		var discount = (${discount} != null) ? ${discount} : 0;
+		
+		document.getElementsByClassName('duePayment')[0].innerHTML = (dbPrice + shipTotal_O - discount).toLocaleString();
+
+		dbPrice = dbPrice.toLocaleString();
+		shipTotal_O = shipTotal_O.toLocaleString();
+		discount = discount.toLocaleString();
+
+		document.getElementsByClassName('totalBoxPrice')[0].innerHTML = dbPrice;
+		document.getElementsByClassName('totalBoxShip')[0].innerHTML = shipTotal_O;
+		document.getElementsByClassName('totalBoxDiscount')[0].innerHTML = discount;
+
+		
+		
+
+		//var shipTotal =  shipTotal_O.toLocaleString();
+			
+	}
+</script>
