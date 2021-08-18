@@ -95,11 +95,11 @@ request.setCharacterEncoding("UTF-8");
 						<td class="text-center align-middle px-2">
 							<c:choose>
 								<c:when test="${orderDetail.discountYN =='Y'}">
-									<div class="discountBox">
+									<div class="">
 										<fmt:formatNumber value="${orderDetail.price }" pattern="#,###" /><span>원</span>
-										<span class="discountBox text-danger"> <fmt:formatNumber
-												value="${orderDetail.discount }" pattern="#,###" /><span>원</span>
-										</span>
+										<p class="discountBox text-danger"> 
+											<fmt:formatNumber value="${orderDetail.discount }" pattern="#,###" /><span>원</span>
+										</p>
 									</div>
 								</c:when>
 								<c:otherwise>
