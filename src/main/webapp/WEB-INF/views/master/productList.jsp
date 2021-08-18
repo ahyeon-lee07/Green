@@ -130,14 +130,14 @@ request.setCharacterEncoding("UTF-8");
 						<td class="text-center align-middle px-2"><c:choose>
 								<c:when test="${list.discountYN =='Y'}">
 									<div class="discountBox">
-										<fmt:formatNumber value="${list.price }" pattern="#,###" />
+										<fmt:formatNumber value="${list.price }" pattern="#,###" /><span>원</span>
 										<span class="discountBox text-danger"> <fmt:formatNumber
-												value="${list.discount }" pattern="#,###" />
+												value="${list.discount }" pattern="#,###" />원
 										</span>
 									</div>
 								</c:when>
 								<c:otherwise>
-									<fmt:formatNumber value="${list.price }" pattern="#,###" />
+									<fmt:formatNumber value="${list.price }" pattern="#,###" />원
 								</c:otherwise>
 							</c:choose></td>
 						<td class="text-center align-middle px-2"

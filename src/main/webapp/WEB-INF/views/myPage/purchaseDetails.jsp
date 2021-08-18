@@ -95,9 +95,9 @@ request.setCharacterEncoding("UTF-8");
 						<td class="text-center align-middle px-2">
 							<c:choose>
 								<c:when test="${orderDetail.discountYN =='Y'}">
-									<div class="">
+									<div class="discountBox">
 										<fmt:formatNumber value="${orderDetail.price }" pattern="#,###" /><span>원</span>
-										<p class="discountBox text-danger"> 
+										<p class="text-danger"> 
 											<fmt:formatNumber value="${orderDetail.discount }" pattern="#,###" /><span>원</span>
 										</p>
 									</div>
@@ -148,7 +148,7 @@ request.setCharacterEncoding("UTF-8");
 							<div class="col">${order.order_phone}</div>
 						</div>
 						<div class="row text-center p-2 border-bottom">
-							<div class="col">${order.order_addr1}${order.order_addr2}</div>
+							<div class="col">${order.order_addr1} ${order.order_addr2}</div>
 						</div>
 						<div class="row text-center p-2">
 							<div class="col">${order.shipMsg}</div>
