@@ -254,7 +254,8 @@ request.setCharacterEncoding("UTF-8");
 								<div class="flex-grow-1 bd-highlight flex-column pr-2">
 									<select id="inputGrade" class="form-control" style="width: 140px;" name="grade">
 										<option value="new" selected>신규</option>
-										<option value="gold">골드</option>
+										<option value="general">일반</option>
+										<option value="vip">우수</option>
 									</select>
 								</div>
 							</div>
@@ -303,7 +304,7 @@ request.setCharacterEncoding("UTF-8");
 </main>
 
 <script>
-//페이지가 노드 되면서 memver의 email2 주소는 입력 , 회면 로딩시 스위치 YN 체크
+//페이지가 노드 되면서 memver의 email2 주소는 입력 , 회면 로딩시 스위치 YN 체크 
 window.onload = function() {
 	document.getElementById('inputEmail2').value = "${memberInf.email2}";
 	document.getElementById('inputGrade').value = "${memberInf.grade}";
