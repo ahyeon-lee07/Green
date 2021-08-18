@@ -67,7 +67,7 @@ request.setCharacterEncoding("UTF-8");
                 	</tr>
                 </c:if>
             	<c:forEach items="${cartList}" var="cartList" varStatus="indexNum">
-            		<tr id="${cartList.s_optionId }">
+            		<tr id="${cartList.s_optionId }" class="productList">
                         <th style="display: none;">
                             <input type="text" name="optionId[${indexNum.index}]" value="${cartList.s_optionId }" >
                         </th>
@@ -115,7 +115,7 @@ request.setCharacterEncoding("UTF-8");
 								</c:choose>
 							</td>
 							<td class="text-center align-middle px-2">
-		                        <input type="number" class="form-control s_stockBox" name="s_stock[${indexNum.index}]" data-index="${indexNum.index}" step="1" value="${cartList.s_stock}" min="1" max="${cartList.p_stock}">
+		                        <input id="s_stockBox['${cartList.s_optionId }']" type="number" class="form-control s_stockBox" name="s_stock[${indexNum.index}]" data-index="${indexNum.index}" step="1" value="${cartList.s_stock}" min="1" max="${cartList.p_stock}">
 		                    </td>
 		                    <td class="text-center align-middle px-2">
                                 <input type="text" class="form-control inputBoxReadonly" name="productMileage[${indexNum.index}]"  value="${product.productMileage}" style="padding: 0; border: 0; text-align: center;" readonly>
@@ -133,7 +133,7 @@ request.setCharacterEncoding("UTF-8");
 		                    <td class="text-center align-middle px-2">
 		                        <div class="bd-highlight mb-2">
 		                            <button type="button" class="btn btn-sm btn-outline-secondary"
-		                                style="font-size: 0.7rem; width: 100%;">주문하기</button>
+		                                style="font-size: 0.7rem; width: 100%;" onclick="return productOrderOne('${cartList.s_optionId }')">주문하기</button>
 		                        </div>
 		                        <div class="bd-highlight">
 		                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="return cartDelete('${cartList.s_optionId }')"
@@ -207,14 +207,15 @@ request.setCharacterEncoding("UTF-8");
             <div class="col">
                 <div class="d-flex justify-content-between bd-highlight">
                     <div class=" bd-highlight">
-                        <a class="" href="${contextPath }/main.do"><button type="button" class="btn btn-outline-secondary">쇼핑 계속하기</button></a>
+                        <%-- <a class="" href="${contextPath }/main.do"><button type="button" class="btn btn-outline-secondary">쇼핑 계속하기</button></a> --%>
+                        <a href="javascript:history.back();"><button type="button" class="btn btn-outline-secondary">쇼핑 계속하기</button></a>
                     </div>
                     <div class="d-flex flex-row">
                         <div class="px-2 bd-highlight">
                             <button type="button" class="btn btn-outline-success" onclick="return productOrder()">선택 상품주문</button>
                        </div>
                        <div class=" bd-highlight">
-                            <a class="" href="${contextPath }/orderList.do"><button type="button" class="btn btn-success">전체 상품주문</button></a>
+                            <button type="button" class="btn btn-success" onclick="return productOrderAll()">전체 상품주문</button>
                        </div>
                     </div>
                    
@@ -444,7 +445,7 @@ function checkSelectAll()  {
 	    });
 	};
 
-    //선택상품 주문 s_stockBox
+    //선택상품 주문
     function productOrder(){
         
         var checkList = document.getElementsByName('Choice');
@@ -468,6 +469,35 @@ function checkSelectAll()  {
 
         post_to_url("${contextPath}/product/productOrder.do", choiceProductList);
 
+    }
+    //전체상품 주문
+    function productOrderAll(){
+        
+        var checkList = document.getElementsByClassName('productList');
+        var choiceProductList = [];
+        
+
+        for(var i=0; i<checkList.length; i++){
+                var choiceProduct = new Map(); 
+                choiceProduct.set("p_optionId",checkList[i].id);
+                choiceProduct.set("stock",document.getElementsByClassName('s_stockBox')[i].value);
+                choiceProductList.push(choiceProduct);
+        }
+        
+        post_to_url("${contextPath}/product/productOrder.do", choiceProductList);
+
+    }
+
+    //단일상품 주문
+    function productOrderOne(productId){
+        var choiceProductList = [];
+
+        var choiceProduct = new Map(); 
+        choiceProduct.set("p_optionId",productId);
+        choiceProduct.set("stock",document.getElementById("s_stockBox['"+productId+"']").value);
+        choiceProductList.push(choiceProduct);
+
+        post_to_url("${contextPath}/product/productOrder.do", choiceProductList);
     }
 
     function post_to_url(path, params, method) {

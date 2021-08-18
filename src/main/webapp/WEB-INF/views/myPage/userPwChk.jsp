@@ -29,7 +29,7 @@ request.setCharacterEncoding("UTF-8");
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb p-0 bg bg-transparent">
 						<li class="breadcrumb-item"><a href="${contextPath }/main.do">홈</a></li>
-						<li class="breadcrumb-item active" aria-current="page">회원정보 수정/탈퇴</li>
+						<li class="breadcrumb-item active" aria-current="page">비밀번호 확인</li>
 					</ol>
 				</nav>
 			</div>

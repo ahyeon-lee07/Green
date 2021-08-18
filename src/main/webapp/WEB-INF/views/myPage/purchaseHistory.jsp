@@ -83,7 +83,7 @@ request.setCharacterEncoding("UTF-8");
 				<c:forEach var="order" items="${selectOrderList}">
 					<tr id="${order.orderNum}">
 						<td class="text-center align-middle align-middle px-1"><a
-							href="${contextPath }/myPage/purchaseDetails.do?orderNum=${order.order.orderNum}">${order.order.orderNum}</a></td>
+							href="${contextPath }/myPage/purchaseDetails.do?orderNum=${order.order.orderNum}">${order.order.orderNum}</a><p>${order.order.orderDate}</p></td>
 						<td class="text-center align-middle px-2"><a
 							href="${contextPath }/myPage/purchaseDetails.do?orderNum=${order.order.orderNum}"><img
 								src="${contextPath}/resources/img/${order.p_group}/${order.productImg}"

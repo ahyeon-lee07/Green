@@ -155,7 +155,7 @@ request.setCharacterEncoding("UTF-8");
 										</div>
 										<div class="bd-highlight btn_menu_L_W">
 											<a class="nav-link font-weight-bold text-dark p-3"
-												href="${contextPath }/prodList.do?p_group=${listProduct.p_group}">액세서리</a>
+												href="${contextPath }/prodList.do?p_group=keyRing">액세서리</a>
 											<a class="dropdown-item py-1 text-black-50"
 												style="text-align: left;"
 												href="${contextPath }/prodList.do?p_group=keyRing">키링</a>

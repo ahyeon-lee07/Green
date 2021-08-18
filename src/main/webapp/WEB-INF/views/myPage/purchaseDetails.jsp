@@ -61,23 +61,23 @@ request.setCharacterEncoding("UTF-8");
 			<thead class=" border-bottom-0 bg-light">
 				<tr>
 					<th class="text-center border-bottom-0 border-top-0 px-2"
-						style="width: 80px">이미지</th>
+						style="width: 180px">이미지</th>
 					<th class="text-center border-bottom-0 border-top-0 px-2"
-						style="width: 200px">상품명 / 옵션</th>
+						style="width: auto">상품명 / 옵션</th>
 					<th class="text-center border-bottom-0 border-top-0 px-2"
-						style="width: 10px">수량</th>
+						style="width: 100px">수량</th>
 					<th class="text-center border-bottom-0 border-top-0 px-2"
-						style="width: 80px">구매금액</th>
+						style="width: 120px">구매금액</th>
 					<th class="text-center border-bottom-0 border-top-0 px-2"
-						style="width: 30px">적립금</th>
+						style="width: 120px">적립금</th>
 					<th class="text-center border-bottom-0 border-top-0 px-2"
-						style="width: 30px">기타</th>
+						style="width: 120px">기타</th>
 				</tr>
 			</thead>
 			<tbody class="border-bottom">
 				<c:forEach var="orderDetail" items="${optionList}">
 					<tr>
-						<td class="text-center align-middle px-5">
+						<td class="text-center align-middle">
 							<img
 							src="${contextPath}/resources/img/${orderDetail.p_group}/${orderDetail.imgURL}"
 							class="img-thumbnail" alt="상품">

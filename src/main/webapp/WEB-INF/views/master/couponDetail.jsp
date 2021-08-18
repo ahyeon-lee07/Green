@@ -118,7 +118,7 @@ request.setCharacterEncoding("UTF-8");
 								<label for="inputCouponName"
 									class="bd-highlight col-form-label pl-2" style="width: 140px;"><img
 									src="${contextPath }/resources/img/require.png">쿠폰명</label>
-								<div class="d-flex flex-row bd-highlight pr-2">
+								<div class="d-flex flex-row bd-highlight pr-2" style="width: 463px;">
 									<input type="text" class="form-control" id="inputCouponName"
 										name="couponName" value="${couponInf.couponName }">
 								</div>
@@ -130,7 +130,7 @@ request.setCharacterEncoding("UTF-8");
 							<div class="d-flex bd-highlight">
 								<label for="inputCouponContent"
 									class="bd-highlight col-form-label pl-2" style="width: 140px;">쿠폰혜택</label>
-								<div class="d-flex flex-row bd-highlight pr-2">
+								<div class="d-flex flex-row bd-highlight pr-2" style="width: 463px;">
 									<input type="text" class="form-control" id="inputCouponContent"
 										name="couponContent" value="${couponInf.couponContent }">
 								</div>
