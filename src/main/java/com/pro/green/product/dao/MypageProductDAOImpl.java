@@ -216,13 +216,24 @@ public class MypageProductDAOImpl implements MypageProductDAO {
 			Map<String, Object> userMileage = new HashMap<String, Object>();
 			userMileage.put("useMileage", orderSheet.getMileageUse());
 			userMileage.put("userId", order.getId());
-			
+		
 			sqlSession.update("mapper.mypageProduct.mileageDecrease", userMileage);
 		}
 		
+		//상품 마일리지 적립
+		Order order = (Order) insertBox.get("orderBox");
+		if(order.getId() != null) {
+			Map<String, Object> userMileage = new HashMap<String, Object>();
+			userMileage.put("totalMileage", orderSheet.getTotalMileage());
+			userMileage.put("userId", order.getId());
+			
+			sqlSession.update("mapper.mypageProduct.mileageIncrease", userMileage);
+		} 
+		
+		
+		
 		//쿠폰 사용
 		if(orderSheet.getUseCouponId() != "") {
-			Order order = (Order) insertBox.get("orderBox");
 			String couponId = orderSheet.getUseCouponId();
 			Map<String, Object> userCoupon = new HashMap<String, Object>();
 			userCoupon.put("couponId", couponId);
