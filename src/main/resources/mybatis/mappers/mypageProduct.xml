@@ -303,13 +303,25 @@
     ]]>
 	</insert>
 	
-	<!-- 마이리지 수량 감소  -->
+	<!-- 마일리지 수량 감소  -->
 	<insert id="mileageDecrease" parameterType="hashmap">
     <![CDATA[
 		UPDATE
 			member
 		SET
 			mileage = mileage-${useMileage}
+		WHERE
+			id = #{userId};
+    ]]>
+	</insert>
+	
+	<!-- 마일리지 증가   -->
+	<insert id="mileageIncrease" parameterType="hashmap">
+    <![CDATA[
+		UPDATE 
+			member
+		SET
+			mileage = mileage + ${totalMileage}
 		WHERE
 			id = #{userId};
     ]]>

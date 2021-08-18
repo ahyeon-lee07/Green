@@ -175,16 +175,4 @@ public class PaymentsController {
 		return resEntity;
 	}
 	
-	// 구매 내역 상세
-	@RequestMapping(value = "/purchaseDetails.do", method = RequestMethod.GET)
-	public ModelAndView purchaseDetails(@RequestParam("orderNum") String merchantUid ,HttpServletRequest request) {
-		
-		ModelAndView mav = new ModelAndView();
-
-		HttpSession session = request.getSession();
-		MemberVO user = (MemberVO) session.getAttribute("member");
-		
-		mav.setViewName("purchaseDetails");
-		return mav;
-	}
 }
