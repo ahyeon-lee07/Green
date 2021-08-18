@@ -34,6 +34,7 @@ import com.pro.green.Master.service.MasterService;
 import com.pro.green.Master.vo.CouponVO;
 import com.pro.green.common.vo.Order;
 import com.pro.green.common.vo.OrderSheet;
+import com.pro.green.member.service.MemberService;
 import com.pro.green.member.vo.MemberVO;
 import com.pro.green.product.service.MypageProductService;
 import com.pro.green.product.vo.MemberHasCouponVO;
@@ -58,6 +59,12 @@ public class PaymentsController {
 	private CouponVO couponVO;
 	
 	@Autowired
+	private MemberService memberService;
+	
+	@Autowired
+	private MemberVO memberVO;
+	
+	@Autowired
 	private MypageProductService mypageProductService;
 	
 	@Autowired
@@ -66,7 +73,7 @@ public class PaymentsController {
 	private IamportClient client;
 	
 	public PaymentsController() {
-    	// REST API 키와 REST API secret 를 아래처럼 순서대로 입력한다.
+    	// REST API 키와 REST API secret 를 아래처럼 순서대로 입력한다.  
 		this.client = new IamportClient("3587947840482236","f9804b6fba39003e31390c989c52a9b26e2c7d50f75f37890848d2391b059526372f3c84301e9295");
 	}
 	
@@ -157,7 +164,13 @@ public class PaymentsController {
 			result.put( "message", "위조된 결제시도");
 			resEntity = new ResponseEntity(result, HttpStatus.OK);
 		}
-
+		
+		MemberVO member = new MemberVO();
+		member.setId(user.getId());
+		memberVO = memberService.login(member);
+		
+		session.setAttribute("member", memberVO); // 세션에 회원 정보를 저장
+		session.setAttribute("isLogOn", true); // 세션에 로그인 상태를 true로 설정
 		
 		return resEntity;
 	}

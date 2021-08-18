@@ -88,9 +88,13 @@ request.setCharacterEncoding("UTF-8");
 							href="${contextPath }/myPage/purchaseDetails.do?orderNum=${order.order.orderNum}"><img
 								src="${contextPath}/resources/img/${order.p_group}/${order.productImg}"
 								class="img-thumbnail" alt="상품"></a></td>
-						<td class="text-center align-middle align-middle px-1"><a
-							href="${contextPath }/myPage/purchaseDetails.do?orderNum=${order.order.orderNum}">${order.productName}
-								외 ${order.productCount -1}종</a></td>
+						<td class="text-center align-middle align-middle px-1">
+							<a href="${contextPath }/myPage/purchaseDetails.do?orderNum=${order.order.orderNum}">${order.productName}
+							<c:if test="${(order.productCount -1) > 0}">
+								외 ${order.productCount -1}종
+							</c:if>
+							</a>
+						</td>
 						<td class="text-center align-middle align-middle px-1"
 							style="font-size: .8rem;">${order.totalCnt}</td>
 						<td class="text-center align-middle align-middle px-1"
