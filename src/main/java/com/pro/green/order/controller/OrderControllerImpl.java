@@ -27,16 +27,12 @@ import com.pro.green.Master.vo.CouponVO;
 import com.pro.green.member.vo.MemberVO;
 import com.pro.green.order.service.OrderService;
 import com.pro.green.order.vo.OrderVO;
-import com.pro.green.order.vo.OrderVO2;
 import com.pro.green.product.service.MypageProductService;
 
 @Controller("orderController")
 public class OrderControllerImpl implements OrderController {
 	@Autowired
 	private OrderVO orderVO;
-	
-	@Autowired
-	private OrderVO2 orderVO2;
 	
 	@Autowired
 	private OrderService orderService;

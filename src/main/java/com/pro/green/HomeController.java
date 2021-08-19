@@ -52,15 +52,6 @@ public class HomeController {
 	@Autowired
 	private MypageProductService mypageProductService;
 
-	/*
-	 * // 메인화면
-	 * 
-	 * @RequestMapping(value = "/main.do", method = RequestMethod.GET) public String
-	 * home(Locale locale, Model model, HttpServletRequest request) { HttpSession
-	 * session = request.getSession(); session.removeAttribute("joinOk"); return
-	 * "main"; }
-	 */
-
 	// 메인화면
 	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
 	public ModelAndView home(HttpServletRequest request, HttpServletResponse response, Criteria cri) throws Exception {
@@ -207,13 +198,6 @@ public class HomeController {
 	public String orderList(Locale locale, Model model) {
 		return "orderList";
 	}
-
-	// 구매 내역 조회
-//	@RequestMapping(value = "/purchaseList.do", method = RequestMethod.GET)
-//	public String purchaseList(Locale locale, Model model) {
-//		return "purchaseList";
-//	}
-	
 
 	// 리뷰
 	@RequestMapping(value = "/review.do", method = RequestMethod.GET)

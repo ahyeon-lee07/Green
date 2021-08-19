@@ -35,7 +35,6 @@ public interface MasterDAO {
 	public List<Map<String, Object>> hasCouponList(String couponId) throws DataAccessException;
 
 	// 회원 등급별로 정렬
-	// public List<CouponVO> orderByGrade(Map<String, Object> grade) throws DataAccessException;
 	public List<Map<String, Object>> orderByGrade(Map<String, Object> map) throws DataAccessException;
 
 	// 쿠폰 내용 수정

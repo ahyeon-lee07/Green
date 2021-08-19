@@ -36,8 +36,6 @@
 
 	</resultMap>
 
-	<!-- 구매내역 조회 -->
-
 	<!-- 주문테이블 조회 -->
 	<select id="selectOrderList" resultMap="orderResult"
 		parameterType="String">
@@ -104,9 +102,6 @@
 		WHERE
 			productId = #{productId}
     ]]>
-
-
-
 	</select>
 		
 	<!-- 구매내역 상세페이지 -->

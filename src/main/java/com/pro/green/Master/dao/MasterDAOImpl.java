@@ -67,12 +67,6 @@ public class MasterDAOImpl implements MasterDAO {
 	}
 
 	// 회원 등급별로 정렬
-	/*
-	 * public List<CouponVO> orderByGrade(Map<String, Object> grade) throws
-	 * DataAccessException { List<CouponVO> result =
-	 * sqlSession.selectList("mapper.member.orderByGrade", grade); return result; }
-	 */
-
 	public List<Map<String, Object>> orderByGrade(Map<String, Object> map) throws DataAccessException {
 		List<Map<String, Object>> result = sqlSession.selectList("mapper.member.orderByGrade", map);
 		return result;
