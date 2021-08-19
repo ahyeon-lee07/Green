@@ -50,7 +50,7 @@ public class LoginController {
 
 		// https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
 		// redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
-		System.out.println("네이버:" + naverAuthUrl);
+		//System.out.println("네이버:" + naverAuthUrl);
 
 		// 네이버
 		model.addAttribute("url", naverAuthUrl);
@@ -130,7 +130,7 @@ public class LoginController {
 	// 로그아웃
 	@RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
 	public String logout(HttpSession session) throws IOException {
-		System.out.println("여기는 logout");
+		//System.out.println("여기는 logout");
 		session.invalidate();
 		return "redirect:index.jsp";
 	}
