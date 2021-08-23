@@ -14,3 +14,6 @@
 * Javascript
 * Ajax
 * HTML5, CSS3
+
+## ERD
+<img src="https://user-images.githubusercontent.com/30585251/130393344-2ea5c2f4-58e1-4c41-a702-1df845aa58d5.jpg" width="800">
