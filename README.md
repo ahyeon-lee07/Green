@@ -10,8 +10,7 @@
 * Java
 * Maven
 * MySQL
-* HTML5
-* CSS3
 * BootStrap
 * Javascript
 * Ajax
+* HTML5, CSS3
